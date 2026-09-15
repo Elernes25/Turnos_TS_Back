@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //const{getTurnos,getTurnosEspecialidad,createTurnos,deleteTurnos,marcarAtendido}=require('../controllers/turnos.controller.js');
-const{getTurnos,createTurnos,deleteTurnos,marcarAtendido}=require('../controllers/turnos.controller.js');
+const{getTurnos,createTurnos,deleteTurnos,marcarAtendido}=require('../controllers/turnos.controller.ts');
 /* especifica que se importan las funciones getTurnos, createTurnos y deleteTurnos 
 desde el archivo turnos.controllers.js ubicado en la carpeta controllers. 
 Estas funciones se utilizarán como controladores para manejar las solicitudes

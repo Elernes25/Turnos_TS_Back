@@ -19,12 +19,12 @@ pacienteSchema = new mongoose.Schema({
     sexo:{ 
         type: String,      
 	    enum: {
-            values: ['FEMENINO', 'MASCULINO'],          //**//
+            values: ['FEMENINO', 'MASCULINO'],          //*por motivos estadisticosa*//
             message: '(VALUE) El sexo no es válido'
         },
 	    required:true
 	},
-    domicilio: {
+    direccion: {    /*antes era domicilio */
         calle: {
           type: String,
           required: [true, 'La calle es obligatoria']

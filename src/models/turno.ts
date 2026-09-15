@@ -1,19 +1,18 @@
-const mongoose = require('mongoose');
-const type = require('mongoose/lib/schema/operators/type');
-turnoSchema = new mongoose.Schema({
-    
-   /* especialidad:{
-        type: String,
-        required: [true,'La especialidad es obligatoria'],
-        enum: {
-            values: ['Cardiología', 'Neurología', 'Pediatría', 'Traumatología','Odontología','Oftalmología'],
-            message: '(VALUE) La especialidad no es válida' 
-        }
-        },
-    */
+import { Schema, model, Document} from 'mongoose';
+import { Turno } from '../interfaces/Turno.interface.ts';
+import { EstadoTurno } from '../interfaces/TurnoEstado.enum.ts';
+
+const turnoSchema = new Schema<Turno>({
+
+    paciente: {
+	    type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
+	    ref: "Paciente",               // nombre del modelo relacionado
+	    required: [true,'El ID del paciente es obligatorio']
+    },
+      
     especialidad:{
-        type: mongoose.Schema.Types.ObjectId,   // referencia a un ID de Mongo
-        ref: "Especialidad",                        // nombre del modelo relacionado
+        type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
+        ref: "Especialidad",           // nombre del modelo relacionado
         required: [true,'La especialidad es obligatoria']
     },
 
@@ -21,8 +20,8 @@ turnoSchema = new mongoose.Schema({
         type: Date,
         required: [true, 'La fecha del turno es obligatoria'],
         validate: {
-            validator: function(value) {            /*validación personalizada en Mongoose */
-                return value >= new Date();         /*validate:{ valida}*/
+            validator: function(value:Date) {   /*validación personalizada en Mongoose */
+                return value >= new Date();     
             },
             message: 'La fecha del turno debe ser una fecha futura'
         }
@@ -30,7 +29,7 @@ turnoSchema = new mongoose.Schema({
     estado: {
         type: String,
         enum:{ 
-            values:['pendiente', 'atendido', 'cancelado'],
+            values:Object.values(EstadoTurno),  /*valores permitidos para el campo estado */
             default: 'pendiente',   //opcional
             message: '{VALUE} El estado del turno no es válido' /*{VALUE} o (VALUE) son equivalentes */
         }
@@ -44,12 +43,8 @@ turnoSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
         select: false /*para que no se muestre en las consultas por defecto, pero si se puede consultar explícitamente */
-    },
-    paciente: {
-	    type: mongoose.Schema.Types.ObjectId,   // referencia a un ID de Mongo
-	    ref: "Paciente",                        // nombre del modelo relacionado
-	    required: true
-  }
+    }
+
 
 },{
     timestamps: true,
@@ -58,7 +53,7 @@ turnoSchema = new mongoose.Schema({
 
 
 turnoSchema.set('toJSON', {
-    transform: (documento, turnoRetorno) => {
+    transform: (documento:Document, turnoRetorno: Record<string, any>) => {
         turnoRetorno.id = turnoRetorno._id;
         delete turnoRetorno._id;
         delete turnoRetorno.__v;
@@ -77,4 +72,5 @@ flattenMaps: convertir campos tipo Map en objetos planos.
 useProjection: respetar la proyección (select) al convertir a JSON. */
 
 
-module.exports = mongoose.model('Turno', turnoSchema);
+const TurnoModel = model<Turno>('Turno', turnoSchema);
+export default TurnoModel;

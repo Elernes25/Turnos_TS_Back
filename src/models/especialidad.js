@@ -13,7 +13,12 @@ especialidadSchema = new mongoose.Schema({
        //            'TRAUMATOLOGÍA','ODONTOLOGÍA','OFTALMOLOGÍA'],
        //    message: '(VALUE) La especialidad no es válida' /*(VALUE) placeholder de Mongoose. */
        //
-    }
+    },
+    descripcion: {
+        type: String,
+        //required: [true, 'La descripción de la especialidad es obligatoria'],
+        trim: true
+  }
 },
 {timesstamps: true},
 );

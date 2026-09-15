@@ -7,7 +7,7 @@ const connectDB=async()=>{
     try{
         await mongoose.connect(uri)
     } catch (err) {
-        console.error('🔴💔Error al conectar a la base de datos:', err.message);
+        console.error('🔴💔Error al conectar a la base de datos:', err);
         process.exit(1); // Salir del proceso con un código de error
     }
 }

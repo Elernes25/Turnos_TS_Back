@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 
-/*es la forma correcta y recomendada usar const 
-asegura que la referencia al esquema no se pueda reasignar más adelante.
-El objeto interno sí puede modificarse, pero la variable siempre seguirá
-apuntando al mismo esquema.*/
 
 const historiaClinicaSchema = new mongoose.Schema({
     paciente: {
@@ -11,48 +7,71 @@ const historiaClinicaSchema = new mongoose.Schema({
         ref: 'Paciente',
         required: [true, 'El paciente es obligatorio'],
     },
-    /*  grupoSanguineo:{
-	    type: String,
-	    required:true,
+ 
+    antecedentes: {
+        /* grupoSanguineo:{ type: String, required:true,
 	    match: /^(A|B|AB|O)[+-]$|^No sabe$/  // acepta A+, A-, B+, B-, AB+, AB-, O+, O- Hay gente que no se acuerda de su grupo sanguíneo, por lo que se permite "No sabe" como valor válido   
-	}, */
+	    }, */
+        alergias: [{ type: String }], /*arreglo de strings para realizar busquedas refinadas */
+        cirugias: [{ type: String }],
+        enfermedadesCronicas: [{ type: String }],
+        historiaGeneral: { type: String } /* info no especifica pero relevante*/
+    },
+    consultas: [{       /*arreglo de consultas cada vez que viene el paciente se registra una distinta */
+        fecha: {
+            type: Date,
+            required: [true, 'La fecha es obligatoria'],   
+            validate: {
+                validator: function(value) {
+                    return value >= new Date();
+                },
+                message: 'La fecha del turno debe ser una fecha futura',
+            }, 
+        },
+         /*puede ser un medico de otro nosocomio?
+        no porque es el medico que ingresa al sistema el que puede escribir
+        en caso de traer resultados de diagnosticos previos se pone en observaciones o algo asi*/
+        medico: {
+            type: mongoose.Schema.Types.ObjectId,   /*deberia ser un ObjectId que referencia al modelo Medico */
+            required: [true, 'El nombre del médico es obligatorio'] 
+        },
+        motivoConsulta: { /*dolor de rodilla */
+            type: String,
+            required: [true, 'El motivo de la consulta es obligatorio'] 
+        },
+        diagnostico: {    /*tendinitis */        
+            type: String,
+            required: [true, 'El diagnóstico es obligatorio']
+        },
+        tratamiento: {    /*ibuprofeno cada 8 hs x 3 dias */
+            type: String,
+            required: [true, 'El tratamiento es obligatorio']
+        },
+        indicaciones:{    /*radiografia de rodilla/bajar de peso */
+            type: String,
+            required: [true, 'Las indicaciones son obligatorias']
+        },
+        observaciones: {  /*informacion adicional relevante */
+            type: String,
+            required: false
+        }
+        
+    }]
+}, 
+    {timesstamps: true}
+); 
 
-    fecha: {
-        type: Date,
-        required: [true, 'La fecha es obligatoria']         
-    },
-    motivoConsulta: {
-        type: String,
-        required: [true, 'El motivo de la consulta es obligatorio'] 
-    },
-    diagnostico: {
-        type: String,
-        required: [true, 'El diagnóstico es obligatorio']
-    },
-    tratamiento: {
-        type: String,
-        required: [true, 'El tratamiento es obligatorio']
-    },
-    /*puede ser un medico de otro nosocomio?*/
-    medico: {
-        type: String,
-        required: [true, 'El nombre del médico es obligatorio'] 
-    }
-}, {
-    timestamps: true
-}); 
-
-    //historiaClinica:{ //genero objetos separados para tener un mejor acceso y ordenamiento de la información ante consultas puntuales, 
+    //historiaClinica:{ //genero objetos separados para tener un mejor acceso y 
+                        //ordenamiento de la información ante consultas puntuales, 
                         //ya que la historia clínica puede ser extensa y compleja.
                         //otros campos a considerar podrian ser: antecedentes familiares, medicación actual, alergias a medicamentos, etc.
                         //podria haber datos relevantes segun la especialidad medica, por ej.: antecedentes obstetricos para ginecologia,
                         //antecedentes cardiacos para cardiologia, etc.
-	//    alergias: [{ type: String }], /*arreglo de strings para realizar busquedas refinadas */
+	//   alergias: [{ type: String }], /*arreglo de strings para realizar busquedas refinadas */
     //   cirugias: [{ type: String }],
     //   enfermedadesCronicas: [{ type: String }],
     //   historiaGeneral: { type: String } /* info no especifica pero relevante*/
 	//}
-
 
 
 // Transformación del objeto a JSON
