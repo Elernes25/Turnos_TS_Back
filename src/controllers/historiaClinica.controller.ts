@@ -1,7 +1,8 @@
 const HistoriaClinica = require('../models/HistoriaClinica');
 const Paciente = require('../models/paciente');
+import { Request, Response } from 'express';
 
-const createHistoriaClinica = async (req, res) => {
+const createHistoriaClinica = async (req: Request, res: Response) => {
     try {
         const { paciente, diagnostico, tratamiento, medico, observaciones, fecha } = req.body;
 
@@ -30,9 +31,9 @@ const createHistoriaClinica = async (req, res) => {
             data: historiaGuardada
         });
 
-    } catch (error) {
+    } catch (error:any) {
         if (error.name === 'ValidationError') {
-            const mensajes = Object.values(error.errors).map(err => err.message);
+            const mensajes = Object.values(error.errors).map((err:any) => err.message);
             return res.status(400).json({
                 success: false,
                 message: 'Error de validación',
@@ -48,7 +49,7 @@ const createHistoriaClinica = async (req, res) => {
     }
 };
 
-const getHistoriasClinicas = async (req, res) => {
+const getHistoriasClinicas = async (req: Request, res: Response) => {
     try {
         // Usamos .populate() para traer los datos clave del paciente asociado
         const historias = await HistoriaClinica.find()
@@ -60,7 +61,7 @@ const getHistoriasClinicas = async (req, res) => {
             total: historias.length,
             data: historias
         });
-    } catch (error) {
+    } catch (error:any) {
         res.status(500).json({
             success: false,
             message: 'Error al obtener los registros clínicos',
@@ -69,7 +70,7 @@ const getHistoriasClinicas = async (req, res) => {
     }
 };
 
-const getHistoriaClinicaByPaciente = async (req, res) => {
+const getHistoriaClinicaByPaciente = async (req: Request, res: Response) => {
     try {
         const { pacienteId } = req.params;
 
@@ -82,7 +83,7 @@ const getHistoriaClinicaByPaciente = async (req, res) => {
             total: historial.length,
             data: historial
         });
-    } catch (error) {
+    } catch (error:any) {
         res.status(500).json({
             success: false,
             message: 'Error al obtener el historial del paciente',
@@ -91,7 +92,7 @@ const getHistoriaClinicaByPaciente = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     createHistoriaClinica,
     getHistoriasClinicas,
     getHistoriaClinicaByPaciente

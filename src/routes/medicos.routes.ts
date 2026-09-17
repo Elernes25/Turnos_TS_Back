@@ -1,7 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-
-const{getMedicos,createMedico,deleteMedico}=require('../controllers/medicos.controller.js');
+import {getMedicos,createMedico,deleteMedico} from '../controllers/medicos.controller.ts';
 
 /*ENDPOINTS medicos */
 router.get('/', getMedicos);

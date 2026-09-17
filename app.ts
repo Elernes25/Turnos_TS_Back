@@ -1,11 +1,11 @@
 require('dotenv').config({ path: './src/.env' }); /*carga las variables de entorno desde el archivo .env*/
 //import 'dotenv/config'; /*carga las variables de entorno desde el archivo .env*/
-const cors = require ('cors');
-const express = require('express');
-type Application = import('express').Application;
+import cors from 'cors';
+import express from 'express';
+import type {Application} from 'express';
 //import express from 'express'; /*importa el módulo express para crear el servidor web*/
-const connectDB = require('./src/config/database.js');
-//import connectDB from './src/config/database.js'; /*importa la función connectDB para conectar a la base de datos*/
+//const connectDB = require('./src/config/database.js');
+import {connectDB} from './src/config/database'; /*importa la función connectDB para conectar a la base de datos*/
 
 const app: Application = express();
 

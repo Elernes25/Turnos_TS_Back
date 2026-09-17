@@ -1,4 +1,4 @@
-import { TipoTelefono } from "../interfaces/TipoTelefono.enum.ts";
+import { TipoTelefono } from './Tipotelefono.enum';
 
 export interface SubinterfaceTelefono {
     tipo: TipoTelefono;

@@ -10,16 +10,21 @@
 
 module.exports = respuestaEstandar;
 */
-import { Response } from "express";
+/*import { Response } from "express";
 
-const respuestaEstandar = (res:Response, status:number, success: boolean, message: string, data: unknown = null) => {
-    return res.status(status).json({
-        success,
-        timestamp: new Date().toISOString(),
-        message,
-        total: Array.isArray(data) ? data.length : data ? 1 : 0,
-        data
-        });
+export const respuestaEstandar = (res:Response, statusCode:number, success: boolean, message: string, data: unknown = null):Response => {
+  return res.status(statusCode).json({
+      success,
+      timestamp: new Date().toISOString(),
+      message,
+      total: Array.isArray(data) ? data.length : data ? 1 : 0,
+      data
+  });
+};
+*/
+
+import type { Response } from 'express';
+export const respuestaEstandar = <T>(res: Response,statusCode: number,ok: boolean,message: string, data?: T): Response => {
+    return res.status(statusCode).json({ ok, message, data });
 };
 
-export default respuestaEstandar;

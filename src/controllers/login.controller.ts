@@ -1,6 +1,7 @@
-const respuestaEstandar = require('../utils/respuestaEstandar');
+import {respuestaEstandar} from '../utils/respuestaEstandar';
+import { Request, Response } from 'express';
 
-const loginController = (req, res) => {
+const loginController = (req: Request, res: Response ) => {
 
   const { email, password } = req.body;
   if (email === "admin@salita.com" && password === "1234") {  
@@ -15,4 +16,4 @@ const loginController = (req, res) => {
   }
 };
 
-module.exports = {loginController};
+export { loginController };

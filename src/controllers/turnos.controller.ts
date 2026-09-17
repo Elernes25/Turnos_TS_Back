@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import {EstadoTurno} from '../interfaces/TurnoEstado.enum.ts';
 import Turno from '../models/turno.js';
-import respuestaEstandar from '../utils/respuestaEstandar.js';
+import respuestaEstandar from '../utils/respuestaEstandar.ts';
 import { TurnoDTO, QueryUrgencia } from '../interfaces/TurnosRequest/TurnoDTO.ts';
 
 /*En Express, el tipo genérico Request<ParamsDictionary, ResBody, ReqBody, ReqQuery>  
@@ -25,15 +25,15 @@ const getTurnos = async (req: Request <unknown, unknown, unknown, { especialidad
 
     // Construir objeto de filtros dinámicamente
     const filtros: Record<string, any> = {};
-    if (id) {filtros.id = id;
-      console.log("filtro por id", filtros.id);
+    if (id) {filtros._id = id;
+      console.log("filtro por id", filtros._id);
     };
     if (especialidad) filtros.especialidad = especialidad;
     if (activo !== undefined) filtros.activo = activo === 'true'; // convertir string a boolean
     if (paciente) filtros.paciente = paciente; // si quieres filtrar por id de paciente
 
     // Consulta con filtros
-    const turnos = await Turno.find(filtros).populate('paciente');
+    const turnos = await Turno.find(filtros).select('+activo').populate('paciente');
 
     if (turnos.length === 0) {
       return respuestaEstandar(res, 404, false, "No se encontraron turnos con esos filtros");
@@ -53,7 +53,7 @@ const createTurnos = async (req: Request<unknown, unknown, TurnoDTO, QueryUrgenc
     const origenPeticion=req.headers['x-origen'];
     const tokenSeguridad=req.headers['authorization'];
     console.log("peticion realizada desde",origenPeticion);
-    if (tokenSeguridad!='token123'){
+    if (tokenSeguridad!="Token_seguridad_123"){
         return respuestaEstandar(res,401,false,'No tiene permisos')
     };
 

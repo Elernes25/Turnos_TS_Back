@@ -8,7 +8,8 @@ export interface Paciente extends Document {
     id?: Types.ObjectId; /*el id es opcional porque lo genera MongoDB automáticamente*/
     nombre: string;
     dni: string;
-    fechaNacimiento: Date;
+    fechaDeNacimiento: Date;
+    sexo:string;
     telefono?: SubinterfaceTelefono;
     email?: string;
     direccion: SubinterfaceDireccion;

@@ -1,6 +1,8 @@
-const mongoose = require('mongoose');
+import { Schema, model, Document} from 'mongoose';
+import { Paciente } from '../interfaces/Paciente.interface.ts';
+import { ObraSocial} from '../interfaces/ObraSocial.enum.ts';
 
-pacienteSchema = new mongoose.Schema({
+const pacienteSchema = new Schema<Paciente>({
     nombre:{
         type: String,
         required: [true,'El nombre del paciente es obligatorio'],
@@ -71,20 +73,13 @@ pacienteSchema = new mongoose.Schema({
         required: false,
         match: [/\S+@\S+\.\S+/, 'El correo electrónico no es válido'] 
     },
-/*
-    tieneObraSocial:{
-	    type: Boolean,
-	    required: [true,'La información de obra social es obligatoria']
-	},
-    */
-
-    /*si quiero detectar si NO tiene obra social hago una busqueda por el valor en nombre: NINGUNA*/
+   
     obraSocial: {
         nombre: {
             type: String,
             required: [true, 'El nombre de la obra social es obligatorio'],
-            enum: {
-                values: ['PAMI', 'OSPEL', 'OSDE', 'SANCOR', 'OSECAC', 'SWISS MEDICAL', 'GALENO', 'MEDICUS', 'OMINT', 'FEMEBA', 'OTRAS', 'NINGUNA'],
+            enum:{
+                values: Object.values(ObraSocial),
                 message: '{VALUE} no es una obra social válida. Debe ser una de las siguientes: PAMI, OSPEL, OSDE, SANCOR, OSECAC, SWISS MEDICAL, GALENO, MEDICUS, OMINT, FEMEBA, OTRAS, NINGUNA'
             }
         },
@@ -92,33 +87,19 @@ pacienteSchema = new mongoose.Schema({
             type: String
         },
     },
-/*Obra social o prepaga (nombre de la entidad).
-    Número de afiliado 
-    Plan médico (determina el nivel de cobertura).
-    categoría de afiliación (titular o familiar).
-    obraSocial:{
-        nombre: { type: String, required: function() { return this.tieneObraSocial; } },
-        numeroAfiliado: { type: String, required: function() { return this.tieneObraSocial; } },
-        planMedico: { type: String, required: function() { return this.tieneObraSocial; } }
-    }
-*/
-
-/*    grupoSanguineo:{
-	    type: String,
-	    required:true,
-	    match: /^(A|B|AB|O)[+-]$|^No sabe$/  // acepta A+, A-, B+, B-, AB+, AB-, O+, O- Hay gente que no se acuerda de su grupo sanguíneo, por lo que se permite "No sabe" como valor válido   
-	},
-    historiaClinica:{
-       type: mongoose.Schema.Types.ObjectId,
-        ref: 'HistoriaClinica',
-        required: false     
-    }
-*/
+//Obra social o prepaga (nombre de la entidad).
+//    Número de afiliado 
+//    Plan médico (determina el nivel de cobertura).
+//    categoría de afiliación (titular o familiar).
+//    obraSocial:{
+//        nombre: { type: String, required: function() { return this.tieneObraSocial; } },
+//        numeroAfiliado: { type: String, required: function() { return this.tieneObraSocial; } },
+//        planMedico: { type: String, required: function() { return this.tieneObraSocial; } }
+//    }  
 
 },
-{timesstamps: true},
-
-);/*agrega createdAt y updatedAt automáticamente*/
+    {timestamps: true} /*agrega createdAt y updatedAt automáticamente*/
+);
 
 
 /*pacienteSchema.virtual('edad').get(function() 
@@ -131,7 +112,7 @@ return hoy.getFullYear() - nacimiento.getFullYear();
 
 
 pacienteSchema.set('toJSON', {
-    transform: (documento, pacienteRetorno) => {
+    transform: (documento:Document, pacienteRetorno: Record<string, any>) => {
         pacienteRetorno.id = pacienteRetorno._id;
         delete pacienteRetorno._id;
         delete pacienteRetorno.__v;
@@ -143,4 +124,4 @@ pacienteSchema.set('toJSON', {
 );
 
 //nombre del modelo: Paciente con mayuscula//
-module.exports = mongoose.model("Paciente", pacienteSchema)
+export default model<Paciente>('Paciente', pacienteSchema);

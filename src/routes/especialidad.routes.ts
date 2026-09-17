@@ -1,14 +1,18 @@
-const express = require('express');
+//otra opcion:
+// import { Router } from 'express';
+// const router = Router();
+
+import express from 'express';
 const router = express.Router();
 
-const {
+import {
   getEspecialidades,
   deleteEspecialidad,
   createEspecialidad
-} = require('../controllers/especialidad.controller');
+} from '../controllers/especialidad.controller';
 
 router.get('/', getEspecialidades);
 router.delete('/:id', deleteEspecialidad);
 router.post('/', createEspecialidad);
 
-module.exports = router;
+export default router;

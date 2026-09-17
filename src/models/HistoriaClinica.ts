@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import { Schema, model, Document} from 'mongoose';
+import { HistoriaClinica } from '../interfaces/HistoriaClinica.interface.ts';
 
-
-const historiaClinicaSchema = new mongoose.Schema({
-    paciente: {
-        type: mongoose.Schema.Types.ObjectId,
+const historiaClinicaSchema = new Schema<HistoriaClinica>({
+    pacienteID: {
+        type: Schema.Types.ObjectId,
         ref: 'Paciente',
         required: [true, 'El paciente es obligatorio'],
     },
@@ -32,7 +32,7 @@ const historiaClinicaSchema = new mongoose.Schema({
         no porque es el medico que ingresa al sistema el que puede escribir
         en caso de traer resultados de diagnosticos previos se pone en observaciones o algo asi*/
         medico: {
-            type: mongoose.Schema.Types.ObjectId,   /*deberia ser un ObjectId que referencia al modelo Medico */
+            type: Schema.Types.ObjectId,   /*deberia ser un ObjectId que referencia al modelo Medico */
             required: [true, 'El nombre del médico es obligatorio'] 
         },
         motivoConsulta: { /*dolor de rodilla */
@@ -58,7 +58,7 @@ const historiaClinicaSchema = new mongoose.Schema({
         
     }]
 }, 
-    {timesstamps: true}
+    {timestamps: true}
 ); 
 
     //historiaClinica:{ //genero objetos separados para tener un mejor acceso y 
@@ -76,11 +76,11 @@ const historiaClinicaSchema = new mongoose.Schema({
 
 // Transformación del objeto a JSON
 historiaClinicaSchema.set('toJSON', {
-    transform: (doc, ret) => {
+    transform: (doc:Document, ret: Record<string,any>) => {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
     }
 });
 
-module.exports = mongoose.model('HistoriaClinica', historiaClinicaSchema);
+export default model<HistoriaClinica>('HistoriaClinica', historiaClinicaSchema);

@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-medicoSchema = new mongoose.Schema({
+import { Schema, model, Document} from 'mongoose';
+import { Medico } from '../interfaces/Medico.interface.ts';
+
+const medicoSchema = new Schema<Medico>({
     nombre:{
          type: String,
          required: [true,'El nombre del médico es obligatorio'],
@@ -12,10 +14,10 @@ medicoSchema = new mongoose.Schema({
          match: [/^\d[0-9]{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
         },
 
-     especialidad: [{     /*array por si tiene varias especialidades, Pej. Cardiología y Clinica */
-        type: mongoose.Schema.Types.ObjectId,   // referencia a un ID de Mongo
-        ref: "Especialidad",                    // nombre del modelo relacionado
-        required: [true,'La especialidad es obligatoria']
+    especialidad: [{     /*array por si tiene varias especialidades, Pej. Cardiología y Clinica */
+         type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
+         ref: "Especialidad",                    // nombre del modelo relacionado
+         required: [true,'La especialidad es obligatoria']
     }],
 
     numeroMatricula:{
@@ -77,13 +79,13 @@ medicoSchema = new mongoose.Schema({
     /*se podria identificar a aquel medico que este de guardia o que se le pueda llamar por una urgencia */
 
 },
-{timesstamps: true},
+{timestamps: true},
 
 );/*agrega createdAt y updatedAt automáticamente*/
 
 
 medicoSchema.set('toJSON', {
-    transform: (documento, medicoRetorno) => {
+    transform: (documento:Document, medicoRetorno: Record<string,any>) => {
         medicoRetorno.id = medicoRetorno._id;
         delete medicoRetorno._id;
         delete medicoRetorno.__v;
@@ -93,6 +95,5 @@ medicoSchema.set('toJSON', {
 }
 );
 
-
 //nombre del modelo: Medico con mayúscula//
-module.exports = mongoose.model("Medico", medicoSchema)
+export default model<Medico>('Medico', medicoSchema);

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Especialidad from '../models/especialidad';
-import respuestaEstandar from '../utils/respuestaEstandar';
+import {respuestaEstandar} from '../utils/respuestaEstandar';
 
 
 const getEspecialidades = async (req: Request, res: Response) => {

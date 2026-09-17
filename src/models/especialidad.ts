@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+import { Schema, model, Document} from 'mongoose';
+import { Especialidad } from '../interfaces/Especialidad.interface.ts'
 
-especialidadSchema = new mongoose.Schema({
+const especialidadSchema = new Schema<Especialidad>({
 
     especialidadNombre:{ 
         type: String,
@@ -20,11 +21,11 @@ especialidadSchema = new mongoose.Schema({
         trim: true
   }
 },
-{timesstamps: true},
+{timestamps: true},
 );
 
 especialidadSchema.set('toJSON', {
-    transform: (documento, especialidadRetorno) => {
+    transform: (documento:Document, especialidadRetorno: Record<string,any>) => {
         especialidadRetorno.id = especialidadRetorno._id;
         delete especialidadRetorno._id;
         delete especialidadRetorno.__v;
@@ -34,4 +35,4 @@ especialidadSchema.set('toJSON', {
 }
 );
 
-module.exports = mongoose.model("Especialidad", especialidadSchema)
+export default model<Especialidad>('Especialidad', especialidadSchema);

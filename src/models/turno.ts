@@ -42,10 +42,9 @@ const turnoSchema = new Schema<Turno>({
     activo: {
         type: Boolean,
         default: true,
-        select: false /*para que no se muestre en las consultas por defecto, pero si se puede consultar explícitamente */
+        select: false //para que no se muestre en las consultas por defecto, pero si se puede consultar explícitamente
     }
-
-
+    
 },{
     timestamps: true,
 }

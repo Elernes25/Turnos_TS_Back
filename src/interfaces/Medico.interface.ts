@@ -10,7 +10,9 @@ export interface Medico extends Document {
     direccion: SubinterfaceDireccion;
     email: string;
     telefono: SubinterfaceTelefono;
-    especialidad: string;
+    especialidad: Types.ObjectId[]; // por si tiene mas de una especialidad
+    numeroMatricula:string;
    // activo?: boolean;  //agregar al schema de medico
+   
 }
 

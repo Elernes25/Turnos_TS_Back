@@ -1,14 +1,15 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const {
+import {
     createHistoriaClinica,
     getHistoriasClinicas,
     getHistoriaClinicaByPaciente
-} = require('../controllers/historiaClinica.controller');
+} from '../controllers/historiaClinica.controller';
 
+/*ENDPOINTS historiaClinica */
 router.get('/', getHistoriasClinicas);
 router.post('/', createHistoriaClinica);
 router.get('/paciente/:pacienteId', getHistoriaClinicaByPaciente);
 
-module.exports = router;
+export default router;
 

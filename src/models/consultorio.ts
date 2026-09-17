@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+import { Schema, model, Document} from 'mongoose';
+import { Consultorio } from '../interfaces/Consultorio.interface.ts'
 
-consultorioSchema = new mongoose.Schema({
+const consultorioSchema = new Schema<Consultorio>({
     consultorioNumero:{ 
         type: String,
         required: [true,'El numero de consultorio es obligatorio'],
@@ -11,15 +12,13 @@ consultorioSchema = new mongoose.Schema({
     esta atendiendo en ese consultorio en ese momento? */
     /*el medico podria tener mas de una especialidad, en ese caso si
     tal vez convenga guardar la especialidad actual del medico*/
-
   //  especialidad: {
   //      type: mongoose.Schema.Types.ObjectId,   // referencia a un ID de Mongo
   //      ref: "Especialidad"                        // nombre del modelo relacionado
   //  },
-    /* */
 
-    medico: {
-        type: mongoose.Schema.Types.ObjectId,   // referencia a un ID de Mongo
+    medicoID: {
+        type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
         ref: "Medico"                        // nombre del modelo relacionado
     },
     
@@ -29,11 +28,11 @@ consultorioSchema = new mongoose.Schema({
     },
 },
 
-{timesstamps: true},
+{timestamps: true},
 );
 
 consultorioSchema.set('toJSON', {
-    transform: (documento, consultorioRetorno) => {
+    transform: (documento:Document, consultorioRetorno:Record<string,any>) => {
         consultorioRetorno.id = consultorioRetorno._id;
         delete consultorioRetorno._id;
         delete consultorioRetorno.__v;
@@ -42,5 +41,4 @@ consultorioSchema.set('toJSON', {
     }
 }
 );
-
-module.exports = mongoose.model("Consultorio", consultorioSchema)
+export default model <Consultorio>("Consultorio", consultorioSchema);

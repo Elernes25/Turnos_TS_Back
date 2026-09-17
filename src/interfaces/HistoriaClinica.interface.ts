@@ -11,7 +11,7 @@ interface Consulta {
 
 export interface HistoriaClinica extends Document {
     id?: Types.ObjectId;
-    pacienteId: Types.ObjectId;
+    pacienteID: Types.ObjectId;
     antecedentes: {
         alergias: string[];
         cirugias: string[];
