@@ -1,30 +1,43 @@
-require('dotenv').config({ path: './src/.env' }); /*carga las variables de entorno desde el archivo .env*/
 //import 'dotenv/config'; /*carga las variables de entorno desde el archivo .env*/
+// Es la forma más corta y directa.
+// Importa el paquete y ejecuta automáticamente config() al cargar el módulo.
+// No te da acceso al objeto dotenv porque no lo estás guardando en una variable.
+// Ideal si solo querés cargar las variables de entorno y no vas a usar nada más de dotenv
+
+import * as dotenv from 'dotenv';
+dotenv.config();
+// Es la forma explícita y flexible.
+// Te permite acceder al objeto dotenv si en algún momento querés usar otras funciones además de config().
+// Es más común en proyectos grandes donde se necesita configurar rutas personalizadas o debug.
+// import * as dotenv from 'dotenv';
+// dotenv.config({ path: './src/.env' });
+
 import cors from 'cors';
-import express from 'express';
+import express from 'express'; /*importa el módulo express para crear el servidor web*/
 import type {Application} from 'express';
-//import express from 'express'; /*importa el módulo express para crear el servidor web*/
-//const connectDB = require('./src/config/database.js');
+
 import {connectDB} from './src/config/database'; /*importa la función connectDB para conectar a la base de datos*/
 
 const app: Application = express();
 
 connectDB(); /*conecta a la base de datos usando la función connectDB del archivo database.js*/
 
-const auditoriaMiddleware = require('./src/middlewares/auditoria.middleware.js');
-const errorHandleMiddleware = require('./src/middlewares/errorHandle.middleware.js');
+//import auditoriaMiddleware  from'./src/middlewares/auditoria.middleware.ts');
+const auditoriaMiddleware = require('./src/middlewares/auditoria.middleware').default;
+const errorHandleMiddleware = require('./src/middlewares/errorHandle.middleware').default;
 
-const turnosRoutes = require('./src/routes/turnos.routes.js');
-const pacientesRoutes = require('./src/routes/pacientes.routes.js');
-const medicosRoutes = require('./src/routes/medicos.routes.js');
-const recepcionRoutes = require('./src/routes/recepcion.routes');
-const historiaClinicaRoutes = require('./src/routes/historiaClinica.routes.js');
-const especialidadRoutes = require('./src/routes/especialidad.routes.js');
-const loginRoutes = require('./src/routes/login.routes.js');
+//const turnosRoutes = require('./src/modules/turnos/turnos.routes');
+import turnosRoutes from './src/modules/turnos/turnos.routes';  //no se permite la extension .ts
+
+import pacientesRoutes from './src/modules/pacientes/pacientes.routes';
+import medicosRoutes from './src/modules/medicos/medicos.routes';
+import recepcionRoutes from './src/modules/recepcion/recepcion.routes';
+import historiaClinicaRoutes from './src/modules/historiaclinica/historiaClinica.routes';
+import especialidadRoutes from './src/modules/especialidad/especialidad.routes';
+import loginRoutes from './src/modules/login/login.routes';
 
 app.use(express.json());
 app.use(auditoriaMiddleware);
-
 app.use(cors());
 /*
 En desarrollo: puedes usar app.use(cors()) abierto para no complicarte.

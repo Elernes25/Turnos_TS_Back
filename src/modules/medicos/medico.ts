@@ -1,0 +1,99 @@
+import { Schema, model, Document} from 'mongoose';
+import type { Medico } from '../../modules/medicos/types/Medico.interface';
+
+const medicoSchema = new Schema<Medico>({
+    nombre:{
+         type: String,
+         required: [true,'El nombre del médico es obligatorio'],
+         uppercase: true
+         },
+    dni:{
+         type: String,
+         unique: true,
+         required: [true,'El DNI es obligatorio'],
+         match: [/^\d[0-9]{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
+        },
+
+    especialidad: [{     /*array por si tiene varias especialidades, Pej. Cardiología y Clinica */
+         type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
+         ref: "Especialidad",                    // nombre del modelo relacionado
+         required: [true,'La especialidad es obligatoria']
+    }],
+
+    numeroMatricula:{
+        type: String,
+        required: [true,'El Número de matrícula es obligatorio'],
+    },
+    
+    /*array de las obras sociales que atiende */
+    /*si hubiera otro esquema con obras sociales */
+    //obrasSociales:[{ type: mongoose.Schema.Types.ObjectId, ref: 'obraSocial' }],   
+    
+    direccion: {
+        calle: {
+          type: String,
+          required: [true, 'La calle es obligatoria']
+         },
+        numero: {
+          type: String,
+          required: [true, 'El número es obligatorio']
+         },
+        piso: {
+          type: String
+        },
+        departamento: {
+          type: String
+        },
+        barrio: {
+          type: String
+        }
+      },
+    telefono: {
+        tipo: {
+            type: String,
+            enum: ['CELULAR', 'FIJO']
+        },
+        codigoPais: {   /*guardar sin el + */
+            type: String,
+            required: true,
+            trim: true,
+            match: [/^[1-9][0-9]{0,2}$/, 'El código de País no es válido']
+        },
+        codigoArea: {
+            type: String,
+            required: true,
+            match: [/^[0-9]{2,5}$/, 'El código de área no es válido']
+        },
+        numero: {
+            type: String,
+            required: true,
+            match: [/^[0-9]{6,10}$/, 'El número de teléfono no es válido'] /*620 669 SEIS DIGITOS*/
+        }
+    },
+    
+    email:{
+        type: String,
+        required: false,
+        match: [/\S+@\S+\.\S+/, 'El correo electrónico no es válido'] 
+    }
+    /*se podria identificar a aquel medico que este de guardia o que se le pueda llamar por una urgencia */
+
+},
+{timestamps: true},
+
+);/*agrega createdAt y updatedAt automáticamente*/
+
+
+medicoSchema.set('toJSON', {
+    transform: (documento:Document, medicoRetorno: Record<string,any>) => {
+        medicoRetorno.id = medicoRetorno._id;
+        delete medicoRetorno._id;
+        delete medicoRetorno.__v;
+        delete medicoRetorno.createdAt; /*borra los campos agregados por el timestamps */
+        delete medicoRetorno.updatedAt;
+    }
+}
+);
+
+//nombre del modelo: Medico con mayúscula//
+export default model<Medico>('Medico', medicoSchema);
