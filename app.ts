@@ -22,11 +22,9 @@ const app: Application = express();
 
 connectDB(); /*conecta a la base de datos usando la función connectDB del archivo database.js*/
 
-//import auditoriaMiddleware  from'./src/middlewares/auditoria.middleware.ts');
-const auditoriaMiddleware = require('./src/middlewares/auditoria.middleware').default;
-const errorHandleMiddleware = require('./src/middlewares/errorHandle.middleware').default;
+import auditoriaMunicipal from './src/middlewares/auditoria.middleware';
+import rutaNoEncontrada from './src/middlewares/errorHandle.middleware';
 
-//const turnosRoutes = require('./src/modules/turnos/turnos.routes');
 import turnosRoutes from './src/modules/turnos/turnos.routes';  //no se permite la extension .ts
 
 import pacientesRoutes from './src/modules/pacientes/pacientes.routes';
@@ -37,7 +35,7 @@ import especialidadRoutes from './src/modules/especialidad/especialidad.routes';
 import loginRoutes from './src/modules/login/login.routes';
 
 app.use(express.json());
-app.use(auditoriaMiddleware);
+app.use(auditoriaMunicipal);
 app.use(cors());
 /*
 En desarrollo: puedes usar app.use(cors()) abierto para no complicarte.
@@ -62,7 +60,7 @@ app.use('/api/v1/historiaClinica', historiaClinicaRoutes);
 app.use('/api/v1/especialidad', especialidadRoutes);
 app.use('/api/auth/login', loginRoutes);
 
-app.use(errorHandleMiddleware); /*manejo de errores para rutas no encontradas*/
+app.use(rutaNoEncontrada); /*manejo de errores para rutas no encontradas*/
 
 const PORT = process.env.PORT || 3000; /*si no hay puerto definido en el archivo .env, se usa el puerto 3000*/
 app.listen(PORT, () => {

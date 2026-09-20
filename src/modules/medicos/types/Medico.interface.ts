@@ -1,5 +1,5 @@
-import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono.ts";
-import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion.ts";
+import type { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono.ts";
+import type { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion.ts";
 import { Types,Document } from "mongoose";
 
 export interface Medico extends Document {

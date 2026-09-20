@@ -1,7 +1,7 @@
-import Medico from '../medicos/medico.ts';
-import {respuestaEstandar} from '../../utils/respuestaEstandar.ts';
-import { Request, Response } from 'express';
-import {MedicoDTO} from '../medicos/dtos/MedicoDTO.ts';
+import Medico from '../medicos/medico';
+import {respuestaEstandar} from '../../utils/respuestaEstandar';
+import type { Request, Response } from 'express';
+import type {MedicoDTO} from '../medicos/dtos/MedicoDTO.ts';
 
 // GET: listar medicos
 const getMedicos = async (req: Request<unknown, unknown, unknown, { dni?: string } >, res: Response) => {

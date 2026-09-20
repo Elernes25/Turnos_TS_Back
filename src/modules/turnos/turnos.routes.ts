@@ -1,14 +1,17 @@
-import express from 'express';
-const router = express.Router();
-const{getTurnos,createTurnos,deleteTurnos,marcarAtendido}=require('../turnos/turnos.controller.ts');
+import {Router} from 'express';
+import { validarSchema} from "../../middlewares/validarDatos.middleware";
+import { CrearTurnoSchema } from './dtos/turno.Schema';
+import {getTurnos,createTurnos,deleteTurnos,marcarAtendido} from '../turnos/turnos.controller';
+
 /* especifica que se importan las funciones getTurnos, createTurnos , deleteTurnos,marcarAtendido 
-desde el archivo turnos.controllers.js ubicado en la carpeta controllers. 
+desde el archivo turnos.controllers.ts. 
 Estas funciones se utilizarán como controladores para manejar las solicitudes
 HTTP relacionadas con los turnos. */
 
+const router = Router();
 router.get('/', getTurnos);
 //router.get('/:especialidad', getTurnosEspecialidad); //ya no esnecesario, lo hace por filtros en get//
-router.post('/', createTurnos);
+router.post('/', validarSchema(CrearTurnoSchema), createTurnos);
 router.delete('/:id', deleteTurnos); 
 router.patch('/:id', marcarAtendido);
 

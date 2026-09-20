@@ -1,6 +1,6 @@
 import HistoriaClinica from '../historiaClinica/HistoriaClinica';
 import Paciente from '../pacientes/paciente';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 
 const createHistoriaClinica = async (req: Request, res: Response) => {
     try {

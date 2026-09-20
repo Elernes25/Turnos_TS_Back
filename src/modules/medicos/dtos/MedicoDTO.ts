@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
-import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
+import type { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
+import type { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
 
 export interface MedicoDTO {
     nombre:string;

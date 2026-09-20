@@ -1,9 +1,7 @@
 import type { Request, Response } from 'express';
 import type { CrearPacienteDTO, IQueryPacientes } from '../pacientes/dtos/PacienteDTO';  
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
-
-const Paciente = require('../models/paciente.js');
-
+import Paciente from '../pacientes/paciente';
 
 // GET: listar pacientes
 //const getPacientes = async (req: Request<unknown, unknown, unknown, { obraSocialNombre?: string; dni?: string } >, res: Response) => {

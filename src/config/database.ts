@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-const uri = process.env.DATABASE_URL_ATLAS || "mongodb://localhost:27017/salita_municipal"; 
+//const uri = process.env.DATABASE_URL_ATLAS || "mongodb://localhost:27017/salita_municipal"; 
+const uri = process.env.DATABASE_URL_ATLAS || process.env.DATABASE_URL; 
 // URI de conexión a la base de datos //
 
 console.log(`🔵💙Intentando conectar a la base de datos en: ${uri}`);

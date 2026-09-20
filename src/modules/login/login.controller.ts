@@ -1,5 +1,5 @@
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 
 const loginController = (req: Request, res: Response ) => {
 

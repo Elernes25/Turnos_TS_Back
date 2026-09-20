@@ -1,5 +1,5 @@
 import { Schema, model, Document} from 'mongoose';
-import { Especialidad } from '../../modules/especialidad/types/Especialidad.interface';
+import type { Especialidad } from '../../modules/especialidad/types/Especialidad.interface';
 
 const especialidadSchema = new Schema<Especialidad>({
 

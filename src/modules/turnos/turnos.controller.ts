@@ -1,8 +1,8 @@
-import {Request, Response} from 'express';
-import {EstadoTurno} from '../interfaces/TurnoEstado.enum.ts';
-import Turno from '../turnos/turno.ts';
-import {respuestaEstandar} from '../../utils/respuestaEstandar.ts';
-import { TurnoDTO, QueryUrgencia } from '../turnos/dtos/TurnoDTO.ts';
+import type {Request, Response} from 'express';
+import {EstadoTurno} from '../interfaces/TurnoEstado.enum';
+import Turno from '../turnos/turno';
+import {respuestaEstandar} from '../../utils/respuestaEstandar';
+import type { CrearTurnoDTO, QueryUrgencia } from '../turnos/dtos/turno.Schema';
 
 /*En Express, el tipo genérico Request<ParamsDictionary, ResBody, ReqBody, ReqQuery>  
       ParamsDictionary → corresponde a req.params  
@@ -47,7 +47,7 @@ const getTurnos = async (req: Request <unknown, unknown, unknown, { especialidad
 
 
 // POST: guardar turno
-const createTurnos = async (req: Request<unknown, unknown, TurnoDTO, QueryUrgencia>, res: Response) => {
+const createTurnos = async (req: Request<unknown, unknown, CrearTurnoDTO, QueryUrgencia>, res: Response) => {
   try {
     const origenPeticion=req.headers['x-origen'];
     const tokenSeguridad=req.headers['authorization'];

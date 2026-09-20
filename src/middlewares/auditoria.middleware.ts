@@ -1,6 +1,6 @@
-import { Request,Response,NextFunction } from "express";
+import type { Request,Response,NextFunction } from "express";
 
-export const auditoriaMunicipal = (req:Request, res:Response, next:NextFunction) => {
+const auditoriaMunicipal = (req:Request, res:Response, next:NextFunction) => {
     const horaActual = new Date().toLocaleTimeString();
     const metodo=req.method;
     const ruta=req.originalUrl;
@@ -8,8 +8,7 @@ export const auditoriaMunicipal = (req:Request, res:Response, next:NextFunction)
     next(); // continúa con la siguiente función        
 }
 
-
-//module.exports = auditoriaMunicipal;
+export default auditoriaMunicipal;
 
 /* para gurdar en la base de datos hacer este schema
 const mongoose = require('mongoose');
