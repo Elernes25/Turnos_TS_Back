@@ -1,5 +1,6 @@
 export enum ObraSocial {
     PAMI = 'PAMI',
+    IOSCOR = 'IOSCOR',
     OSPEL = 'OSPEL',
     OSDE = 'OSDE',
     SANCOR = 'SANCOR',

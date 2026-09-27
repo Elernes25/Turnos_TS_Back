@@ -1,7 +1,7 @@
 import Medico from '../medicos/medico';
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import type { Request, Response } from 'express';
-import type {MedicoDTO} from '../medicos/dtos/MedicoDTO.ts';
+import type { CrearMedicoDTO } from './dtos/Medico.schema';
 
 // GET: listar medicos
 const getMedicos = async (req: Request<unknown, unknown, unknown, { dni?: string } >, res: Response) => {
@@ -9,9 +9,7 @@ const getMedicos = async (req: Request<unknown, unknown, unknown, { dni?: string
     const {dni}=req.query;  /*filtrar por DNI */
     const filtro: Record<string, any> = {};
 
-    if (dni){
-      filtro.dni=dni;
-    }
+    if (dni){ filtro.dni=dni; }
     console.log("filtro armado", filtro);
     const medicos = await Medico.find(filtro);
 
@@ -23,7 +21,7 @@ const getMedicos = async (req: Request<unknown, unknown, unknown, { dni?: string
 };
 
 // POST: guardar medico
-const createMedico = async (req: Request <unknown, unknown, MedicoDTO>, res: Response) => {
+const createMedico = async (req: Request <unknown, unknown, CrearMedicoDTO>, res: Response) => {
   try {
     const nuevoMedico = new Medico(req.body);
     await nuevoMedico.save();
@@ -34,7 +32,7 @@ const createMedico = async (req: Request <unknown, unknown, MedicoDTO>, res: Res
 };
 
 //DELETE: eliminar medico por ID Ej: http://localhost:3000/api/v1/medicos/6a5945fdf6215d646538767e
-const deleteMedico = async (req: Request, res: Response) => {
+const deleteMedico = async (req: Request<{ id: string }>, res: Response) => {
   try {
     const { id } = req.params;   /*id, definido en la ruta*/
     const medico = await Medico.findByIdAndDelete(id);
@@ -47,5 +45,25 @@ const deleteMedico = async (req: Request, res: Response) => {
   }
 };
 
+//PUT: 
+const editarMedico = async (req: Request <{ id: string }, unknown, CrearMedicoDTO>, res: Response) =>{
+  console.log("ID recibido:", req.params.id);
+  console.log("Body recibido:", req.body);
+  try {
+    const { id } = req.params;
+    const medico = await Medico.findOneAndReplace({ _id: id }, req.body, {
+      returnDocument: 'after',
+      runValidators: true
+    });
 
-export { getMedicos, createMedico, deleteMedico };
+    if (!medico) {
+      return respuestaEstandar(res, 404, false, `Medico no encontrado ${id}`);
+    }
+    return respuestaEstandar(res, 200, true, "Medico Editado exitosamente", medico);
+  } catch (error:any) {
+      return respuestaEstandar(res, 400, false, "ID con formato invalido", error.message);
+  }
+
+};
+
+export { getMedicos, createMedico, deleteMedico, editarMedico };

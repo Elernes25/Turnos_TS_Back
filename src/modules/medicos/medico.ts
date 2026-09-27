@@ -1,7 +1,7 @@
 import { Schema, model, Document} from 'mongoose';
-import type { Medico } from '../../modules/medicos/types/Medico.interface';
+import type { IMedico } from '../../modules/medicos/types/Medico.interface';
 
-const medicoSchema = new Schema<Medico>({
+const medicoSchema = new Schema<IMedico>({
     nombre:{
          type: String,
          required: [true,'El nombre del médico es obligatorio'],
@@ -96,4 +96,4 @@ medicoSchema.set('toJSON', {
 );
 
 //nombre del modelo: Medico con mayúscula//
-export default model<Medico>('Medico', medicoSchema);
+export default model<IMedico>('Medico', medicoSchema);

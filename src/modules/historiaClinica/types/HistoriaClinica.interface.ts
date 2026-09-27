@@ -1,23 +1,25 @@
-import { Types, Document } from "mongoose";
+import { Document, Types } from 'mongoose';
 
-interface Consulta {
+export interface IConsultaClinica {
   fecha: Date;
-  medicoId: Types.ObjectId; /*referencia al médico que realizó la consulta*/
+  medicoID: Types.ObjectId ; /*referencia al médico que realizó la consulta*/
   motivoConsulta: string;
   diagnostico: string;
   tratamiento: string;
+  indicaciones: string;
   observaciones?: string;
 }
 
-export interface HistoriaClinica extends Document {
-    id?: Types.ObjectId;
-    pacienteID: Types.ObjectId;
-    antecedentes: {
+
+export interface IHistoriaClinica extends Document {
+  id?: Types.ObjectId;
+  pacienteID: Types.ObjectId | string;
+   antecedentes: {
         alergias: string[];
         cirugias: string[];
         enfermedadesCronicas: string[];
         historiaGeneral: string;
     };
-    consultas: Consulta[];  /*arreglo de consultas */
-
+  consultas: IConsultaClinica[];  /*arreglo de consultas */
 }
+

@@ -3,6 +3,8 @@ import {EstadoTurno} from '../interfaces/TurnoEstado.enum';
 import Turno from '../turnos/turno';
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import type { CrearTurnoDTO, QueryUrgencia } from '../turnos/dtos/turno.Schema';
+import type { ITurno } from '../turnos/types/Turno.interface';
+import { mainModule } from 'node:process';
 
 /*En Express, el tipo genérico Request<ParamsDictionary, ResBody, ReqBody, ReqQuery>  
       ParamsDictionary → corresponde a req.params  
@@ -25,7 +27,7 @@ const getTurnos = async (req: Request <unknown, unknown, unknown, { especialidad
 
     // Construir objeto de filtros dinámicamente
     const filtros: Record<string, any> = {};
-    if (id) {filtros._id = id;
+    if (id) {filtros._id = id; 
       console.log("filtro por id", filtros._id);
     };
     if (especialidad) filtros.especialidad = especialidad;
@@ -35,11 +37,12 @@ const getTurnos = async (req: Request <unknown, unknown, unknown, { especialidad
     // Consulta con filtros
     const turnos = await Turno.find(filtros).select('+activo').populate('paciente');
 
-    if (turnos.length === 0) {
+    if (turnos.length === 0) {        // if (!turnos)
       return respuestaEstandar(res, 404, false, "No se encontraron turnos con esos filtros");
     }
-
-    return respuestaEstandar(res, 200, true, "Turnos obtenidos correctamente", turnos);
+//*****probar *********/
+//*** */    return respuestaEstandar<ITurno[]>(res, 200, true, "Turnos obtenidos correctamente", turnos); ***//
+      return respuestaEstandar (res, 200, true, "Turnos obtenidos correctamente", turnos);
   } catch (error:any) {
     return respuestaEstandar(res, 500, false, "Error al obtener los turnos", error.message);
   }
@@ -57,17 +60,15 @@ const createTurnos = async (req: Request<unknown, unknown, CrearTurnoDTO, QueryU
     };
 
     // ?urgencia=true
-    const  esUrgente=req.query.urgencia ==='true';
-    const datosDelTurno:any = {
-        paciente:req.body.paciente,
-        especialidad:req.body.especialidad,
-        fechaTurno:req.body.fechaTurno
+    const esUrgente=req.query.urgencia ==='true';
+    const datosDelTurno = {
+     //*   paciente:req.body.pacienteID, especialidad:req.body.especialidadID, fechaTurno:req.body.fechaTurno, *//
+        ...req.body, /*Referencia: toma todo lo que esta en el body del Request
+                      /*En el caso de ...req.body, lo que haces es desestructurar y copiar todas las propiedades que vienen en el body */
+        estado: esUrgente ? EstadoTurno.ATENDIDO : EstadoTurno.PENDIENTE,
+        observaciones: esUrgente ? 'ingreso por Guardia Medica' : ""
     };
-    if (esUrgente){
-        datosDelTurno.estado=EstadoTurno.ATENDIDO;
-        datosDelTurno.observaciones='ingresoporguardiamedica';
-        console.log("🚨 ALERTA: registrado un turno de urgencia");
-    }
+    if (esUrgente){ console.log("🚨 ALERTA: registrado un turno de urgencia"); }
 
     //const nuevoTurno = new Turno(req.body);
     //await nuevoTurno.save();

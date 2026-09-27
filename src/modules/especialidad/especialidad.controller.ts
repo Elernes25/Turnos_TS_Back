@@ -1,18 +1,21 @@
 import type { Request, Response } from 'express';
 import Especialidad from '../especialidad/especialidad';
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
+import type { CrearEspecialidadDTO } from './dtos/Especialidad.schema';
 
-
+/* GET */
 const getEspecialidades = async (req: Request, res: Response) => {
   try {
     const listaEspecialidades = await Especialidad.find();
 
     return respuestaEstandar( res, 200, true, 'Especialidades obtenidas exitosamente', listaEspecialidades );
-  } catch (error) {
-    return respuestaEstandar( res, 500, false, 'Error interno del servidor', error);
+  } catch (error:any) {
+    return respuestaEstandar( res, 500, false, 'Error interno del servidor', error.message);
   }
 };
-const deleteEspecialidad = async (req: Request, res: Response) => {
+
+/* DELETE */
+const deleteEspecialidad = async (req: Request<{ id: string }>, res: Response) => {
   try {
     const { id } = req.params;
     const especialidad = await Especialidad.findByIdAndDelete(id);
@@ -20,26 +23,21 @@ const deleteEspecialidad = async (req: Request, res: Response) => {
     if (!especialidad) {
       return respuestaEstandar(res, 404, false, 'Especialidad no encontrada', null);
     }
-
     return respuestaEstandar(res, 200, true, 'Especialidad eliminada exitosamente', especialidad);
-  } catch (error) {
-    return respuestaEstandar(res, 500, false, 'Error interno del servidor', error);
+
+  } catch (error:any) {
+    return respuestaEstandar(res, 500, false, 'Error interno del servidor', error.message);
   }
 };
 
-const createEspecialidad = async (req: Request, res: Response) => {
+/* POST */
+const createEspecialidad = async (req: Request<unknown, unknown, CrearEspecialidadDTO>, res: Response) => {
   try {
     const nuevaEspecialidad = await Especialidad.create(req.body);
-
     return respuestaEstandar(res,201, true,'Especialidad creada exitosamente', nuevaEspecialidad);
-  } catch (error) {
-    return respuestaEstandar(
-      res,
-      500,
-      false,
-      'Error interno del servidor',
-      error
-    );
+
+  } catch (error:any) {
+    return respuestaEstandar(res,500, false,'Error interno del servidor', error.message);
   }
 };
 

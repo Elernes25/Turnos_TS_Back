@@ -1,5 +1,7 @@
 import express from 'express';
 const router = express.Router();
+import { validarSchema} from "../../middlewares/validarDatos.middleware";
+import { CrearPacienteSchema } from './dtos/Paciente.schema';
 
 import {getPacientes,createPacientes,deletePacientes} from '../pacientes/pacientes.controller';
 //const{getPacientes,getPacientesDNI,createPacientes,deletePacientes}=require('../controllers/pacientes.controller.js');
@@ -11,7 +13,8 @@ con los pacientes. */
 /*ENDPOINTS PACIENTES */
 router.get('/', getPacientes);
 //router.get('/:dni', getPacientesDNI); getPacientes ya maneja la búsqueda por DNI a través de query params
-router.post('/', createPacientes);
-router.delete('/:id', deletePacientes);    
+router.post('/', validarSchema(CrearPacienteSchema),createPacientes);
+router.delete('/:id', deletePacientes); 
+   
 
 export default router;

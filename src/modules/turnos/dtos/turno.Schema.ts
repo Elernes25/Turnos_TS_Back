@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {EstadoTurno} from "../../interfaces/TurnoEstado.enum"
+import { queryObjects } from "v8";
 
 /* forma de validar en zod que sea  un string del tipo ObjectID
     paciente: z.string().regex(objectIdRegex, {
@@ -11,18 +12,19 @@ import {EstadoTurno} from "../../interfaces/TurnoEstado.enum"
 */
 export const CrearTurnoSchema = z.object ({
     body: z.object ({
-        paciente:z.string({error: 'El ID del paciente es obligatorio'}),
-        especialidad: z.string({error: 'La especialidad es obligatoria'}),
-        estadoTurno: z.enum (EstadoTurno,{
-                error:"Estado de turno no válido"
-        }),
+        pacienteID:z.string({error: 'El ID del paciente es obligatorio'}),
+        especialidadID: z.string({error: 'La especialidad es obligatoria'}),
+        estadoTurno: z.enum (EstadoTurno,{ error:"Estado de turno no válido" }),
         fechaTurno: z.iso.date({message:"Formato de fecha inválido"})
     })
 
 });
 
-export type CrearTurnoDTO = z.infer <typeof CrearTurnoSchema>['body']
+export const QueryUrgenciaSchema= z.object({
+    query: z.object({
+        urgencia: z.enum(['true','false']).optional()
+    }) 
+});
 
-export interface QueryUrgencia{
-    urgencia?: string;
-}
+export type CrearTurnoDTO = z.infer <typeof CrearTurnoSchema>['body']
+export type QueryUrgencia = z.infer <typeof QueryUrgenciaSchema>['query']

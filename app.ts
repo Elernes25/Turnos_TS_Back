@@ -1,11 +1,19 @@
+import type {Application} from 'express';
+
 //import 'dotenv/config'; /*carga las variables de entorno desde el archivo .env*/
 // Es la forma más corta y directa.
 // Importa el paquete y ejecuta automáticamente config() al cargar el módulo.
 // No te da acceso al objeto dotenv porque no lo estás guardando en una variable.
 // Ideal si solo querés cargar las variables de entorno y no vas a usar nada más de dotenv
 
-import * as dotenv from 'dotenv';
-dotenv.config();
+
+import 'dotenv/config';
+//import * as dotenv from "dotenv";
+//dotenv.config();
+
+
+//const result= dotenv.config();
+//console.log(result.error ?? result.parsed);
 // Es la forma explícita y flexible.
 // Te permite acceder al objeto dotenv si en algún momento querés usar otras funciones además de config().
 // Es más común en proyectos grandes donde se necesita configurar rutas personalizadas o debug.
@@ -14,11 +22,12 @@ dotenv.config();
 
 import cors from 'cors';
 import express from 'express'; /*importa el módulo express para crear el servidor web*/
-import type {Application} from 'express';
+
 
 import {connectDB} from './src/config/database'; /*importa la función connectDB para conectar a la base de datos*/
 
 const app: Application = express();
+
 
 connectDB(); /*conecta a la base de datos usando la función connectDB del archivo database.js*/
 
@@ -30,7 +39,7 @@ import turnosRoutes from './src/modules/turnos/turnos.routes';  //no se permite 
 import pacientesRoutes from './src/modules/pacientes/pacientes.routes';
 import medicosRoutes from './src/modules/medicos/medicos.routes';
 import recepcionRoutes from './src/modules/recepcion/recepcion.routes';
-import historiaClinicaRoutes from './src/modules/historiaclinica/historiaClinica.routes';
+import historiaClinicaRoutes from './src/modules/historiaClinica/historiaClinica.routes';
 import especialidadRoutes from './src/modules/especialidad/especialidad.routes';
 import loginRoutes from './src/modules/login/login.routes';
 

@@ -1,8 +1,10 @@
+import {z} from "zod";
 import { TipoTelefono } from './Tipotelefono.enum';
 
-export interface SubinterfaceTelefono {
-    tipo: TipoTelefono;
-    codigoPais: string;
-    codigoArea: string;
-    numero: string;
-}
+export const SubinterfaceTelefono = z.object ({
+  tipo: z.enum(TipoTelefono,{error:""}),
+  codigoPais: z.string(),
+  codigoArea: z.string(),
+  numero: z.string(),
+    
+})

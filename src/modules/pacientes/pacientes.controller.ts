@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import type { CrearPacienteDTO, IQueryPacientes } from '../pacientes/dtos/PacienteDTO';  
+import type { CrearPacienteDTO, IQueryPacientes } from './dtos/Paciente.schema';  
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import Paciente from '../pacientes/paciente';
 
@@ -15,8 +15,8 @@ const getPacientes = async (req: Request<unknown, unknown, unknown, IQueryPacien
       // Record<string, any>: Un objeto cuyas claves son string y cuyos valores pueden ser de cualquier tipo (any).
       const filtro: Record<string, string> = {}
       
-      if (obraSocialNombre) {filtro.obraSocialNombre= obraSocialNombre.toUpperCase();}
-      if (dni) {filtro.dni=dni;}
+      if (obraSocialNombre) { filtro["obraSocial.obraSocialNombre"]= obraSocialNombre.toUpperCase() };
+      if (dni) { filtro.dni= dni };
 
       console.log("filtro armado", filtro);
       const pacientes = await Paciente.find(filtro);
@@ -43,11 +43,11 @@ const createPacientes = async (req: Request<unknown, unknown, CrearPacienteDTO>,
 const deletePacientes = async (req: Request<{ id: string }>, res: Response) => {
   try {
       const { id } = req.params;   /*id, definido en la ruta*/
-      const paciente = await Paciente.findByIdAndDelete(id);
-      if (!paciente) {
+      const pacienteBorrado = await Paciente.findByIdAndDelete(id);
+      if (!pacienteBorrado) {
         return respuestaEstandar(res, 404, false, `Paciente no encontrado ${id}`);
       }
-      return respuestaEstandar(res, 200, true, "Paciente eliminado exitosamente", paciente);
+      return respuestaEstandar(res, 200, true, "Paciente eliminado exitosamente", pacienteBorrado);
   } catch (error: any) {
       return respuestaEstandar(res, 400, false, "ID con formato invalido", error.message);
   }

@@ -4,16 +4,15 @@ import type { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDirecci
 import { ObraSocial } from "../../interfaces/ObraSocial.enum";
 import { Types, Document } from "mongoose";
 
-
-export interface Paciente extends Document {
+export interface IPaciente extends Document {
     id?: Types.ObjectId; /*el id es opcional porque lo genera MongoDB automáticamente*/
     nombre: string;
     dni: string;
     fechaDeNacimiento: Date;
     sexo:string;
-    telefono?: SubinterfaceTelefono;
+    telefono?: typeof SubinterfaceTelefono;
     email?: string;
-    direccion: SubinterfaceDireccion;
+    direccion: typeof SubinterfaceDireccion;
     obraSocial: {
         obraSocialNombre: ObraSocial;   
         numeroAfiliado?: string;

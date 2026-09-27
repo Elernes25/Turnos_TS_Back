@@ -1,7 +1,7 @@
 import { Schema, model, Document} from 'mongoose';
-import type { Especialidad } from '../../modules/especialidad/types/Especialidad.interface';
+import type { IEspecialidad } from '../../modules/especialidad/types/Especialidad.interface';
 
-const especialidadSchema = new Schema<Especialidad>({
+const especialidadSchema = new Schema<IEspecialidad>({
 
     especialidadNombre:{ 
         type: String,
@@ -35,4 +35,4 @@ especialidadSchema.set('toJSON', {
 }
 );
 
-export default model<Especialidad>('Especialidad', especialidadSchema);
+export default model<IEspecialidad>('Especialidad', especialidadSchema);

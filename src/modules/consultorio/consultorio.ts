@@ -1,7 +1,7 @@
 import { Schema, model, Document} from 'mongoose';
-import { Consultorio } from '../consultorio/types/Consultorio.interface';
+import { IConsultorio } from '../consultorio/types/Consultorio.interface';
 
-const consultorioSchema = new Schema<Consultorio>({
+const consultorioSchema = new Schema<IConsultorio>({
     consultorioNumero:{ 
         type: String,
         required: [true,'El numero de consultorio es obligatorio'],
@@ -19,7 +19,7 @@ const consultorioSchema = new Schema<Consultorio>({
 
     medicoID: {
         type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
-        ref: "Medico"                        // nombre del modelo relacionado
+        ref: "Medico"                  // nombre del modelo relacionado
     },
     
     disponible: {
@@ -41,4 +41,4 @@ consultorioSchema.set('toJSON', {
     }
 }
 );
-export default model <Consultorio>("Consultorio", consultorioSchema);
+export default model <IConsultorio>("Consultorio", consultorioSchema);

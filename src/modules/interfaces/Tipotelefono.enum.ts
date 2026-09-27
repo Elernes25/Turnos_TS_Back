@@ -1,5 +1,5 @@
 export enum TipoTelefono {
-    CELULAR = 'celular',
-    FIJO = 'fijo'
+    CELULAR = 'CELULAR',
+    FIJO = 'FIJO'
    
 }   

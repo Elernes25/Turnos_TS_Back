@@ -1,8 +1,8 @@
 import { Schema, model, Document} from 'mongoose';
-import type { Paciente } from '../pacientes/types/Paciente.interface';
+import type { IPaciente } from '../pacientes/types/Paciente.interface';
 import { ObraSocial } from '../interfaces/ObraSocial.enum';
 
-const pacienteSchema = new Schema<Paciente>({
+const pacienteSchema = new Schema<IPaciente>({
     nombre:{
         type: String,
         required: [true,'El nombre del paciente es obligatorio'],
@@ -124,4 +124,4 @@ pacienteSchema.set('toJSON', {
 );
 
 //nombre del modelo: Paciente con mayuscula//
-export default model<Paciente>('Paciente', pacienteSchema);
+export default model<IPaciente>('Paciente', pacienteSchema);

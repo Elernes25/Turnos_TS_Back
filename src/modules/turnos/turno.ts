@@ -1,8 +1,8 @@
 import { Schema, model, Document} from 'mongoose';
-import type { Turno } from '../turnos/types/Turno.interface';
+import type { ITurno } from '../turnos/types/Turno.interface';
 import { EstadoTurno } from '../interfaces/TurnoEstado.enum';
 
-const turnoSchema = new Schema<Turno>({
+const turnoSchema = new Schema<ITurno>({
 
     paciente: {
 	    type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
@@ -71,5 +71,5 @@ flattenMaps: convertir campos tipo Map en objetos planos.
 useProjection: respetar la proyección (select) al convertir a JSON. */
 
 
-const TurnoModel = model<Turno>('Turno', turnoSchema);
+const TurnoModel = model<ITurno>('Turno', turnoSchema);
 export default TurnoModel;

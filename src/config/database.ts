@@ -1,14 +1,17 @@
 import mongoose from 'mongoose';
 
 //const uri = process.env.DATABASE_URL_ATLAS || "mongodb://localhost:27017/salita_municipal"; 
-const uri = process.env.DATABASE_URL_ATLAS || process.env.DATABASE_URL; 
+const uri:string = process.env.DATABASE_URL_ATLAS || process.env.DATABASE_URL || "";
 // URI de conexión a la base de datos //
 
 console.log(`🔵💙Intentando conectar a la base de datos en: ${uri}`);
+if (!uri) {
+  throw new Error("❌ No se encontró ninguna cadena de conexión en .env");
+}
 
 export const connectDB=async():Promise<void>=>{
     try{
-        await mongoose.connect(uri as string)
+        await mongoose.connect(uri)
     } catch (error:any) {
         console.error('🔴💔Error al conectar a la base de datos:', error);
         process.exit(1); // Salir del proceso con un código de error

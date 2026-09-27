@@ -24,7 +24,12 @@ export const respuestaEstandar = (res:Response, statusCode:number, success: bool
 */
 
 import type { Response } from 'express';
-export const respuestaEstandar = <T>(res: Response,statusCode: number,ok: boolean,message: string, data?: T): Response => {
-    return res.status(statusCode).json({ ok, message, data });
+export const respuestaEstandar = <T>(
+    res: Response,statusCode: number,
+    success: boolean,message: string, 
+    data?: T): Response => {
+  
+    //return res.status(statusCode).json({ ok, message, total: Array.isArray(data) ? data.length : data ? 1 : 0, data });
+    return res.status(statusCode).json({ success, message, total: Array.isArray(data) ? data.length : data ? 1 : 0, datos:data });
 };
 
