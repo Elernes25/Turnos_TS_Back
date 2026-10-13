@@ -17,7 +17,7 @@ export interface IPaciente extends Document {
         obraSocialNombre: ObraSocial;   
         numeroAfiliado?: string;
     };
-    //activo?: boolean; /*opcional, por defecto es true*/
+    
 }
 
 

@@ -22,12 +22,9 @@ import 'dotenv/config';
 
 import cors from 'cors';
 import express from 'express'; /*importa el módulo express para crear el servidor web*/
-
-
 import {connectDB} from './src/config/database'; /*importa la función connectDB para conectar a la base de datos*/
 
 const app: Application = express();
-
 
 connectDB(); /*conecta a la base de datos usando la función connectDB del archivo database.js*/
 
@@ -41,7 +38,8 @@ import medicosRoutes from './src/modules/medicos/medicos.routes';
 import recepcionRoutes from './src/modules/recepcion/recepcion.routes';
 import historiaClinicaRoutes from './src/modules/historiaClinica/historiaClinica.routes';
 import especialidadRoutes from './src/modules/especialidad/especialidad.routes';
-import loginRoutes from './src/modules/login/login.routes';
+//import loginRoutes from './src/modules/login/login.routes';
+import authRoutes from './src/modules/login/auth/auth.routes'
 
 app.use(express.json());
 app.use(auditoriaMunicipal);
@@ -61,13 +59,15 @@ están en puertos distintos, y el navegador los considera “orígenes diferente
 Ahí necesitas CORS para que el backend autorice al frontend.
 */
 
+
 app.use('/api/v1/turnos', turnosRoutes); /*termina el flujo con un response */
 app.use('/api/v1/pacientes', pacientesRoutes); 
 app.use('/api/v1/medicos', medicosRoutes); 
 app.use('/api/v1/recepcion', recepcionRoutes);
 app.use('/api/v1/historiaClinica', historiaClinicaRoutes);
 app.use('/api/v1/especialidad', especialidadRoutes);
-app.use('/api/auth/login', loginRoutes);
+//app.use('/api/auth/login', loginRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 app.use(rutaNoEncontrada); /*manejo de errores para rutas no encontradas*/
 

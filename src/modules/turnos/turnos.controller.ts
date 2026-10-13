@@ -3,8 +3,8 @@ import {EstadoTurno} from '../interfaces/TurnoEstado.enum';
 import Turno from '../turnos/turno';
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import type { CrearTurnoDTO, QueryUrgencia } from '../turnos/dtos/turno.Schema';
-import type { ITurno } from '../turnos/types/Turno.interface';
-import { mainModule } from 'node:process';
+//import type { ITurno } from '../turnos/types/Turno.interface';
+
 
 /*En Express, el tipo genérico Request<ParamsDictionary, ResBody, ReqBody, ReqQuery>  
       ParamsDictionary → corresponde a req.params  

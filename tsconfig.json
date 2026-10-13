@@ -1,5 +1,6 @@
 {
-   "include": ["*/", "app.ts"],
+  //si da error en la carpeta src por declare global{ ,etc :"include": ["src/**/*.ts", "app.ts"],
+  "include": ["*/", "app.ts"],
 
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {

@@ -5,6 +5,10 @@ const auditoriaMunicipal = (req:Request, res:Response, next:NextFunction) => {
     const metodo=req.method;
     const ruta=req.originalUrl;
     console.log(`[${horaActual}] ${metodo} ${ruta}`);
+    // podemos guardar el id del usuario que hace la petición si tenemos un sistema de autenticación
+    // ahora tenemos req.usuario gracias al middleware validarJWT, así que podemos registrar el id del usuario autenticado
+    //const usuarioId = req.usuario?.id || 'anonimo';
+    
     next(); // continúa con la siguiente función        
 }
 
