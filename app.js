@@ -4,7 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //require('dotenv').config({ path: './src/.env' }); /*carga las variables de entorno desde el archivo .env*/
-require("dotenv/config"); /*carga las variables de entorno desde el archivo .env*/
+//require("dotenv/config"); /*carga las variables de entorno desde el archivo .env*/
+import "dotenv/config"; /*carga las variables de entorno desde el archivo .env*/
 //const cors = require ('cors');
 const cors_1 = __importDefault(require("cors")); /*importa el módulo cors para permitir solicitudes de diferentes orígenes*/
 //const express = require('express');

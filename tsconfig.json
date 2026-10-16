@@ -1,18 +1,21 @@
 {
   //si da error en la carpeta src por declare global{ ,etc :"include": ["src/**/*.ts", "app.ts"],
-  "include": ["*/", "app.ts"],
+  //"include": ["*/", "app.ts"],
+  "include": ["src/**/*.ts", "app.ts"],
 
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    //"rootDir": "./src",
-    //"outDir": "./dist",
+    "rootDir": "./",
+    "outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "esnext",
+    //"module": "NodeNext",   ASI TIENE EL PROFE
+    //"moduleResolution": "NodeNext",
     "target": "ES2022",
-    "types": [],
+    "types": ["node"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],

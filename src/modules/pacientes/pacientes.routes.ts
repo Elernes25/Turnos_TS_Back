@@ -10,11 +10,16 @@ y deletePacientes desde el archivo pacientes.controllers.js ubicado en la carpet
 Estas funciones se utilizarán como controladores para manejar las solicitudes HTTP relacionadas
 con los pacientes. */
 
+import { Rol } from '../login/auth/Usuario.model';
+import { validarJWT } from '../../middlewares/validarJWT.middleware';
+import { verificarRol } from '../../middlewares/verificarRol.middleware';
+
 /*ENDPOINTS PACIENTES */
-router.get('/', getPacientes);
+router.get('/', validarJWT ,verificarRol([Rol.ADMIN,Rol.MEDICO,Rol.RECEPCIONISTA]),getPacientes);
 //router.get('/:dni', getPacientesDNI); getPacientes ya maneja la búsqueda por DNI a través de query params
-router.post('/', validarSchema(CrearPacienteSchema),createPacientes);
-router.delete('/:id', deletePacientes); 
+router.post('/', validarJWT, verificarRol([Rol.ADMIN,Rol.MEDICO,Rol.RECEPCIONISTA]), validarSchema(CrearPacienteSchema),createPacientes);
+// probablemente necesite un rol USUARIO, para el que se quiera agregar online
+router.delete('/:id', validarJWT , verificarRol([Rol.ADMIN]), deletePacientes); 
    
 
 export default router;

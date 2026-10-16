@@ -69,6 +69,7 @@ app.use('/api/v1/especialidad', especialidadRoutes);
 //app.use('/api/auth/login', loginRoutes);
 app.use('/api/v1/auth', authRoutes);
 
+
 app.use(rutaNoEncontrada); /*manejo de errores para rutas no encontradas*/
 
 const PORT = process.env.PORT || 3000; /*si no hay puerto definido en el archivo .env, se usa el puerto 3000*/

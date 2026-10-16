@@ -5,6 +5,7 @@ export enum Rol{
     SUPERVISOR = 'SUPERVISOR',
     RECEPCIONISTA ='RECEPCIONISTA',
     MEDICO = 'MEDICO',
+    //PACIENTE = ´PACIENTE´
 }
 
 export interface  IUsuario extends Document {
@@ -13,6 +14,7 @@ export interface  IUsuario extends Document {
     password:string;
     rol:Rol;
     activo:boolean;
+    //perfilId: ObjectId;
 }
 /*En interfaces/TypeScript → siempre string (minúscula).
   En schemas/Mongoose → siempre String (mayúscula).
@@ -25,6 +27,7 @@ const usuarioSchema = new Schema <IUsuario>({
     password: { type: String, required: true },
     rol: { type: String, enum: Object.values(Rol), default: Rol.RECEPCIONISTA },
     activo: {type: Boolean, default: true }
+    //perfilId: ObjectId;
 })
 
 export default model <IUsuario> ('Usuario',usuarioSchema);
