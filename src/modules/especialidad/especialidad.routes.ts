@@ -10,16 +10,13 @@ import { verificarRol } from '../../middlewares/verificarRol.middleware';
 
 const router = express.Router();
 
-import {
-  getEspecialidades,
-  deleteEspecialidad,
-  createEspecialidad
+import { getEspecialidades,deleteEspecialidad,
+  createEspecialidad, editarEspecialidad
 } from '../especialidad/especialidad.controller';
-import { Rol } from '../login/auth/Usuario.model';
+import { Rol } from '../interfaces/Rol.enum';
 
-router.get('/', validarJWT,getEspecialidades);
-router.delete('/:id', validarJWT, verificarRol([Rol.ADMIN]), deleteEspecialidad);
-router.post('/',validarJWT,verificarRol([Rol.ADMIN]),validarSchema(CrearEspecialidadSchema), createEspecialidad);
-//TODO:
-//router.patch('/',validarJWT,verificarRol([Rol.ADMIN]),validarSchema(CrearEspecialidadSchema), editarEspecialidad);
+router.get('/', validarJWT,verificarRol([Rol.ADMIN,Rol.SUPERVISOR,Rol.MEDICO,Rol.RECEPCIONISTA]), getEspecialidades);
+router.delete('/:id', validarJWT, verificarRol([Rol.ADMIN,Rol.SUPERVISOR]), deleteEspecialidad);
+router.post('/',validarJWT,verificarRol([Rol.ADMIN,Rol.SUPERVISOR]),validarSchema(CrearEspecialidadSchema), createEspecialidad);
+router.put('/:id',validarJWT,verificarRol([Rol.ADMIN,Rol.SUPERVISOR]),validarSchema(CrearEspecialidadSchema), editarEspecialidad);
 export default router;

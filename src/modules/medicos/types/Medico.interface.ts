@@ -12,7 +12,6 @@ export interface IMedico extends Document {
     telefono: typeof SubinterfaceTelefono;
     especialidad: Types.ObjectId[]; // por si tiene mas de una especialidad
     numeroMatricula:string;
-   // activo?: boolean;  //agregar al schema de medico
-   
+    activo?: boolean; 
 }
 

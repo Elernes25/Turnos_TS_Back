@@ -3,7 +3,7 @@ const router = express.Router();
 import { getMedicos,createMedico,deleteMedico, editarMedico } from '../medicos/medicos.controller';
 import { validarSchema } from '../../middlewares/validarDatos.middleware';
 import { CrearMedicoSchema } from '../medicos/dtos/Medico.schema';
-import { Rol } from '../login/auth/Usuario.model';
+import { Rol } from '../interfaces/Rol.enum';
 import { validarJWT } from '../../middlewares/validarJWT.middleware';
 import { verificarRol } from '../../middlewares/verificarRol.middleware';
 

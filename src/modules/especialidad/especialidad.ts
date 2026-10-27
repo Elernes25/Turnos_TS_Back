@@ -3,7 +3,7 @@ import type { IEspecialidad } from '../../modules/especialidad/types/Especialida
 
 const especialidadSchema = new Schema<IEspecialidad>({
 
-    especialidadNombre:{ 
+    nombre:{ 
         type: String,
         required: [true,'La especialidad es obligatoria'],
         unique: true,

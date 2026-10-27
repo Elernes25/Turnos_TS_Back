@@ -4,7 +4,7 @@ import { CrearTurnoSchema } from './dtos/turno.Schema';
 import {getTurnos,createTurnos,deleteTurnos,marcarAtendido} from '../turnos/turnos.controller';
 import { validarJWT} from '../../middlewares/validarJWT.middleware';
 import { verificarRol } from '../../middlewares/verificarRol.middleware';
-import { Rol } from '../login/auth/Usuario.model';
+import { Rol } from '../interfaces/Rol.enum';
 
 /* especifica que se importan las funciones getTurnos, createTurnos , deleteTurnos,marcarAtendido 
 desde el archivo turnos.controllers.ts. 

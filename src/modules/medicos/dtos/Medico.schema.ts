@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import {z} from 'zod';
 import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
 import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";

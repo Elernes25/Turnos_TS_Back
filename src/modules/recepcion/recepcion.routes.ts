@@ -5,7 +5,7 @@ import { validarSchema} from "../../middlewares/validarDatos.middleware";
 import { CrearIngresoSchema } from './dtos/Recepcion.schema';
 import { validarJWT} from '../../middlewares/validarJWT.middleware';
 import { verificarRol } from '../../middlewares/verificarRol.middleware';
-import { Rol } from '../login/auth/Usuario.model';  
+import { Rol } from '../interfaces/Rol.enum'; 
 
 router.post('/',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]),validarSchema(CrearIngresoSchema), registrarIngreso);
 

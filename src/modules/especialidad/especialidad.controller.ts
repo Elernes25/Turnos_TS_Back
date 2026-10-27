@@ -37,8 +37,32 @@ const createEspecialidad = async (req: Request<unknown, unknown, CrearEspecialid
     return respuestaEstandar(res,201, true,'Especialidad creada exitosamente', nuevaEspecialidad);
 
   } catch (error:any) {
+    console.log(error.message);
     return respuestaEstandar(res,500, false,'Error interno del servidor', error.message);
+
   }
 };
 
-export { getEspecialidades, createEspecialidad, deleteEspecialidad};
+//PUT: 
+const editarEspecialidad= async (req: Request <{ id: string }, unknown, CrearEspecialidadDTO>, res: Response) =>{
+  console.log("ID recibido:", req.params.id);
+  console.log("Body recibido:", req.body);
+  try {
+    const { id } = req.params;
+    const especialidad = await Especialidad.findOneAndReplace({ _id: id }, req.body, {
+      returnDocument: 'after',
+      runValidators: true
+    });
+
+    if (!especialidad) {
+      return respuestaEstandar(res, 404, false, `Medico no encontrado ${id}`);
+    }
+    return respuestaEstandar(res, 200, true, "Medico Editado exitosamente", especialidad);
+  } catch (error:any) {
+      return respuestaEstandar(res, 400, false, "ID con formato invalido", error.message);
+  }
+
+};
+
+
+export { getEspecialidades, createEspecialidad, deleteEspecialidad,editarEspecialidad};

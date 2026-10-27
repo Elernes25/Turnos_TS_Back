@@ -10,7 +10,7 @@ y deletePacientes desde el archivo pacientes.controllers.js ubicado en la carpet
 Estas funciones se utilizarán como controladores para manejar las solicitudes HTTP relacionadas
 con los pacientes. */
 
-import { Rol } from '../login/auth/Usuario.model';
+import { Rol } from '../interfaces/Rol.enum';
 import { validarJWT } from '../../middlewares/validarJWT.middleware';
 import { verificarRol } from '../../middlewares/verificarRol.middleware';
 

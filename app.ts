@@ -28,12 +28,14 @@ const app: Application = express();
 
 connectDB(); /*conecta a la base de datos usando la función connectDB del archivo database.js*/
 
+
 import auditoriaMunicipal from './src/middlewares/auditoria.middleware';
 import rutaNoEncontrada from './src/middlewares/errorHandle.middleware';
 
 import turnosRoutes from './src/modules/turnos/turnos.routes';  //no se permite la extension .ts
 
 import pacientesRoutes from './src/modules/pacientes/pacientes.routes';
+import agendaMedicosRoutes from './src/modules/medicos/agenda.routes';
 import medicosRoutes from './src/modules/medicos/medicos.routes';
 import recepcionRoutes from './src/modules/recepcion/recepcion.routes';
 import historiaClinicaRoutes from './src/modules/historiaClinica/historiaClinica.routes';
@@ -63,6 +65,7 @@ Ahí necesitas CORS para que el backend autorice al frontend.
 app.use('/api/v1/turnos', turnosRoutes); /*termina el flujo con un response */
 app.use('/api/v1/pacientes', pacientesRoutes); 
 app.use('/api/v1/medicos', medicosRoutes); 
+app.use('/api/v1/medicos', agendaMedicosRoutes); 
 app.use('/api/v1/recepcion', recepcionRoutes);
 app.use('/api/v1/historiaClinica', historiaClinicaRoutes);
 app.use('/api/v1/especialidad', especialidadRoutes);

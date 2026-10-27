@@ -1,20 +1,14 @@
 import type { Response, Request,NextFunction } from "express";
 import jwt from 'jsonwebtoken';
 import { respuestaEstandar } from "../utils/respuestaEstandar";
-import { Rol } from "../modules/login/auth/Usuario.model";
+import type { ITokenPayload } from "../modules/interfaces/TokenPayload";
 
-interface TokenPayload {
-    id: string;
-    user: string;
-    rol: Rol;
-    activo: boolean;
-}
 
 //agregar una nueva propiedad al Request de Express para que pueda recibir req.usuario
 declare global{
     namespace Express {
         interface Request {
-            usuario?: TokenPayload
+            usuario?: ITokenPayload
         }
     }
 }
@@ -26,7 +20,7 @@ export const validarJWT = (req:Request,res:Response,next: NextFunction) =>{
     //en el indice 0 del array va a esta Bearer, en el 1 va a estar el token //
     const token = headerAuth.split(' ')[1] as string;
     try{
-        const decodificado = jwt.verify(token, process.env.JWT_SECRET as string) as unknown as TokenPayload;
+        const decodificado = jwt.verify(token, process.env.JWT_SECRET as string) as unknown as ITokenPayload;
         req.usuario = decodificado;
         next();
 
