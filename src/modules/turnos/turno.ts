@@ -3,19 +3,21 @@ import type { ITurno } from '../turnos/types/Turno.interface';
 import { EstadoTurno } from '../interfaces/TurnoEstado.enum';
 
 const turnoSchema = new Schema<ITurno>({
-
     paciente: {
 	    type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
 	    ref: "Paciente",               // nombre del modelo relacionado
 	    required: [true,'El ID del paciente es obligatorio']
     },
-      
     especialidad:{
         type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
         ref: "Especialidad",           // nombre del modelo relacionado
         required: [true,'La especialidad es obligatoria']
     },
-
+    medicoId:{
+        type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
+        ref: "Medico",
+        required:[true,"El ID del Medico es obligatorio"]
+    },
     fechaTurno: {
         type: Date,
         required: [true, 'La fecha del turno es obligatoria'],

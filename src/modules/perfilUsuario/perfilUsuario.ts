@@ -1,5 +1,5 @@
 import { Schema, model, Types, Document} from 'mongoose';
-import  {IPerfil} from '../perfilUsuario/types/Perfil.interfase'
+import  type {IPerfil} from '../perfilUsuario/types/Perfil.interfase'
 
 
 const perfilSchema = new Schema<IPerfil>({
@@ -12,7 +12,7 @@ const perfilSchema = new Schema<IPerfil>({
         type: String,
         unique: true,
         required: [true,'El DNI es obligatorio'],
-        match: [/^\d[0-9]{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
+        match: [/^\d{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
     },
     direccion: {   
         calle: {

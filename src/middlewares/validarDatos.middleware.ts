@@ -22,6 +22,7 @@ export const validarSchema = (schema:ZodObject) => (req:Request,res:Response,nex
         next();
     }catch (error:any) {
         if (error instanceof ZodError) {
+            console.error("❌ Error de validación Zod:", error.issues);
             return respuestaEstandar (res,400,false,"Datos invalidos desde validarDatos",error.message)
         }
         next(error);

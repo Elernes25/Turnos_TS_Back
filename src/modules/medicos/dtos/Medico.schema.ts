@@ -1,21 +1,28 @@
-import {z} from 'zod';
+import { z } from 'zod';
 import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
 import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
 
-export const CrearMedicoSchema =z.object ({
-    body : z.object ({
-        nombre:z.string({error:""}),
-        dni:z.string({error:""}),
-        especialidad:z.array(z.string()), //array de IDs
-        numeroMatricula:z.string({error:""}),
-        direccion: SubinterfaceDireccion,
-        telefono: SubinterfaceTelefono,
-        email:z.email({error:"Email Inválido"}).optional().default(""),
-    }),
-    query: z.object({}).optional(),   // si no usás query, lo dejás vacío
-    params: z.object({
-    id: z.string().regex(/^[0-9a-fA-F]{24}$/) // validación de ObjectId
-    })
-    
+const objectId = z.string().regex(/^[0-9a-fA-F]{24}$/, "ID inválido");
+
+const medicoBody = z.object({
+    nombre: z.string({ error: "El nombre es obligatorio" }).min(1, "El nombre es obligatorio"),
+    dni: z.string({ error: "El DNI es obligatorio" }).min(1, "El DNI es obligatorio"),
+    especialidad: z.array(objectId).min(1, "Seleccioná al menos una especialidad"),
+    numeroMatricula: z.string({ error: "Número de matrícula inválido" }).min(1),
+    direccion: SubinterfaceDireccion,
+    telefono: SubinterfaceTelefono,
+    email: z.union([z.email({ error: "Email inválido" }), z.literal("")]).optional(),
 });
-export type CrearMedicoDTO = z.infer <typeof CrearMedicoSchema>['body']
+
+// CREAR: sin params
+export const CrearMedicoSchema = z.object({
+    body: medicoBody,
+});
+export type CrearMedicoDTO = z.infer<typeof CrearMedicoSchema>['body'];
+
+// EDITAR: id obligatorio, body parcial (se puede mandar solo lo que cambia)
+export const EditarMedicoSchema = z.object({
+    body: medicoBody,
+    params: z.object({ id: objectId }),
+});
+export type EditarMedicoDTO = z.infer<typeof EditarMedicoSchema>['body'];

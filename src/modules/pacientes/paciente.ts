@@ -12,7 +12,7 @@ const pacienteSchema = new Schema<IPaciente>({
         type: String,
         unique: true,
         required: [true,'El DNI es obligatorio'],
-        match: [/^\d[0-9]{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
+        match: [/^\d{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
     },
     fechaDeNacimiento:{
 	    type: Date,
@@ -75,7 +75,7 @@ const pacienteSchema = new Schema<IPaciente>({
     },
    
     obraSocial: {
-        obraSocialNombre: {
+        nombreObraSocial: {
             type: String,
             required: [true, 'El nombre de la obra social es obligatorio'],
             enum:{

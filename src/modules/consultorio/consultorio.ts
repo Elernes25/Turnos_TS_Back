@@ -1,5 +1,5 @@
 import { Schema, model, Document} from 'mongoose';
-import { IConsultorio } from '../consultorio/types/Consultorio.interface';
+import type { IConsultorio } from '../consultorio/types/Consultorio.interface';
 
 const consultorioSchema = new Schema<IConsultorio>({
     consultorioNumero:{ 

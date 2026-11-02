@@ -14,7 +14,7 @@ export interface IPaciente extends Document {
     email?: string;
     direccion: typeof SubinterfaceDireccion;
     obraSocial: {
-        obraSocialNombre: ObraSocial;   
+        nombreObraSocial: ObraSocial;   
         numeroAfiliado?: string;
     };
     

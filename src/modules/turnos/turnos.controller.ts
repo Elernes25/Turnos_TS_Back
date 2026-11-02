@@ -35,7 +35,7 @@ const getTurnos = async (req: Request <unknown, unknown, unknown, { especialidad
     if (paciente) filtros.paciente = paciente; // si quieres filtrar por id de paciente
 
     // Consulta con filtros
-    const turnos = await Turno.find(filtros).select('+activo').populate('paciente');
+    const turnos = await Turno.find(filtros).select('+activo').populate('paciente').populate('especialidad');
 
     if (turnos.length === 0) {        // if (!turnos)
       return respuestaEstandar(res, 404, false, "No se encontraron turnos con esos filtros");

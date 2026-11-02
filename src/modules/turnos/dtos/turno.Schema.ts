@@ -14,6 +14,7 @@ export const CrearTurnoSchema = z.object ({
     body: z.object ({
         pacienteID:z.string({error: 'El ID del paciente es obligatorio'}),
         especialidadID: z.string({error: 'La especialidad es obligatoria'}),
+        medicoID:z.string({error: 'El medico ID es obligatorio'}),
         estadoTurno: z.enum (EstadoTurno,{ error:"Estado de turno no válido" }),
         fechaTurno: z.iso.date({message:"Formato de fecha inválido"})
     })

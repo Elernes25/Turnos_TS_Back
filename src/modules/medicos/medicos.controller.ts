@@ -1,7 +1,7 @@
 import Medico from '../medicos/medico';
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import type { Request, Response } from 'express';
-import type { CrearMedicoDTO } from './dtos/Medico.schema';
+import type { CrearMedicoDTO,EditarMedicoDTO } from './dtos/Medico.schema';
 
 // GET: listar medicos
 const getMedicos = async (req: Request<unknown, unknown, unknown, { dni?: string } >, res: Response) => {
@@ -11,7 +11,8 @@ const getMedicos = async (req: Request<unknown, unknown, unknown, { dni?: string
 
     if (dni){ filtro.dni=dni; }
     console.log("filtro armado", filtro);
-    const medicos = await Medico.find(filtro);
+    //const medicos = await Medico.find(filtro);
+    const medicos = await Medico.find(filtro).populate('especialidad');
 
     return respuestaEstandar(res, 200, true, "Medicos obtenidos correctamente", medicos);
   } catch (error:any) {
@@ -46,7 +47,7 @@ const deleteMedico = async (req: Request<{ id: string }>, res: Response) => {
 };
 
 //PUT: 
-const editarMedico = async (req: Request <{ id: string }, unknown, CrearMedicoDTO>, res: Response) =>{
+const editarMedico = async (req: Request <{ id: string }, unknown, EditarMedicoDTO>, res: Response) =>{
   console.log("ID recibido:", req.params.id);
   console.log("Body recibido:", req.body);
   try {
