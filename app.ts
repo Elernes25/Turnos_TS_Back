@@ -40,6 +40,7 @@ import medicosRoutes from './src/modules/medicos/medicos.routes';
 import recepcionRoutes from './src/modules/recepcion/recepcion.routes';
 import historiaClinicaRoutes from './src/modules/historiaClinica/historiaClinica.routes';
 import especialidadRoutes from './src/modules/especialidad/especialidad.routes';
+import obraSocialRoutes from './src/modules/obraSocial/obraSocial.routes';
 //import loginRoutes from './src/modules/login/login.routes';
 import authRoutes from './src/modules/login/auth/auth.routes'
 
@@ -69,6 +70,7 @@ app.use('/api/v1/medicos', agendaMedicosRoutes);
 app.use('/api/v1/recepcion', recepcionRoutes);
 app.use('/api/v1/historiaClinica', historiaClinicaRoutes);
 app.use('/api/v1/especialidad', especialidadRoutes);
+app.use('/api/v1/obraSocial', obraSocialRoutes);
 //app.use('/api/auth/login', loginRoutes);
 app.use('/api/v1/auth', authRoutes);
 

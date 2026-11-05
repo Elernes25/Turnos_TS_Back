@@ -1,11 +1,11 @@
 
 import type { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
 import type { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
-import { ObraSocial } from "../../interfaces/ObraSocial.enum";
 import { Types, Document } from "mongoose";
+import type { IObraSocial } from "../../obraSocial/types/ObraSocial.interface";
 
 export interface IPaciente extends Document {
-    id?: Types.ObjectId; /*el id es opcional porque lo genera MongoDB automáticamente*/
+    id?: Types.ObjectId; //el id es opcional porque lo genera MongoDB automáticamente
     nombre: string;
     dni: string;
     fechaDeNacimiento: Date;
@@ -14,10 +14,8 @@ export interface IPaciente extends Document {
     email?: string;
     direccion: typeof SubinterfaceDireccion;
     obraSocial: {
-        nombreObraSocial: ObraSocial;   
+        obraSocialID?: Types.ObjectId | IObraSocial; // por si uso populate //
         numeroAfiliado?: string;
     };
     
 }
-
-

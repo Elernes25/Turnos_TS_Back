@@ -1,6 +1,6 @@
 import { Schema, model, Document} from 'mongoose';
 import type { IPaciente } from '../pacientes/types/Paciente.interface';
-import { ObraSocial } from '../interfaces/ObraSocial.enum';
+//import { ObraSocial } from '../interfaces/ObraSocial.enum';
 
 const pacienteSchema = new Schema<IPaciente>({
     nombre:{
@@ -75,13 +75,11 @@ const pacienteSchema = new Schema<IPaciente>({
     },
    
     obraSocial: {
-        nombreObraSocial: {
-            type: String,
-            required: [true, 'El nombre de la obra social es obligatorio'],
-            enum:{
-                values: Object.values(ObraSocial),
-                message: '{VALUE} no es una obra social válida. Debe ser una de las siguientes: PAMI, OSPEL, OSDE, SANCOR, OSECAC, SWISS MEDICAL, GALENO, MEDICUS, OMINT, FEMEBA, OTRAS, NINGUNA'
-            }
+        obraSocialID: {
+            type: Schema.Types.ObjectId,
+            ref: "ObraSocial",
+            required: false,
+            set: (v: string) => v || undefined,
         },
         numeroAfiliado: {
             type: String

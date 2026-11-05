@@ -42,7 +42,11 @@ const getHistoriasClinicas = async ( req: Request<unknown, unknown, unknown, { p
     }
 
     const historias = await HistoriaClinica.find(filtro)
-      .populate('pacienteID', 'nombre dni email obraSocial.obraSocialNombre')
+      .populate({
+        path: 'pacienteID',
+        select: 'nombre dni email obraSocial',
+        populate: { path: 'obraSocial.obraSocialID', select: 'nombreObraSocial' },
+      })
       .populate('consultas.medicoID', 'nombre especialidad')
       .sort({ fecha: -1 });
 

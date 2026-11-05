@@ -1,7 +1,7 @@
 import {z} from 'zod';
 import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
 import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
-import { ObraSocial } from "../../interfaces/ObraSocial.enum";
+//import { ObraSocial } from "../../interfaces/ObraSocial.enum";
 //import {Types} from "mongoose";
 //import { coerce } from 'zod';
 
@@ -16,13 +16,13 @@ export const CrearPacienteSchema = z.object ({
           .min(1, { error: "La fecha de nacimiento es obligatoria" })
           .pipe(z.iso.date({ error: "Fecha inválida" }))
           .refine((f) => new Date(f) <= new Date(), { error: "La fecha no puede ser futura" }),
-        sexo: z.string({error:"El sexo del paciente es obligatorio"}),
+        sexo: z.string({error:""}),
         direccion: SubinterfaceDireccion,
         telefono: SubinterfaceTelefono,
-        //email: z.email({ message: "Formato de email inválido" }).optional().default(""),
         email: z.union([z.email({ message: "Formato de email inválido" }), z.literal(""),]).default(""),
         obraSocial: z.object({
-            nombreObraSocial: z.enum(ObraSocial,{error:"Obra Social Invalida"}),
+            obraSocialID: z.string({ error: "Obra social inválida" }).regex(/^[0-9a-fA-F]{24}$/, { error: "Obra social inválida" })
+        .or(z.literal("")),
             numeroAfiliado: z.string({error:"Numero de afiliado invalido"}).optional().default(""),
         })
     })
@@ -30,6 +30,7 @@ export const CrearPacienteSchema = z.object ({
 
 export const QueryPacientesSchema =z.object({
   query: z.object({
+    //obraSocialID: z.string().regex(OBJECT_ID_REGEX, { error: "Obra social inválida" }).optional(),
     nombreObraSocial: z.string().optional(),
     dni: z.string().optional(),
   })  
