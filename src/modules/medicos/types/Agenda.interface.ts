@@ -16,6 +16,7 @@ export interface IRangoHorario {
 }
 
 export interface IDiaAgenda {
+  _id?: Types.ObjectId;
   diaSemana: DiaSemana;
   rangos: IRangoHorario[];
 }

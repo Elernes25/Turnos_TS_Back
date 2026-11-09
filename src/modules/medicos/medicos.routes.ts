@@ -11,6 +11,8 @@ import { verificarRol } from '../../middlewares/verificarRol.middleware';
 router.get('/', validarJWT, getMedicos);
 router.get('/conAgenda',validarJWT, getConAgenda); // medicos con o sin agenda
 router.post('/', validarJWT, verificarRol([Rol.ADMIN]), validarSchema(CrearMedicoSchema), createMedico);
+// sugenrencia para hacer todo aqui ahora agenda.routes lo hace lo hace
+//
 router.delete('/:id', validarJWT, verificarRol([Rol.ADMIN]), deleteMedico);
 router.put('/:id', validarJWT, verificarRol([Rol.ADMIN]), validarSchema(CrearMedicoSchema), editarMedico);
 //TODO:

@@ -10,7 +10,7 @@ const pacienteSchema = new Schema<IPaciente>({
      },
      dni:{
         type: String,
-        unique: true,
+        //unique: true,   // sacamos porque puede haber DNI mellizos
         required: [true,'El DNI es obligatorio'],
         match: [/^\d{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
     },
