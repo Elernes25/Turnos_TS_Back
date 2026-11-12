@@ -18,7 +18,7 @@ const medicoSchema = new Schema<IMedico>({
          type: String,
          unique: true,
          required: [true,'El DNI es obligatorio'],
-         match: [/^\d[0-9]{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
+         match: [/^[0-9]{7,8}$/, 'El DNI debe tener entre 7 y 8 dígitos']
         },
 
     especialidad: [{     /*array por si tiene varias especialidades, Pej. Cardiología y Clinica */

@@ -35,8 +35,10 @@ const getTurnos = async (req: Request <unknown, unknown, unknown, { especialidad
     if (paciente) filtros.paciente = paciente; // si quieres filtrar por id de paciente
 
     // Consulta con filtros
-    const turnos = await Turno.find(filtros).select('+activo').populate('paciente').populate('especialidad');
-
+    const turnos = await Turno.find(filtros).select('+activo')
+                  .populate('pacienteId')
+                  .populate('especialidadId')
+                  .populate('medicoId');
     if (turnos.length === 0) {        // if (!turnos)
       return respuestaEstandar(res, 404, false, "No se encontraron turnos con esos filtros");
     }
@@ -53,12 +55,8 @@ const getTurnos = async (req: Request <unknown, unknown, unknown, { especialidad
 const createTurnos = async (req: Request<unknown, unknown, CrearTurnoDTO, QueryUrgencia>, res: Response) => {
   try {
     const origenPeticion=req.headers['x-origen'];
-    const tokenSeguridad=req.headers['authorization'];
     console.log("peticion realizada desde",origenPeticion);
-    if (tokenSeguridad!="Token_seguridad_123"){
-        return respuestaEstandar(res,401,false,'No tiene permisos')
-    };
-
+   
     // ?urgencia=true
     const esUrgente=req.query.urgencia ==='true';
     const datosDelTurno = {
@@ -74,9 +72,8 @@ const createTurnos = async (req: Request<unknown, unknown, CrearTurnoDTO, QueryU
     //await nuevoTurno.save();
     const nuevoTurno = await Turno.create(datosDelTurno);
     //const turnoCompleto = (await nuevoTurno.populate("paciente")).toObject();
-
     /*POPULATE PARA vincular el id pero para mostrar el nombre del paciente*//*es decir formatear la salida */
-    return respuestaEstandar(res, 201, true, "Turno creado exitosamente", nuevoTurno.populate("paciente")); /*populate*/
+    return respuestaEstandar(res, 201, true, "Turno creado exitosamente", nuevoTurno.populate("pacienteId")); /*populate*/
 
   } catch (error:any) {
     if(error.name === 'ValidationError') {

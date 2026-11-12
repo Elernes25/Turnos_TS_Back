@@ -3,12 +3,12 @@ import type { ITurno } from '../turnos/types/Turno.interface';
 import { EstadoTurno } from '../interfaces/TurnoEstado.enum';
 
 const turnoSchema = new Schema<ITurno>({
-    paciente: {
+    pacienteId: {
 	    type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
 	    ref: "Paciente",               // nombre del modelo relacionado
 	    required: [true,'El ID del paciente es obligatorio']
     },
-    especialidad:{
+    especialidadId:{
         type: Schema.Types.ObjectId,   // referencia a un ID de Mongo
         ref: "Especialidad",           // nombre del modelo relacionado
         required: [true,'La especialidad es obligatoria']
@@ -21,11 +21,18 @@ const turnoSchema = new Schema<ITurno>({
     fechaTurno: {
         type: Date,
         required: [true, 'La fecha del turno es obligatoria'],
-        validate: {
-            validator: function(value:Date) {   /*validación personalizada en Mongoose */
+       /* validate: {
+            validator: function(value:Date) {   //validación personalizada en Mongoose 
                 return value >= new Date();     
             },
             message: 'La fecha del turno debe ser una fecha futura'
+        }*/
+        validate: {
+            validator(value: Date) {
+                 const quinceMinutos = 15 * 60 * 1000;
+                 return value.getTime() > Date.now() + quinceMinutos;
+            },
+            message: 'Desde Mongoose: La fecha del turno debe ser una fecha futura'
         }
     },
     estado: {
@@ -36,17 +43,14 @@ const turnoSchema = new Schema<ITurno>({
             message: '{VALUE} El estado del turno no es válido' /*{VALUE} o (VALUE) son equivalentes */
         }
     },
-    
     observaciones: {
         type: String,
     },
-
     activo: {
         type: Boolean,
         default: true,
         select: false //para que no se muestre en las consultas por defecto, pero si se puede consultar explícitamente
     }
-    
 },{
     timestamps: true,
 }

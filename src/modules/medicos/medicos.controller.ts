@@ -22,6 +22,20 @@ const getMedicos = async (req: Request<unknown, unknown, unknown, { dni?: string
     }
 };
 
+const getMedicoPorId = async ( req: Request<{ id: string }>, res: Response) => {
+  try {
+    const { id } = req.params;
+    const medico = await Medico.findById(id).populate('especialidad');
+    if (!medico) {
+      return respuestaEstandar( res, 404, false, 'Médico no encontrado' );
+    }
+    return respuestaEstandar( res, 200,true,'Médico obtenido correctamente', medico);
+  } catch (error:any) {
+    return respuestaEstandar( res, 500, false, 'Error al obtener el médico', error.message );
+  }
+};
+
+
 //getConAgenda
 const getConAgenda = async ( req: Request<unknown, unknown, unknown, unknown>,  res: Response) => {
   try {
@@ -99,4 +113,4 @@ const editarMedico = async (req: Request <{ id: string }, unknown, EditarMedicoD
 
 };
 
-export { getMedicos, createMedico, deleteMedico, editarMedico, getConAgenda };
+export { getMedicos, createMedico, deleteMedico, editarMedico, getConAgenda, getMedicoPorId };
