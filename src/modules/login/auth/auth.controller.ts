@@ -4,7 +4,6 @@ import Usuario from './Usuario.model';
 import {respuestaEstandar} from '../../../utils/respuestaEstandar';
 import jwt from 'jsonwebtoken';
 import type { LoginUsuarioDTO, CrearUsuarioDTO } from '../dtos/Usuario.schema';
-//import type { Types } from 'mongoose';
 
 import type {ITokenPayload} from '../../interfaces/TokenPayload';
 
@@ -101,6 +100,8 @@ export const getUsuarios = async (req: Request<unknown, unknown, unknown, { dni?
 };
 
 //PUT
+/*Contraseña de primer ingreso sin validación Zod
+primerIngreso permite recibir una contraseña vacía o muy corta porque no usa ningún schema Zod. */
 export const primerIngreso = async ( req: Request< unknown, unknown,{ passwordNueva: string } >,res: Response) => {        
     try {
         if (!req.usuario) { return respuestaEstandar( res, 401, false, 'Usuario no autenticado' ); }

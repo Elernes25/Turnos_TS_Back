@@ -3,8 +3,8 @@ import {EstadoTurno} from '../interfaces/TurnoEstado.enum';
 import Turno from '../turnos/turno';
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import type { CrearTurnoDTO, QueryUrgencia } from '../turnos/dtos/turno.Schema';
-//import type { ITurno } from '../turnos/types/Turno.interface';
-
+import type { ITurno } from '../turnos/types/Turno.interface';
+import { type QueryFilter, isValidObjectId } from 'mongoose';
 
 /*En Express, el tipo genérico Request<ParamsDictionary, ResBody, ReqBody, ReqQuery>  
       ParamsDictionary → corresponde a req.params  
@@ -19,34 +19,57 @@ import type { CrearTurnoDTO, QueryUrgencia } from '../turnos/dtos/turno.Schema';
       ReqQuery → corresponde a req.query  
       Ejemplo: en /paciente?activo=true, el activo está en req.query.activo.
 */
+
 // GET: listar turnos con filtros dinámicos
-const getTurnos = async (req: Request <unknown, unknown, unknown, { especialidad?: string; activo?: string; paciente?: string; id?: string }>, res: Response) => {
+interface GetTurnosQuery {
+  id?: string;
+  especialidadId?: string;
+  pacienteId?: string;
+  medicoId?: string;
+  activo?: 'true' | 'false';
+}
+
+const getTurnos = async (req: Request<unknown, unknown, unknown, GetTurnosQuery>, res: Response) => {
   try {
-    // Extraer los query params
-    const { especialidad, activo, paciente, id } = req.query;
+    const { id, especialidadId, pacienteId, medicoId, activo } = req.query;
 
-    // Construir objeto de filtros dinámicamente
-    const filtros: Record<string, any> = {};
-    if (id) {filtros._id = id; 
-      console.log("filtro por id", filtros._id);
-    };
-    if (especialidad) filtros.especialidad = especialidad;
-    if (activo !== undefined) filtros.activo = activo === 'true'; // convertir string a boolean
-    if (paciente) filtros.paciente = paciente; // si quieres filtrar por id de paciente
+    // Validar IDs para evitar un CastError (500) con IDs mal formados
+    const idsAValidar = { id, especialidadId, pacienteId, medicoId };
+    for (const [campo, valor] of Object.entries(idsAValidar)) {
+      if (valor !== undefined && !isValidObjectId(valor)) {
+        return respuestaEstandar(res, 400, false, `El parámetro ${campo} no es un ID válido`);
+      }
+    }
 
-    // Consulta con filtros
-    const turnos = await Turno.find(filtros).select('+activo')
-                  .populate('pacienteId')
-                  .populate('especialidadId')
-                  .populate('medicoId');
-    if (turnos.length === 0) {        // if (!turnos)
+    // Validar el flag activo
+    if (activo !== undefined && activo !== 'true' && activo !== 'false') {
+      return respuestaEstandar(res, 400, false, "El parámetro activo debe ser 'true' o 'false'");
+    }
+
+    // Construir filtros dinámicamente
+    const filtros: QueryFilter<ITurno> = {};
+    if (id) filtros._id = id;
+    if (especialidadId) filtros.especialidadId = especialidadId;
+    if (pacienteId) filtros.pacienteId = pacienteId;
+    if (medicoId) filtros.medicoId = medicoId;
+    if (activo !== undefined) filtros.activo = activo === 'true';
+
+    console.log(filtros);
+    
+    const turnos = await Turno.find(filtros)
+      .select('+activo')
+      .populate('pacienteId')
+      .populate('especialidadId')
+      .populate('medicoId');
+
+    if (turnos.length === 0) {
       return respuestaEstandar(res, 404, false, "No se encontraron turnos con esos filtros");
     }
-//*****probar *********/
-//*** */    return respuestaEstandar<ITurno[]>(res, 200, true, "Turnos obtenidos correctamente", turnos); ***//
-      return respuestaEstandar (res, 200, true, "Turnos obtenidos correctamente", turnos);
-  } catch (error:any) {
-    return respuestaEstandar(res, 500, false, "Error al obtener los turnos", error.message);
+
+    return respuestaEstandar<ITurno[]>(res, 200, true, "Turnos obtenidos correctamente", turnos);
+  } catch (error) {
+    const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+    return respuestaEstandar(res, 500, false, "Error al obtener los turnos", mensaje);
   }
 };
 
@@ -73,13 +96,16 @@ const createTurnos = async (req: Request<unknown, unknown, CrearTurnoDTO, QueryU
     const nuevoTurno = await Turno.create(datosDelTurno);
     //const turnoCompleto = (await nuevoTurno.populate("paciente")).toObject();
     /*POPULATE PARA vincular el id pero para mostrar el nombre del paciente*//*es decir formatear la salida */
-    return respuestaEstandar(res, 201, true, "Turno creado exitosamente", nuevoTurno.populate("pacienteId")); /*populate*/
+    await nuevoTurno.populate("pacienteId"); /*populate con await*/
 
+    return respuestaEstandar(res, 201, true, "Turno creado exitosamente", nuevoTurno ); 
   } catch (error:any) {
     if(error.name === 'ValidationError') {
+      
       const errores=Object.values(error.errors).map( (err:any) => err.message);
       return respuestaEstandar(res, 400, false, "Error de validación", errores);
     } 
+    console.error(error);
     return respuestaEstandar(res, 400, false, "Error al crear el turno", error.message);
   }
 };
@@ -88,21 +114,17 @@ const createTurnos = async (req: Request<unknown, unknown, CrearTurnoDTO, QueryU
 const deleteTurnos = async (req: Request<{id: string}>, res: Response) => {
   try {
     const { id } = req.params;
-
     const turnoBorrado = await Turno.findByIdAndUpdate(
         id,
         {activo: false, estado:EstadoTurno.CANCELADO }, //*cambios*/
         { new: true }      /*{new:true} devuelve el documento actualizado en lugar del original. */                               
       ); 
-
     if (!turnoBorrado) {
         return respuestaEstandar(res, 404, false, `Turno no encontrado ${id}`);
     }
-    
       respuestaEstandar(res, 200, true, "Turno eliminado exitosamente", turnoBorrado);
     } catch (error:any) {
       return respuestaEstandar(res, 400, false, "ID con formato invalido", error.message);
-      
     }
 };
 
@@ -120,9 +142,23 @@ const marcarAtendido = async (req: Request<{id: string}>, res: Response)=>{
 
   } catch (error:any) {
     return respuestaEstandar(res, 500,false,'ID con formato no valido',error.message);
-
   }
+};
+//****CANCELADOS no atendidos */
+const marcarCancelado = async (req: Request<{id: string}>, res: Response)=>{
+  try{
+    const {id} =req.params;
+    const turnoCancelado = await Turno.findByIdAndUpdate (
+      id,
+      { estado: EstadoTurno.CANCELADO },
+      { new: true }   //le indica a Mongoose que te devuelva el documento después de la actualización.
+    );
 
+    if (!turnoCancelado) return respuestaEstandar(res, 404,false,'Turno no encontrado ',id);
+      return respuestaEstandar(res, 200,true,'Turno Cancelado', turnoCancelado);
+  } catch (error:any) {
+    return respuestaEstandar(res, 500,false,'ID con formato no valido',error.message);
+  }
 };
 
-export  { getTurnos, createTurnos, deleteTurnos, marcarAtendido };
+export  { getTurnos, createTurnos, deleteTurnos, marcarAtendido, marcarCancelado };

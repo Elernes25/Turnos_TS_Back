@@ -9,7 +9,6 @@ export interface IPaciente extends Document {
     nombre: string;
     dni: string;
     fechaDeNacimiento: Date;
-    sexo:string;
     telefono?: typeof SubinterfaceTelefono;
     email?: string;
     direccion: typeof SubinterfaceDireccion;

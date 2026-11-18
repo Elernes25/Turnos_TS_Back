@@ -27,10 +27,8 @@ const recepcionistaSchema = new Schema<IRecepcionista>({
         },
         departamento: {
           type: String
-        },
-        barrio: {
-          type: String
         }
+    
     },
     telefono: {
         tipo: {

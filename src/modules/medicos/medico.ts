@@ -51,9 +51,6 @@ const medicoSchema = new Schema<IMedico>({
         departamento: {
           type: String
         },
-        barrio: {
-          type: String
-        }
       },
     telefono: {
         tipo: {

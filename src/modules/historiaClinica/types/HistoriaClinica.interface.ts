@@ -10,16 +10,36 @@ export interface IConsultaClinica {
   observaciones?: string;
 }
 
+export enum GrupoSanguineo {
+  'A+'= 'A+',
+  'A-'= 'A-',
+  'B+'= 'B+',
+  'B-'= 'B-',
+  'AB+'= 'AB+',
+  'AB-'= 'AB-',
+  'O+'= 'O+', 
+  'O-'= 'O-',
+  'NO SABE'='NO SABE'
+}
+
+export enum Sexo {
+'FEMENINO'='FEMENINO',
+'MASCULINO'='MASCULINO'
+}
 
 export interface IHistoriaClinica extends Document {
   id?: Types.ObjectId;
   pacienteID: Types.ObjectId | string;
-   antecedentes: {
-        alergias: string[];
-        cirugias: string[];
-        enfermedadesCronicas: string[];
-        historiaGeneral: string;
-    };
+  datosClinicos: {
+    sexo: Sexo;
+    grupoSanguineo:GrupoSanguineo;
+  };
+  antecedentes: {
+      alergias: string[];
+      cirugias: string[];
+      enfermedadesCronicas: string[];
+      historiaGeneral: string;
+  };
   consultas: IConsultaClinica[];  /*arreglo de consultas */
 }
 

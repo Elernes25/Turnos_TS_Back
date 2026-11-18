@@ -18,14 +18,7 @@ const pacienteSchema = new Schema<IPaciente>({
 	    type: Date,
 	    required:true
 	},
-    sexo:{ 
-        type: String,      
-	    enum: {
-            values: ['FEMENINO', 'MASCULINO'],          //*por motivos estadisticosa*//
-            message: '(VALUE) El sexo no es válido'
-        },
-	    required:true
-	},
+    
     direccion: {    /*antes era domicilio */
         calle: {
           type: String,
@@ -41,9 +34,6 @@ const pacienteSchema = new Schema<IPaciente>({
         departamento: {
           type: String
         },
-        barrio: {
-          type: String
-        }
     },
     telefono: {
         tipo: {

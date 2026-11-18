@@ -1,24 +1,27 @@
 import { z } from 'zod';
 
+const datosClinicosObjeto =  z.object ({
+    sexo: z.string(""),
+    grupoSanguineo:z.string().optional().default("")
+})
 
 const antecedentesObjeto = z.object ({
-        /* grupoSanguineo:{ type: String, required:true, match: /^(A|B|AB|O)[+-]$|^No sabe$/  // acepta A+, A-, B+, B-, AB+, AB-, O+, O- Hay gente que no se acuerda de su grupo sanguíneo, por lo que se permite "No sabe" como valor válido }, */
-        alergias: z.array(z.string()),
-        cirugias: z.array(z.string()),
-        enfermedadesCronicas: z.array(z.string()),
-        historiaGeneral: z.string().optional().default(""),
+    alergias: z.array(z.string()),
+    cirugias: z.array(z.string()),
+    enfermedadesCronicas: z.array(z.string()),
+    historiaGeneral: z.string().optional().default(""),
 })
 
 export const ConsultaClinicaSchema = z.object({
-        //fecha: z.iso.date({ message: "Formato de fecha inválido" }), //* forma actualizada  */
-        /*errores con fecha */
-        fecha:z.coerce.date({ message: "Formato de fecha inválido" }),
-        medicoID: z.string({ message: "medico ID invalido" }),
-        motivoConsulta: z.string(""),
-        diagnostico: z.string(""),
-        tratamiento: z.string(""),
-        indicaciones: z.string(""),
-        observaciones: z.string("").optional().default("")   
+    //fecha: z.iso.date({ message: "Formato de fecha inválido" }), //* forma actualizada  */
+    /*errores con fecha */
+    fecha:z.coerce.date({ message: "Formato de fecha inválido" }),
+    medicoID: z.string({ message: "medico ID invalido" }),
+    motivoConsulta: z.string(""),
+    diagnostico: z.string(""),
+    tratamiento: z.string(""),
+    indicaciones: z.string(""),
+    observaciones: z.string("").optional().default("")   
 });
 
 export const SoloConsultas = z.object({
@@ -28,6 +31,7 @@ export const SoloConsultas = z.object({
 export const CrearHistoriaClinicaSchema = z.object({
   body: z.object({
     pacienteID: z.string(),
+    datosClinicos: datosClinicosObjeto,
     antecedentes: antecedentesObjeto,
     consultas: z.array(ConsultaClinicaSchema),
   }),

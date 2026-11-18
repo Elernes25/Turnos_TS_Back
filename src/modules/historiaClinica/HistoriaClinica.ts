@@ -1,23 +1,17 @@
 import { Schema, model, Document} from 'mongoose';
-import type { IHistoriaClinica,IConsultaClinica } from './types/HistoriaClinica.interface';
+import { type IHistoriaClinica,type IConsultaClinica, Sexo, GrupoSanguineo } from './types/HistoriaClinica.interface';
+import { required } from 'zod/mini';
 
 
 const consultaSchema = new Schema <IConsultaClinica> ({
         fecha: {
             type: Date,
             required: [true, 'La fecha es obligatoria'],   
-           /* validate: { tal vez validar que sea la fecha actual? pero eso se lo mando internamente
-                validator: function(value) {
-                    return value >= new Date();
-                },
-                message: 'La fecha del turno debe ser una fecha futura',
-            },*/ 
-        },
+            },
         medicoID: {
             type: Schema.Types.ObjectId,   /*deberia ser un ObjectId que referencia al modelo Medico */
             ref: 'Medico',
             required: [true, 'El ID del médico es obligatorio']
-
         },
         motivoConsulta: { /*dolor de rodilla */
             type: String,
@@ -39,9 +33,7 @@ const consultaSchema = new Schema <IConsultaClinica> ({
             type: String,
             required: false
         }
-        
     }
-
 );
 
 const historiaClinicaSchema = new Schema<IHistoriaClinica>({
@@ -50,8 +42,15 @@ const historiaClinicaSchema = new Schema<IHistoriaClinica>({
         ref: 'Paciente',
         required: [true, 'El paciente es obligatorio'],
     },
+    datosClinicos: {
+        sexo:{ 
+            type: String,      
+	        enum: Sexo,          //*por motivos estadisticos*//
+            required: [true, 'El sexo del paciente es obligatorio']
+        },
+	    grupoSanguineo:{ type: String, enum: GrupoSanguineo} //, required :[true, 'El Grupo Sanguineo del paciente es obligatorio'] 
+    },
     antecedentes: {
-        /* grupoSanguineo:{ type: String, required:true, match: /^(A|B|AB|O)[+-]$|^No sabe$/  // acepta A+, A-, B+, B-, AB+, AB-, O+, O- Hay gente que no se acuerda de su grupo sanguíneo, por lo que se permite "No sabe" como valor válido }, */
         alergias: [{ type: String }], /*arreglo de strings para realizar busquedas refinadas */
         cirugias: [{ type: String }],
         enfermedadesCronicas: [{ type: String }],

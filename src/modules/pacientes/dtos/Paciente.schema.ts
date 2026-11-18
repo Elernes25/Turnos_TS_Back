@@ -16,7 +16,6 @@ export const CrearPacienteSchema = z.object ({
           .min(1, { error: "La fecha de nacimiento es obligatoria" })
           .pipe(z.iso.date({ error: "Fecha inválida" }))
           .refine((f) => new Date(f) <= new Date(), { error: "La fecha no puede ser futura" }),
-        sexo: z.string({error:""}),
         direccion: SubinterfaceDireccion,
         telefono: SubinterfaceTelefono,
         email: z.union([z.email({ message: "Formato de email inválido" }), z.literal(""),]).default(""),
