@@ -2,13 +2,11 @@ import { Schema, model, Document} from 'mongoose';
 import type { IMedico } from '../../modules/medicos/types/Medico.interface';
 
 const medicoSchema = new Schema<IMedico>({
-    /*usuario: {
+    usuario: {
         type: Schema.Types.ObjectId,
         ref: "Usuario",
-        required: true,
-        unique: true
-        }, 
-    */
+        required: true
+    },
     nombre:{
          type: String,
          required: [true,'El nombre del médico es obligatorio'],

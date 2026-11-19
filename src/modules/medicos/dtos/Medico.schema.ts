@@ -3,6 +3,10 @@ import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
 import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
 
 const objectId = z.string().regex(/^[0-9a-fA-F]{24}$/, "ID inválido");
+const credencialesUsuario = z.object({
+    user: z.string().min(1, "El nombre de usuario es obligatorio"),
+    password: z.string().min(1, "La contraseña es obligatoria"),
+});
 
 const medicoBody = z.object({
     nombre: z.string({ error: "El nombre es obligatorio" }).min(1, "El nombre es obligatorio"),
@@ -16,7 +20,10 @@ const medicoBody = z.object({
 
 // CREAR: sin params
 export const CrearMedicoSchema = z.object({
-    body: medicoBody,
+    body: medicoBody.extend({
+        usuario: credencialesUsuario,
+        email: z.email({ error: "Email inválido" }),
+    }),
 });
 export type CrearMedicoDTO = z.infer<typeof CrearMedicoSchema>['body'];
 

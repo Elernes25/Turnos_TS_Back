@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import { getMedicos,createMedico,deleteMedico, editarMedico, getConAgenda, getMedicoPorId } from '../medicos/medicos.controller';
 import { validarSchema } from '../../middlewares/validarDatos.middleware';
-import { CrearMedicoSchema } from '../medicos/dtos/Medico.schema';
+import { CrearMedicoSchema, EditarMedicoSchema } from '../medicos/dtos/Medico.schema';
 import { Rol } from '../interfaces/Rol.enum';
 import { validarJWT } from '../../middlewares/validarJWT.middleware';
 import { verificarRol } from '../../middlewares/verificarRol.middleware';
@@ -17,7 +17,8 @@ router.post('/', validarJWT, verificarRol([Rol.ADMIN,Rol.SUPERVISOR]), validarSc
 // sugenrencia para hacer todo aqui ahora agenda.routes lo hace lo hace
 
 router.delete('/:id', validarJWT, verificarRol([Rol.ADMIN,Rol.SUPERVISOR]), deleteMedico);
-router.put('/:id/editar', validarJWT, verificarRol([Rol.ADMIN,Rol.SUPERVISOR]), validarSchema(CrearMedicoSchema), editarMedico);
+
+router.put('/:id/editar', validarJWT, verificarRol([Rol.ADMIN, Rol.SUPERVISOR]), validarSchema(EditarMedicoSchema), editarMedico);
 //TODO:
 //router.patch('/:id', validarJWT, verificarRol([Rol.ADMIN,Rol.MEDICO]), validarSchema(CrearMedicoSchema), editarMedico);
 

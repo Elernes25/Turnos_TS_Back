@@ -2,6 +2,12 @@ import { Schema, model, Document,Types} from 'mongoose';
 import type { IRecepcionista } from '../recepcionistas/types/Recepcionista.interface';
 
 const recepcionistaSchema = new Schema<IRecepcionista>({
+   usuario: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario',
+        required: true,
+        unique: true
+    },
    nombre:{
         type: String,
         required: [true,'El nombre del paciente es obligatorio'],
@@ -58,7 +64,8 @@ const recepcionistaSchema = new Schema<IRecepcionista>({
         match: [/\S+@\S+\.\S+/, 'El correo electrónico no es válido'] 
     },
     fechaAlta:{
-        type: Date // no lo imgresa el usuario lo ingresa el sistema cuando se da de alta una sola vez
+        type: Date,
+        default: Date.now
     }
 },
     {timestamps: true} /*agrega createdAt y updatedAt automáticamente*/

@@ -1,4 +1,8 @@
 import Medico from '../medicos/medico';
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import Usuario from '../login/auth/Usuario.model';
+import { Rol } from '../interfaces/Rol.enum';
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import type { Request, Response } from 'express';
 import type { CrearMedicoDTO,EditarMedicoDTO } from './dtos/Medico.schema';
@@ -66,12 +70,48 @@ const getConAgenda = async ( req: Request<unknown, unknown, unknown, unknown>,  
 
 // POST: guardar medico
 const createMedico = async (req: Request <unknown, unknown, CrearMedicoDTO>, res: Response) => {
+  const session = await mongoose.startSession();
   try {
-    const nuevoMedico = new Medico(req.body);
-    await nuevoMedico.save();
+    const { usuario: credenciales, ...datosMedico } = req.body;
+    const nuevoMedico = await session.withTransaction(async () => {
+      const passwordHash = await bcrypt.hash(credenciales.password, await bcrypt.genSalt(10));
+      const [nuevoUsuario] = await Usuario.create([{
+        email: datosMedico.email,
+        user: credenciales.user,
+        dni: datosMedico.dni,
+        password: passwordHash,
+        rol: Rol.MEDICO,
+        activo: true,
+        fechaCreacion: new Date(),
+        debeCambiarPassword: true,
+      }], { session });
+
+      if (!nuevoUsuario) {
+        throw new Error('No se pudo crear el usuario del médico');
+      }
+
+      const [medico] = await Medico.create([{
+        ...datosMedico,
+        usuario: nuevoUsuario._id,
+      }], { session });
+
+      if (!medico) {
+        throw new Error('No se pudo crear el médico');
+      }
+
+      return medico;
+    });
+
+    if (!nuevoMedico) {
+      throw new Error('No se pudo completar la transacción de creación del médico');
+    }
+
     return respuestaEstandar(res, 201, true, "Medico creado exitosamente", nuevoMedico);
   } catch (error:any) {
+    console.error('ERROR CREAR MEDICO:', error);
     return respuestaEstandar(res, 400, false, "Error al crear el medico", error.message);
+  } finally {
+    await session.endSession();
   }
 };
 
@@ -98,17 +138,19 @@ const editarMedico = async (req: Request <{ id: string }, unknown, EditarMedicoD
   console.log("Body recibido:", req.body);
   try {
     const { id } = req.params;
-    const medico = await Medico.findOneAndReplace({ _id: id }, req.body, {
-      returnDocument: 'after',
-      runValidators: true
-    });
+    //const medico = await Medico.findOneAndReplace({ _id: id }, req.body, {
+    //  returnDocument: 'after',
+    //  runValidators: true
+    //});
+    const medico = await Medico.findByIdAndUpdate(id,req.body, { new: true, runValidators: true});
 
     if (!medico) {
       return respuestaEstandar(res, 404, false, `Medico no encontrado ${id}`);
     }
     return respuestaEstandar(res, 200, true, "Medico Editado exitosamente", medico);
   } catch (error:any) {
-      return respuestaEstandar(res, 400, false, "ID con formato invalido", error.message);
+      console.error(error);
+      return respuestaEstandar(res, 400, false, "Error en la edición de Medico", error.message);
   }
 
 };

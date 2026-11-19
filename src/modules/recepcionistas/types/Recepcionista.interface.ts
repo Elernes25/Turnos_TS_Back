@@ -4,6 +4,7 @@ import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
 
 export interface IRecepcionista extends Document {
     id?: Types.ObjectId; /*el id es opcional porque lo genera MongoDB automáticamente*/
+    usuario: Types.ObjectId;
     nombre: string;
     dni: string;
     telefono?: typeof SubinterfaceTelefono;

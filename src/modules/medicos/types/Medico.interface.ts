@@ -4,6 +4,7 @@ import { Types,Document } from "mongoose";
 
 export interface IMedico extends Document {
     id?: Types.ObjectId; /*el id es opcional porque lo genera MongoDB automáticamente*/
+    usuario: Types.ObjectId;
     nombre: string;
     apellido: string;
     dni: string;

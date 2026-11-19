@@ -1,19 +1,20 @@
-import {z} from 'zod';
+import { z } from 'zod';
 import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
 import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
 
-export const CrearPersonaSchema = z.object ({
-    body : z.object({
-        nombre: z.string ({error:"El nombre de la persona es obligatorio"}),
-        dni: z.string({error:"El DNI de la persona es obligatorio"}),
+export const CrearRecepcionistaSchema = z.object({
+    body: z.object({
+        usuario: z.object({
+            user: z.string().min(1, "El nombre de usuario es obligatorio"),
+            password: z.string().min(1, "La contraseña es obligatoria"),
+        }),
+        nombre: z.string({ error: "El nombre es obligatorio" }).min(1, "El nombre es obligatorio"),
+        dni: z.string({ error: "El DNI es obligatorio" }).regex(/^[0-9]{7,8}$/, "El DNI debe tener entre 7 y 8 dígitos"),
         direccion: SubinterfaceDireccion,
         telefono: SubinterfaceTelefono,
-        email: z.email({ message: "Formato de email inválido" }).optional().default(""),
-        fechaAlta: z.iso.date({message:"Formato de fecha inválido"})
-    })
+        email: z.email({ error: "Email inválido" }),
+    }),
 });
 
-export type CrearPersonaDTO = z.infer <typeof CrearPersonaSchema>['body']
-
-
+export type CrearRecepcionistaDTO = z.infer<typeof CrearRecepcionistaSchema>['body'];
     

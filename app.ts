@@ -44,6 +44,7 @@ import obraSocialRoutes from './src/modules/obraSocial/obraSocial.routes';
 import solicitudMedicoRoutes from './src/modules/forms/solicitudMedico.routes';
 //import loginRoutes from './src/modules/login/login.routes';
 import authRoutes from './src/modules/login/auth/auth.routes'
+import recepcionistasRoutes from './src/modules/recepcionistas/recepcionistas.routes';
 
 app.use(express.json());
 app.use(auditoriaMunicipal);
@@ -75,6 +76,7 @@ app.use('/api/v1/obraSocial', obraSocialRoutes);
 app.use('/api/v1/solicitudes-medicos', solicitudMedicoRoutes);
 //app.use('/api/auth/login', loginRoutes);
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/recepcionistas', recepcionistasRoutes);
 
 
 app.use(rutaNoEncontrada); /*manejo de errores para rutas no encontradas*/
