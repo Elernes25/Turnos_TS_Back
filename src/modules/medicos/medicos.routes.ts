@@ -9,9 +9,9 @@ import { verificarRol } from '../../middlewares/verificarRol.middleware';
 
 /*ENDPOINTS medicos */
 //primero las rutas especificas y despues las dinamicas
-router.get('/', validarJWT, verificarRol([Rol.ADMIN,Rol.SUPERVISOR,Rol.RECEPCIONISTA]), getMedicos);
+router.get('/', validarJWT, verificarRol([Rol.ADMIN,Rol.SUPERVISOR,Rol.RECEPCIONISTA,Rol.MEDICO]), getMedicos);
 router.get('/conAgenda',validarJWT, verificarRol([Rol.ADMIN,Rol.SUPERVISOR,Rol.RECEPCIONISTA]),getConAgenda); // medicos con o sin agenda
-router.get('/:id', validarJWT,verificarRol([Rol.ADMIN,Rol.SUPERVISOR,Rol.RECEPCIONISTA]),getMedicoPorId);
+router.get('/:id', validarJWT,verificarRol([Rol.ADMIN,Rol.SUPERVISOR,Rol.RECEPCIONISTA,Rol.MEDICO]),getMedicoPorId);
 
 router.post('/', validarJWT, verificarRol([Rol.ADMIN,Rol.SUPERVISOR]), validarSchema(CrearMedicoSchema), createMedico);
 // sugenrencia para hacer todo aqui ahora agenda.routes lo hace lo hace

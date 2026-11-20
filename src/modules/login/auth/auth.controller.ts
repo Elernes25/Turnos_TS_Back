@@ -54,7 +54,6 @@ export const loginUsuario =async (req:Request <unknown, unknown, LoginUsuarioDTO
         if(!usuario){ //en cualquier caso si alguno de los anteriores da incorrecto:
             return respuestaEstandar(res,401,false,'Credenciales Inválidas');
         }
-
         //compara la contraseña con la haseada en la base de datos
         const esValido = await bcrypt.compare(password, usuario.password);
         if(!esValido){
@@ -82,17 +81,22 @@ export const loginUsuario =async (req:Request <unknown, unknown, LoginUsuarioDTO
     }
 };
 
-// GET: listar usuarios solo para ADMIN
-export const getUsuarios = async (req: Request<unknown, unknown, unknown, { dni?: string } >, res: Response) => {
+// GET: listar usuarios
+export const getUsuarios = async (req: Request<unknown, unknown, unknown, { dni?: string, id?:string } >, res: Response) => {
   try {
     const {dni}=req.query;  /*filtrar por DNI */
-    const filtro: Record<string, any> = {};
+    const {id}=req.query;  /*filtrar por UsuarioID */
 
-    if (dni){ filtro.dni=dni; }
-    console.log("filtro armado", filtro);
-    const usuarios = await Usuario.find(filtro);
-
-    return respuestaEstandar(res, 200, true, "Usuarios obtenidos correctamente", usuarios);
+    if (id) { 
+        const usuario = await Usuario.findById(id);
+        return respuestaEstandar( res, 200, true, "Usuario obtenido correctamente", usuario);
+    }   
+    if (dni) {
+        const usuario = await Usuario.findOne({ dni });
+        return respuestaEstandar( res, 200, true, "Usuario obtenido correctamente", usuario);
+    }
+    const usuarios = await Usuario.find();
+    return respuestaEstandar( res, 200, true,"Usuarios obtenidos correctamente", usuarios);
   } catch (error:any) {
     return respuestaEstandar(res, 500, false, "Error al obtener los usuarios", error.message);
   
@@ -108,21 +112,56 @@ export const primerIngreso = async ( req: Request< unknown, unknown,{ passwordNu
         const usuarioId = req.usuario.id;
         const { passwordNueva } = req.body;
         const salt = await bcrypt.genSalt(10);
-        const passwordHash = await bcrypt.hash(
-            passwordNueva,
-            salt
-        );
+        const passwordHash = await bcrypt.hash(passwordNueva,salt);
         await Usuario.findByIdAndUpdate(
-            usuarioId,
-            {
-                password: passwordHash,
-                debeCambiarPassword: false
-            }
+            usuarioId, { password: passwordHash,debeCambiarPassword: false }
         );
         return respuestaEstandar( res, 200, true, "Contraseña actualizada" );
 
     } catch (error: any) {
         return respuestaEstandar( res, 500, false, "Error del servidor", error.message );
 
+    }
+};
+// put cambiar datos de ingreso
+export const actualizarIngreso = async ( req: Request< unknown, unknown,{ user:string, password?: string } >,res: Response) => {        
+    try {
+        if (!req.usuario) { return respuestaEstandar( res, 401, false, 'Usuario no autenticado' ); }
+        const usuarioId = req.usuario.id;
+        const { user, password } = req.body;
+        let datosActualizar: {
+            user: string;
+            debeCambiarPassword: boolean;
+            password?: string;
+        };
+          
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            const passwordHash = await bcrypt.hash(password, salt);
+            datosActualizar = { user,  password: passwordHash, debeCambiarPassword: false, };
+        } else {
+            datosActualizar = {user, debeCambiarPassword: false, };
+        }
+
+        const usuarioActualizado = await Usuario.findByIdAndUpdate( usuarioId, datosActualizar,{ new: true });
+
+        if (!usuarioActualizado) { return respuestaEstandar( res, 404, false, "Usuario no encontrado"  ); }
+
+        const payload = {
+            id: usuarioActualizado.id,
+            user: usuarioActualizado.user,
+            rol: usuarioActualizado.rol,
+            activo: usuarioActualizado.activo,
+            debeCambiarPassword: usuarioActualizado.debeCambiarPassword,
+        };
+        const token = jwt.sign(
+            payload,
+            process.env.JWT_SECRET as string,
+            { expiresIn: "8h" }
+        );
+
+        return respuestaEstandar( res, 200, true, "Datos de acceso actualizados",{ token } );
+    } catch (error: any) {
+        return respuestaEstandar( res, 500, false, "Error del servidor", error.message );
     }
 };

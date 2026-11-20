@@ -11,7 +11,6 @@ export interface  IUsuario extends Document {
     activo:boolean;
     fechaCreacion: Date;
     debeCambiarPassword: boolean;
-   
 }
 
 const usuarioSchema = new Schema <IUsuario>({
@@ -23,6 +22,18 @@ const usuarioSchema = new Schema <IUsuario>({
     activo: {type: Boolean, default: true },
     fechaCreacion: {type: Date},
     debeCambiarPassword: {type: Boolean, default: true }  
-})
+},
+    {timestamps: true},
+);/*agrega createdAt y updatedAt automáticamente*/
+
+usuarioSchema.set('toJSON', {
+    transform: (documento:Document, usuarioRetorno: Record<string,any>) => {
+        usuarioRetorno.id = usuarioRetorno._id;
+        delete usuarioRetorno._id;
+        delete usuarioRetorno.__v;
+        delete usuarioRetorno.createdAt; /*borra los campos agregados por el timestamps */
+        delete usuarioRetorno.updatedAt;
+    }}
+);
 
 export default model <IUsuario> ('Usuario',usuarioSchema);

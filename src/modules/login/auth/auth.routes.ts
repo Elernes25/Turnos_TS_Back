@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { loginUsuario, registarUsuario, getUsuarios, primerIngreso } from './auth.controller';
+import { loginUsuario, registarUsuario, getUsuarios, primerIngreso, actualizarIngreso} from './auth.controller';
 import { Rol } from '../../interfaces/Rol.enum';
 
 import { validarJWT } from '../../../middlewares/validarJWT.middleware';
@@ -11,7 +11,8 @@ const router  = Router ();
 
 router.post('/register',validarSchema(CrearUsuarioSchema), registarUsuario);
 router.post('/login', validarSchema(LoginUsuarioSchema),loginUsuario );
-router.get('/usuarios',validarJWT,verificarRol([Rol.ADMIN]),getUsuarios);
+router.get('/usuarios',validarJWT,verificarRol([Rol.ADMIN,Rol.MEDICO,Rol.SUPERVISOR,Rol.RECEPCIONISTA]),getUsuarios);
 router.put('/usuarios/cambiar-password',validarJWT,verificarRol([Rol.ADMIN,Rol.MEDICO,Rol.SUPERVISOR,Rol.RECEPCIONISTA]),primerIngreso);
+router.put('/usuarios/actualizar',validarJWT,verificarRol([Rol.ADMIN,Rol.MEDICO,Rol.SUPERVISOR,Rol.RECEPCIONISTA]),actualizarIngreso);
 export default router;
 
