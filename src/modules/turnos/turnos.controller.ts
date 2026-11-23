@@ -131,6 +131,7 @@ const deleteTurnos = async (req: Request<{id: string}>, res: Response) => {
 const marcarAtendido = async (req: Request<{id: string}>, res: Response)=>{
   try{
     const {id} =req.params;
+    console.log("turno ID", id);
     const turnoActualizado = await Turno.findByIdAndUpdate (
       id,
       { estado: EstadoTurno.ATENDIDO },

@@ -83,7 +83,9 @@ const actualizarPaciente = async (req: Request<{ id: string }, unknown, Actualiz
     return respuestaEstandar(res, 200, true, 'Recepcionista actualizada exitosamente', paciente);
   } catch (error: unknown) {
     const mensaje = error instanceof Error ? error.message : String(error);
+    console.log(error);
     return respuestaEstandar(res, 400, false, 'Error al actualizar Paciente', mensaje);
+
   }
 };
 

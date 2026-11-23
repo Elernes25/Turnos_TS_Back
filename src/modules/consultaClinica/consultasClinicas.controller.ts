@@ -19,13 +19,34 @@ const camposRelacionados = () => [
 const crearConsulta = async ( req: Request<unknown, unknown, CrearConsultaDTO>,  res: Response) => {
   try {
     const { pacienteId, medicoId } = req.body;
+    console.log("BODY:", req.body);
+    console.log("medicoId:", req.body.medicoId);
+    /*
     const [paciente, medico] = await Promise.all([
       Paciente.findById(pacienteId),
       Medico.findById(medicoId)
-    ]);
+    ]);*/
+    /*
+    const paciente = await Paciente.findOne({ pacienteId });
+    
+    const medico = await Medico.findOne({ usuario: medicoId});
+    
+    console.log("Paciente encontrado:", paciente?._id);
+    console.log("Medico encontrado:", medico);
+*/
+console.log(
+  await Paciente.findById(pacienteId)
+);
 
-    if (!paciente) { return respuestaEstandar(res, 404, false, 'No se encontró el paciente');  }
-    if (!medico) { return respuestaEstandar(res, 404, false, 'No se encontró el médico'); }
+console.log(
+  await Medico.findOne({ usuario: medicoId })
+);
+
+
+
+
+   // if (!paciente) { return respuestaEstandar(res, 404, false, 'No se encontró el Paciente');  }
+   // if (!medico) { return respuestaEstandar(res, 404, false, 'No se encontró el Médico'); }
 
     const consulta = await ConsultaClinica.create({ ...req.body,fecha: new Date() });
     await consulta.populate(camposRelacionados());

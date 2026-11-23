@@ -16,7 +16,7 @@ router.get('/', validarJWT,  getTurnos);
 //router.get('/:especialidad', getTurnosEspecialidad); //ya no es necesario, lo hace por filtros en get//
 router.post('/', validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]),validarSchema(CrearTurnoSchema), createTurnos);
 router.delete('/:id', validarJWT,verificarRol([Rol.ADMIN]),deleteTurnos); 
-router.patch('/:id',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]), marcarAtendido);
+router.patch('/:id',validarJWT,verificarRol([Rol.ADMIN, Rol.MEDICO, Rol.RECEPCIONISTA]), marcarAtendido);
 router.patch('/cancelar/:id',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]), marcarCancelado);
 //router.post('/:id/reprogramar',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]),validarSchema(ReprogramarTurnoSchema),reprogramarTurno);
 
