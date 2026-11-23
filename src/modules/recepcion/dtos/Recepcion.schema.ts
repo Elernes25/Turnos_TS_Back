@@ -6,8 +6,12 @@ import {CrearPacienteSchema} from "../../pacientes/dtos/Paciente.schema";
 export const CrearIngresoSchema = z.object ({
     body : z.object ({
         datosPaciente: CrearPacienteSchema.shape.body,
-        especialidad: z.string(),
-        fechaTurno: z.iso.date({message:"Formato de fecha inválido"}),
+        especialidadId: z.string(),
+        medicoId: z.string(),
+        fechaTurno: z.coerce.date().refine((fecha) => {
+                    return fecha.getTime() > Date.now();
+                    }, { message: 'La fecha del turno debe ser una fecha futura'}
+                ),
         estado: z.enum(EstadoTurno,{}).optional().default(EstadoTurno.PENDIENTE),
         observaciones: z.string().optional().default("")
     })

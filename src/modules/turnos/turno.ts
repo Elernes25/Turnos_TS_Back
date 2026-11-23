@@ -21,16 +21,10 @@ const turnoSchema = new Schema<ITurno>({
     fechaTurno: {
         type: Date,
         required: [true, 'La fecha del turno es obligatoria'],
-       /* validate: {
-            validator: function(value:Date) {   //validación personalizada en Mongoose 
-                return value >= new Date();     
-            },
-            message: 'La fecha del turno debe ser una fecha futura'
-        }*/
+       
         validate: {
             validator(value: Date) {
-                 const quinceMinutos = 15 * 60 * 1000;
-                 return value.getTime() > Date.now() + quinceMinutos;
+                 return value.getTime() > Date.now();
             },
             message: 'Desde Mongoose: La fecha del turno debe ser una fecha futura'
         }
@@ -55,7 +49,18 @@ const turnoSchema = new Schema<ITurno>({
     timestamps: true,
 }
 );
-
+/******genero indices unicos asi dos pernonas no pueden sacar a la vez*******/
+turnoSchema.index(
+  { medico: 1, fechaHora: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      estado: {
+        $nin: ["CANCELADO", "AUSENTE"]
+      }
+    }
+  }
+);
 
 turnoSchema.set('toJSON', {
     transform: (documento:Document, turnoRetorno: Record<string, any>) => {

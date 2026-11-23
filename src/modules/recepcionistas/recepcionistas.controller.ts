@@ -4,13 +4,33 @@ import type { Request, Response } from 'express';
 import Usuario from '../login/auth/Usuario.model';
 import { Rol } from '../interfaces/Rol.enum';
 import { respuestaEstandar } from '../../utils/respuestaEstandar';
-import type { CrearRecepcionistaDTO } from './dtos/recepcionista.schema';
+import type { CrearRecepcionistaDTO, EditarRecepcionistaDTO } from './dtos/recepcionista.schema';
 import Recepcionista from './recepcionista';
 
-const createRecepcionista = async (
-  req: Request<unknown, unknown, CrearRecepcionistaDTO>,
-  res: Response
-) => {
+const getRecepcionistas = async (_req: Request, res: Response) => {
+  try {
+    const recepcionistas = await Recepcionista.find();
+    return respuestaEstandar(res, 200, true, 'Recepcionistas obtenidos correctamente', recepcionistas);
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : String(error);
+    return respuestaEstandar(res, 500, false, 'Error al obtener las recepcionistas', mensaje);
+  }
+};
+
+const getRecepcionistaPorId = async (req: Request<{ id: string }>, res: Response) => {
+  try {
+    const recepcionista = await Recepcionista.findById(req.params.id);
+    if (!recepcionista) {
+      return respuestaEstandar(res, 404, false, 'Recepcionista no encontrada');
+    }
+    return respuestaEstandar(res, 200, true, 'Recepcionista obtenida correctamente', recepcionista);
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : String(error);
+    return respuestaEstandar(res, 500, false, 'Error al obtener la recepcionista', mensaje);
+  }
+};
+
+const createRecepcionista = async (   req: Request<unknown, unknown, CrearRecepcionistaDTO>, res: Response) => {
   const session = await mongoose.startSession();
   try {
     const { usuario: credenciales, ...datosRecepcionista } = req.body;
@@ -56,4 +76,21 @@ const createRecepcionista = async (
   }
 };
 
-export { createRecepcionista };
+const editarRecepcionista = async (req: Request<{ id: string }, unknown, EditarRecepcionistaDTO>, res: Response) => {
+  try {
+    const recepcionista = await Recepcionista.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!recepcionista) {
+      return respuestaEstandar(res, 404, false, 'Recepcionista no encontrada');
+    }
+    return respuestaEstandar(res, 200, true, 'Recepcionista actualizada exitosamente', recepcionista);
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : String(error);
+    return respuestaEstandar(res, 400, false, 'Error al actualizar Recepcionista', mensaje);
+  }
+};
+
+export { createRecepcionista, editarRecepcionista, getRecepcionistaPorId, getRecepcionistas };

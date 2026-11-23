@@ -1,16 +1,16 @@
 import express from 'express';
 const router = express.Router();
 import { validarSchema } from '../../middlewares/validarDatos.middleware';
-import { createHistoriaClinica, getHistoriasClinicas, agregarConsulta } from './historiaClinica.controller';
-import { CrearHistoriaClinicaSchema, SoloConsultas } from './dtos/HistoriaClinica.schema';
+import { createHistoriaClinica, getHistoriasClinicas, actualizarHistoriaClinica } from './historiaClinica.controller';
+import { CrearHistoriaClinicaSchema, ActualizarHistoriaClinicaSchema } from './dtos/HistoriaClinica.schema';
 import { Rol } from '../interfaces/Rol.enum';
 import { validarJWT } from '../../middlewares/validarJWT.middleware';
 import { verificarRol } from '../../middlewares/verificarRol.middleware';   
 
 /*ENDPOINTS historiaClinica */
-router.get('/', validarJWT, verificarRol([Rol.MEDICO]), getHistoriasClinicas); //informacion sensible, solo el medico puede ver la historia clinica de sus pacientes
-router.post('/', validarJWT, verificarRol([Rol.MEDICO]), validarSchema(CrearHistoriaClinicaSchema),createHistoriaClinica);
-router.patch('/:id', validarJWT, verificarRol([Rol.MEDICO]), validarSchema(SoloConsultas), agregarConsulta );
+router.get('/', validarJWT, verificarRol([Rol.ADMIN,Rol.MEDICO]), getHistoriasClinicas); //informacion sensible, solo el medico puede ver la historia clinica de sus pacientes
+router.post('/', validarJWT, verificarRol([Rol.ADMIN,Rol.MEDICO]), validarSchema(CrearHistoriaClinicaSchema),createHistoriaClinica);
+router.patch('/:id/:medicoId', validarJWT, verificarRol([Rol.ADMIN,Rol.MEDICO]), validarSchema(ActualizarHistoriaClinicaSchema), actualizarHistoriaClinica);
 
 export default router;
 

@@ -60,18 +60,3 @@ const editarAgenda = async (req: Request <{ id: string }, unknown, EditarAgendaD
 };
 
 export { createAgendaMedico, getAgendaPorId, editarAgenda};
-
-/*
-const agenda = await Agenda.findOne({ medicoId: req.params.id });
-
-if (!agenda) {
-  return respuestaEstandar(
-    res,
-    404,
-    false,
-    'No existe agenda para este médico'
-  );
-}
-
-agenda.set(req.body);
-await agenda.save(); */

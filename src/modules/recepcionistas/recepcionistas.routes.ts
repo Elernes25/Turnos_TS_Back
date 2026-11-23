@@ -3,11 +3,14 @@ import { validarSchema } from '../../middlewares/validarDatos.middleware';
 import { validarJWT } from '../../middlewares/validarJWT.middleware';
 import { verificarRol } from '../../middlewares/verificarRol.middleware';
 import { Rol } from '../interfaces/Rol.enum';
-import { CrearRecepcionistaSchema } from './dtos/recepcionista.schema';
-import { createRecepcionista } from './recepcionistas.controller';
+import { CrearRecepcionistaSchema, EditarRecepcionistaSchema, RecepcionistaPorIdSchema } from './dtos/recepcionista.schema';
+import { createRecepcionista, editarRecepcionista, getRecepcionistaPorId, getRecepcionistas } from './recepcionistas.controller';
 
 const router = Router();
 
+router.get('/', validarJWT, verificarRol([Rol.ADMIN, Rol.SUPERVISOR]), getRecepcionistas);
+router.get('/:id', validarJWT, verificarRol([Rol.ADMIN, Rol.SUPERVISOR]), validarSchema(RecepcionistaPorIdSchema), getRecepcionistaPorId);
 router.post('/', validarJWT, verificarRol([Rol.ADMIN, Rol.SUPERVISOR]), validarSchema(CrearRecepcionistaSchema), createRecepcionista);
+router.put('/:id', validarJWT, verificarRol([Rol.ADMIN, Rol.SUPERVISOR]), validarSchema(EditarRecepcionistaSchema), editarRecepcionista);
 
 export default router;

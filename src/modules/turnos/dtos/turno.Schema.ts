@@ -33,6 +33,14 @@ export const CrearTurnoSchema = z.object ({
 
 });
 
+export const ReprogramarTurnoSchema = z.object({
+    body: z.object({
+        fechaTurno: z.coerce.date().refine((fecha) => fecha.getTime() > Date.now(), {
+            message: 'La fecha del turno debe ser una fecha futura'
+        })
+    })
+});
+
 export const QueryUrgenciaSchema= z.object({
     query: z.object({
         urgencia: z.enum(['true','false']).optional()
@@ -40,4 +48,5 @@ export const QueryUrgenciaSchema= z.object({
 });
 
 export type CrearTurnoDTO = z.infer <typeof CrearTurnoSchema>['body']
+export type ReprogramarTurnoDTO = z.infer<typeof ReprogramarTurnoSchema>['body']
 export type QueryUrgencia = z.infer <typeof QueryUrgenciaSchema>['query']

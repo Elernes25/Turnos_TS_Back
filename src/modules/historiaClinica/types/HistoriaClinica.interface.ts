@@ -1,15 +1,5 @@
 import { Document, Types } from 'mongoose';
 
-export interface IConsultaClinica {
-  fecha: Date;
-  medicoID: Types.ObjectId ; /*referencia al médico que realizó la consulta*/
-  motivoConsulta: string;
-  diagnostico: string;
-  tratamiento: string;
-  indicaciones: string;
-  observaciones?: string;
-}
-
 export enum GrupoSanguineo {
   'A+'= 'A+',
   'A-'= 'A-',
@@ -23,13 +13,13 @@ export enum GrupoSanguineo {
 }
 
 export enum Sexo {
-'FEMENINO'='FEMENINO',
-'MASCULINO'='MASCULINO'
+  'FEMENINO'='FEMENINO',
+  'MASCULINO'='MASCULINO'
 }
 
 export interface IHistoriaClinica extends Document {
   id?: Types.ObjectId;
-  pacienteID: Types.ObjectId | string;
+  pacienteId: Types.ObjectId | string;
   datosClinicos: {
     sexo: Sexo;
     grupoSanguineo:GrupoSanguineo;
@@ -40,6 +30,11 @@ export interface IHistoriaClinica extends Document {
       enfermedadesCronicas: string[];
       historiaGeneral: string;
   };
-  consultas: IConsultaClinica[];  /*arreglo de consultas */
+  modificacion: {
+      medicoId: Types.ObjectId | string;
+      fecha: Date;
+  };
+
+  //consultas: IConsultaClinica[];  /*arreglo de consultas */ lo pase a un documento aparte
 }
 

@@ -3,7 +3,7 @@ const router = express.Router();
 import { validarSchema} from "../../middlewares/validarDatos.middleware";
 import { CrearPacienteSchema } from './dtos/Paciente.schema';
 
-import {getPacientes,createPacientes,deletePacientes} from '../pacientes/pacientes.controller';
+import {getPacientes,createPacientes,deletePacientes,actualizarPaciente} from '../pacientes/pacientes.controller';
 //const{getPacientes,getPacientesDNI,createPacientes,deletePacientes}=require('../controllers/pacientes.controller.js');
 /* especifica que se importan las funciones getPacientes, getPacientesDNI, createPacientes 
 y deletePacientes desde el archivo pacientes.controllers.js ubicado en la carpeta controllers. 
@@ -20,6 +20,6 @@ router.get('/', validarJWT ,verificarRol([Rol.ADMIN,Rol.MEDICO,Rol.RECEPCIONISTA
 router.post('/', validarJWT, verificarRol([Rol.ADMIN,Rol.MEDICO,Rol.RECEPCIONISTA]), validarSchema(CrearPacienteSchema),createPacientes);
 // probablemente necesite un rol USUARIO, para el que se quiera agregar online
 router.delete('/:id', validarJWT , verificarRol([Rol.ADMIN]), deletePacientes); 
-   
+router.patch('/:id', validarJWT ,verificarRol([Rol.ADMIN,Rol.RECEPCIONISTA]),actualizarPaciente);   
 
 export default router;

@@ -1,41 +1,41 @@
 import { z } from 'zod';
 
 const datosClinicosObjeto =  z.object ({
-    sexo: z.string(""),
-    grupoSanguineo:z.string().optional().default("")
-})
+    sexo: z.enum(['FEMENINO', 'MASCULINO']),
+    grupoSanguineo: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'NO SABE']).optional()
+}).strict();
 
 const antecedentesObjeto = z.object ({
     alergias: z.array(z.string()),
     cirugias: z.array(z.string()),
     enfermedadesCronicas: z.array(z.string()),
-    historiaGeneral: z.string().optional().default(""),
-})
+    historiaGeneral: z.string().optional().default("")
+}).strict();
 
-export const ConsultaClinicaSchema = z.object({
-    //fecha: z.iso.date({ message: "Formato de fecha inválido" }), //* forma actualizada  */
-    /*errores con fecha */
-    fecha:z.coerce.date({ message: "Formato de fecha inválido" }),
-    medicoID: z.string({ message: "medico ID invalido" }),
-    motivoConsulta: z.string(""),
-    diagnostico: z.string(""),
-    tratamiento: z.string(""),
-    indicaciones: z.string(""),
-    observaciones: z.string("").optional().default("")   
-});
+const modificacionObjeto = z.object ({
+    medicoId: z.string().regex(/^[0-9a-fA-F]{24}$/, { error: "ID médico inválido" }),
+    fecha: z.coerce.date({ message: "Formato de fecha inválido" })
+}).strict();
 
-export const SoloConsultas = z.object({
-     body : ConsultaClinicaSchema
-});
 
 export const CrearHistoriaClinicaSchema = z.object({
   body: z.object({
-    pacienteID: z.string(),
+    pacienteId: z.string().regex(/^[0-9a-fA-F]{24}$/, { error: "ID paciente inválido" }),
     datosClinicos: datosClinicosObjeto,
     antecedentes: antecedentesObjeto,
-    consultas: z.array(ConsultaClinicaSchema),
-  }),
+    modificacion: modificacionObjeto
+  }).strict(),
 });
 
-export type CrearConsultaDTO = z.infer<typeof SoloConsultas>['body'];
+export const ActualizarHistoriaClinicaSchema = z.object({
+  body: z.object({
+    datosClinicos: datosClinicosObjeto.partial().optional(),
+    antecedentes: antecedentesObjeto.partial().optional()
+  }).strict().refine(
+    (body) => body.datosClinicos !== undefined || body.antecedentes !== undefined,
+    { message: "Debe enviar datosClinicos o antecedentes para modificar" }
+  )
+});
+
 export type CrearHistoriaClinicaDTO = z.infer<typeof CrearHistoriaClinicaSchema>['body'];
+export type ActualizarHistoriaClinicaDTO = z.infer<typeof ActualizarHistoriaClinicaSchema>['body'];

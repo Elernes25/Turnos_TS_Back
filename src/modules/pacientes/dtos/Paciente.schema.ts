@@ -35,6 +35,40 @@ export const QueryPacientesSchema =z.object({
   })  
 });
 
+export const ActualizarPacienteSchema = z.object({
+  // 1. Validamos el ID de Mongo que viene en la ruta (api/v1/paciente/:id)
+  params: z.object({
+    id: z.string({ error: "El ID del paciente es obligatorio" }) .regex(/^[0-9a-fA-F]{24}$/, { error: "ID de paciente inválido" }),
+  }),
+  // 2. Hacemos opcionales los campos del body y eliminamos los .default("")
+  body: CrearPacienteSchema.shape.body
+    .partial()
+    .extend({
+      // Sobrescribimos email para quitar el .default("") y evitar que pise datos con vacío si no se envía
+      email: z
+        .union([z.email({ message: "Formato de email inválido" }), z.literal("")])
+        .optional(),
+
+      // Hacemos opcionales también los subcampos de obraSocial
+      obraSocial: z
+        .object({
+          obraSocialID: z
+            .string({ error: "Obra social inválida" })
+            .regex(/^[0-9a-fA-F]{24}$/, { error: "Obra social inválida" })
+            .or(z.literal("")),
+          numeroAfiliado: z.string({ error: "Número de afiliado inválido" }),
+        })
+        .partial()
+        .optional(),
+    })
+    // 3. Evitamos que el front mande un PATCH completamente vacío {}
+    .refine((data) => Object.keys(data).length > 0, {
+      error: "Debes enviar al menos un campo para actualizar",
+    }),
+});
+
+
+export type ActualizarPacienteDTO = z.infer<typeof ActualizarPacienteSchema>['body'];
 export type CrearPacienteDTO = z.infer <typeof CrearPacienteSchema>['body']
 export type IQueryPacientes = z.infer <typeof QueryPacientesSchema>['query']
 

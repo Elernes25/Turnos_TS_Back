@@ -14,7 +14,7 @@ export interface  IUsuario extends Document {
 }
 
 const usuarioSchema = new Schema <IUsuario>({
-    email: { type: String, required: true, unique: true },   //con mayuscula String //
+    email: { type: String, required: true, unique: true ,lowercase: true,trim: true},   //con mayuscula String //
     user: { type: String, required: true  },
     dni: {type: String},
     password: { type: String, required: true },

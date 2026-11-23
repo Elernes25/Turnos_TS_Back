@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import type { CrearPacienteDTO, IQueryPacientes } from './dtos/Paciente.schema';  
+import type { CrearPacienteDTO, IQueryPacientes,ActualizarPacienteDTO} from './dtos/Paciente.schema';  
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import Paciente from '../pacientes/paciente';
 import ObraSocial from '../obraSocial/obraSocial';
@@ -70,6 +70,22 @@ const deletePacientes = async (req: Request<{ id: string }>, res: Response) => {
   }
 };
 
+const actualizarPaciente = async (req: Request<{ id: string }, unknown, ActualizarPacienteDTO>, res: Response) => {
+  try {
+    const paciente = await Paciente.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!paciente) {
+      return respuestaEstandar(res, 404, false, 'Paciente no encontrado');
+    }
+    return respuestaEstandar(res, 200, true, 'Recepcionista actualizada exitosamente', paciente);
+  } catch (error: unknown) {
+    const mensaje = error instanceof Error ? error.message : String(error);
+    return respuestaEstandar(res, 400, false, 'Error al actualizar Paciente', mensaje);
+  }
+};
 
 //module.exports = { getPacientes, getPacientesDNI, createPacientes, deletePacientes };
-export { getPacientes, createPacientes, deletePacientes };
+export { getPacientes, createPacientes, deletePacientes,actualizarPaciente };

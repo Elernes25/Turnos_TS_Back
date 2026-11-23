@@ -2,9 +2,9 @@ import type {Request, Response} from 'express';
 import {EstadoTurno} from '../interfaces/TurnoEstado.enum';
 import Turno from '../turnos/turno';
 import {respuestaEstandar} from '../../utils/respuestaEstandar';
-import type { CrearTurnoDTO, QueryUrgencia } from '../turnos/dtos/turno.Schema';
+import type { CrearTurnoDTO, QueryUrgencia, ReprogramarTurnoDTO } from '../turnos/dtos/turno.Schema';
 import type { ITurno } from '../turnos/types/Turno.interface';
-import { type QueryFilter, isValidObjectId } from 'mongoose';
+import mongoose, { type QueryFilter, isValidObjectId } from 'mongoose';
 
 /*En Express, el tipo genérico Request<ParamsDictionary, ResBody, ReqBody, ReqQuery>  
       ParamsDictionary → corresponde a req.params  
@@ -101,7 +101,7 @@ const createTurnos = async (req: Request<unknown, unknown, CrearTurnoDTO, QueryU
     return respuestaEstandar(res, 201, true, "Turno creado exitosamente", nuevoTurno ); 
   } catch (error:any) {
     if(error.name === 'ValidationError') {
-      
+      console.error("ERROR COMPLETO:", error);
       const errores=Object.values(error.errors).map( (err:any) => err.message);
       return respuestaEstandar(res, 400, false, "Error de validación", errores);
     } 
@@ -160,5 +160,64 @@ const marcarCancelado = async (req: Request<{id: string}>, res: Response)=>{
     return respuestaEstandar(res, 500,false,'ID con formato no valido',error.message);
   }
 };
+
+///**TODO **********VEMOS ************************ */
+/*
+const reprogramarTurno = async (
+  req: Request<{id: string}, unknown, ReprogramarTurnoDTO>,
+  res: Response
+) => {
+  const { id } = req.params;
+  if (!isValidObjectId(id)) {
+    return respuestaEstandar(res, 400, false, 'ID con formato invalido', id);
+  }
+
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+
+    const turnoOriginal = await Turno.findById(id).session(session);
+    if (!turnoOriginal) {
+      await session.abortTransaction();
+      return respuestaEstandar(res, 404, false, 'Turno no encontrado', id);
+    }
+
+    const turnoCancelado = await Turno.findByIdAndUpdate(
+      id,
+      {
+        estado: EstadoTurno.CANCELADO,
+        observaciones: 'REPROGRAMADO'
+      },
+      { session, new: true, runValidators: true }
+    );
+    if (!turnoCancelado) {
+      throw new Error('No se pudo actualizar el turno original');
+    }
+
+    const nuevoTurno = new Turno({
+      pacienteId: turnoOriginal.pacienteId,
+      medicoId: turnoOriginal.medicoId,
+      especialidadId: turnoOriginal.especialidadId,
+      fechaTurno: req.body.fechaTurno,
+      estado: EstadoTurno.PENDIENTE,
+      observaciones: turnoOriginal.observaciones
+    });
+    await nuevoTurno.save({ session });
+
+    await session.commitTransaction();
+    return respuestaEstandar(res, 201, true, 'Turno reprogramado exitosamente', {
+      turnoOriginal: turnoCancelado,
+      nuevoTurno
+    });
+  } catch (error) {
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
+    const mensaje = error instanceof Error ? error.message : 'Error desconocido';
+    return respuestaEstandar(res, 500, false, 'Error al reprogramar el turno', mensaje);
+  } finally {
+    await session.endSession();
+  }
+}; */
 
 export  { getTurnos, createTurnos, deleteTurnos, marcarAtendido, marcarCancelado };

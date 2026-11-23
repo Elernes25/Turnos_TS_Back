@@ -3,7 +3,7 @@ import { Rol } from '../../interfaces/Rol.enum';
 
 export const CrearUsuarioSchema =z.object ({
     body : z.object ({
-        email:z.email({error:"Email Inválido"}),
+        email:z.email({error:"Email Inválido"}).transform(v => v.toLowerCase()),
         user:z.string({error:"Usuario NO válido"}),
         dni:z.string({error:"DNI Inválido"}),
         password: z.string({error:"Password Inválido"}),
@@ -18,7 +18,7 @@ export type CrearUsuarioDTO = z.infer <typeof CrearUsuarioSchema>['body'];
 
 export const LoginUsuarioSchema = z.object({
   body: z.object({
-    email: z.email({error:"Email Inválido"}),
+    email: z.email({error:"Email Inválido"}).transform(v => v.toLowerCase()),
     password: z.string().min(1, 'La contraseña es obligatoria')
   })
 });

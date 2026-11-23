@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import { validarSchema} from "../../middlewares/validarDatos.middleware";
-import { CrearTurnoSchema } from './dtos/turno.Schema';
+import { CrearTurnoSchema, } from './dtos/turno.Schema';
 import {getTurnos,createTurnos,deleteTurnos,marcarAtendido,marcarCancelado} from '../turnos/turnos.controller';
 import { validarJWT} from '../../middlewares/validarJWT.middleware';
 import { verificarRol } from '../../middlewares/verificarRol.middleware';
@@ -18,5 +18,6 @@ router.post('/', validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]),validar
 router.delete('/:id', validarJWT,verificarRol([Rol.ADMIN]),deleteTurnos); 
 router.patch('/:id',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]), marcarAtendido);
 router.patch('/cancelar/:id',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]), marcarCancelado);
+//router.post('/:id/reprogramar',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]),validarSchema(ReprogramarTurnoSchema),reprogramarTurno);
 
 export default router;
