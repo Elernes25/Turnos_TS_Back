@@ -102,6 +102,24 @@ export const getUsuarios = async (req: Request<unknown, unknown, unknown, { dni?
     }
 };
 
+export const eliminarUsuario = async (req: Request<{ id: string }>, res: Response) => {
+    try {
+        const usuario = await Usuario.findByIdAndUpdate(
+            req.params.id,
+            { activo: false },
+            { new: true, select: "_id activo" }
+        );
+
+        if (!usuario) {
+            return respuestaEstandar(res, 404, false, "Usuario no encontrado");
+        }
+
+        return respuestaEstandar(res, 200, true, "Usuario desactivado correctamente");
+    } catch (error: any) {
+        return respuestaEstandar(res, 500, false, "Error al desactivar el usuario", error.message);
+    }
+};
+
 //PUT
 /*Contraseña de primer ingreso sin validación Zod
 primerIngreso permite recibir una contraseña vacía o muy corta porque no usa ningún schema Zod. */
