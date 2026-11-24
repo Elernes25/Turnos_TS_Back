@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { validarSchema} from "../../middlewares/validarDatos.middleware";
+import { validarSchema} from "../../middlewares/validarDatos.middleware.js";
 import { CrearPacienteSchema } from './dtos/Paciente.schema';
 
 import {getPacientes,createPacientes,deletePacientes,actualizarPaciente} from '../pacientes/pacientes.controller';
@@ -11,8 +11,8 @@ Estas funciones se utilizarán como controladores para manejar las solicitudes H
 con los pacientes. */
 
 import { Rol } from '../interfaces/Rol.enum';
-import { validarJWT } from '../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../middlewares/verificarRol.middleware';
+import { validarJWT } from '../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 
 /*ENDPOINTS PACIENTES */
 router.get('/', validarJWT ,verificarRol([Rol.ADMIN,Rol.MEDICO,Rol.RECEPCIONISTA]),getPacientes);

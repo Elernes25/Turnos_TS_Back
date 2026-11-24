@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { validarSchema } from '../../middlewares/validarDatos.middleware';
-import { validarJWT } from '../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../middlewares/verificarRol.middleware';
+import { validarSchema } from '../../middlewares/validarDatos.middleware.js';
+import { validarJWT } from '../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 import { Rol } from '../interfaces/Rol.enum';
 import { CrearRecepcionistaSchema, EditarRecepcionistaSchema, RecepcionistaPorIdSchema } from './dtos/recepcionista.schema';
 import { createRecepcionista, editarRecepcionista, getRecepcionistaPorId, getRecepcionistas } from './recepcionistas.controller';

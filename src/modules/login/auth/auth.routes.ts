@@ -2,10 +2,10 @@ import {Router} from 'express';
 import { loginUsuario, registarUsuario, getUsuarios, primerIngreso, actualizarIngreso} from './auth.controller';
 import { Rol } from '../../interfaces/Rol.enum';
 
-import { validarJWT } from '../../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../../middlewares/verificarRol.middleware';
+import { validarJWT } from '../../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../../middlewares/verificarRol.middleware.js';
 import { CrearUsuarioSchema, LoginUsuarioSchema } from '../dtos/Usuario.schema';
-import { validarSchema } from '../../../middlewares/validarDatos.middleware';
+import { validarSchema } from '../../../middlewares/validarDatos.middleware.js';
 
 const router  = Router ();
 

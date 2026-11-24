@@ -1,9 +1,9 @@
 import {Router} from 'express';
-import { validarSchema} from "../../middlewares/validarDatos.middleware";
+import { validarSchema} from "../../middlewares/validarDatos.middleware.js";
 import { CrearAgendaMedicoSchema } from './dtos/AgendaMedico.schema';
 import { createAgendaMedico } from './agenda.controller';
-import { validarJWT} from '../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../middlewares/verificarRol.middleware';
+import { validarJWT} from '../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 import { Rol } from '../interfaces/Rol.enum';
 import { getAgendaPorId, editarAgenda } from './agenda.controller';
 

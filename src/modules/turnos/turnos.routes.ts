@@ -1,9 +1,9 @@
 import {Router} from 'express';
-import { validarSchema} from "../../middlewares/validarDatos.middleware";
+import { validarSchema} from "../../middlewares/validarDatos.middleware.js";
 import { CrearTurnoSchema, } from './dtos/turno.Schema';
 import {getTurnos,createTurnos,deleteTurnos,marcarAtendido,marcarCancelado} from '../turnos/turnos.controller';
-import { validarJWT} from '../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../middlewares/verificarRol.middleware';
+import { validarJWT} from '../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 import { Rol } from '../interfaces/Rol.enum';
 
 /* especifica que se importan las funciones getTurnos, createTurnos , deleteTurnos,marcarAtendido 

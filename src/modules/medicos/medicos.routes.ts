@@ -1,11 +1,11 @@
 import express from 'express';
 const router = express.Router();
 import { getMedicos,createMedico,deleteMedico, editarMedico, getConAgenda, getMedicoPorId } from '../medicos/medicos.controller';
-import { validarSchema } from '../../middlewares/validarDatos.middleware';
+import { validarSchema } from '../../middlewares/validarDatos.middleware.js';
 import { CrearMedicoSchema, EditarMedicoSchema } from '../medicos/dtos/Medico.schema';
 import { Rol } from '../interfaces/Rol.enum';
-import { validarJWT } from '../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../middlewares/verificarRol.middleware';
+import { validarJWT } from '../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 
 /*ENDPOINTS medicos */
 //primero las rutas especificas y despues las dinamicas
