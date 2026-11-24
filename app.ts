@@ -22,30 +22,30 @@ import 'dotenv/config';
 
 import cors from 'cors';
 import express from 'express'; /*importa el módulo express para crear el servidor web*/
-import {connectDB} from './src/config/database'; /*importa la función connectDB para conectar a la base de datos*/
+import {connectDB} from './src/config/database.js'; /*importa la función connectDB para conectar a la base de datos*/
 
 const app: Application = express();
 
 connectDB(); /*conecta a la base de datos usando la función connectDB del archivo database.js*/
 
 
-import auditoriaMunicipal from './src/middlewares/auditoria.middleware';
-import rutaNoEncontrada from './src/middlewares/errorHandle.middleware';
+import auditoriaMunicipal from './src/middlewares/auditoria.middleware.js';
+import rutaNoEncontrada from './src/middlewares/errorHandle.middleware.js';
 
-import turnosRoutes from './src/modules/turnos/turnos.routes';  //no se permite la extension .ts
+import turnosRoutes from './src/modules/turnos/turnos.routes.js';  //no se permite la extension .ts
 
-import pacientesRoutes from './src/modules/pacientes/pacientes.routes';
-import agendaMedicosRoutes from './src/modules/medicos/agenda.routes';
-import medicosRoutes from './src/modules/medicos/medicos.routes';
-import recepcionRoutes from './src/modules/recepcion/recepcion.routes';
-import historiaClinicaRoutes from './src/modules/historiaClinica/historiaClinica.routes';
-import consultasClinicasRoutes from './src/modules/consultaClinica/consultasClinicas.routes';
-import especialidadRoutes from './src/modules/especialidad/especialidad.routes';
-import obraSocialRoutes from './src/modules/obraSocial/obraSocial.routes';
-//import solicitudMedicoRoutes from './src/modules/forms/solicitudMedico.routes';
-//import loginRoutes from './src/modules/login/login.routes';
-import authRoutes from './src/modules/login/auth/auth.routes'
-import recepcionistasRoutes from './src/modules/recepcionistas/recepcionistas.routes';
+import pacientesRoutes from './src/modules/pacientes/pacientes.routes.js';
+import agendaMedicosRoutes from './src/modules/medicos/agenda.routes.js';
+import medicosRoutes from './src/modules/medicos/medicos.routes.js';
+import recepcionRoutes from './src/modules/recepcion/recepcion.routes.js';
+import historiaClinicaRoutes from './src/modules/historiaClinica/historiaClinica.routes.js';
+import consultasClinicasRoutes from './src/modules/consultaClinica/consultasClinicas.routes.js';
+import especialidadRoutes from './src/modules/especialidad/especialidad.routes.js';
+import obraSocialRoutes from './src/modules/obraSocial/obraSocial.routes.js';
+//import solicitudMedicoRoutes from './src/modules/forms/solicitudMedico.routes.js';
+//import loginRoutes from './src/modules/login/login.routes.js';
+import authRoutes from './src/modules/login/auth/auth.routes.js'
+import recepcionistasRoutes from './src/modules/recepcionistas/recepcionistas.routes.js';
 
 app.use(express.json());
 app.use(auditoriaMunicipal);
