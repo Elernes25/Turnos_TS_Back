@@ -1,11 +1,10 @@
 import type {Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import Usuario from './Usuario.model.js';
 import {respuestaEstandar} from '../../../utils/respuestaEstandar.js';
-import jwt from 'jsonwebtoken';
 import type { LoginUsuarioDTO, CrearUsuarioDTO } from '../dtos/Usuario.schema.js';
-
-import type {ITokenPayload} from '../../interfaces/TokenPayload';
+//import type {ITokenPayload} from '../../interfaces/TokenPayload';
 
 
 export const registarUsuario =async (req:Request <unknown, unknown, CrearUsuarioDTO>, res:Response) =>{

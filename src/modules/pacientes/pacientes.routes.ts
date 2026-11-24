@@ -2,15 +2,8 @@ import express from 'express';
 const router = express.Router();
 import { validarSchema} from "../../middlewares/validarDatos.middleware.js";
 import { CrearPacienteSchema } from './dtos/Paciente.schema.js';
-
-import {getPacientes,createPacientes,deletePacientes,actualizarPaciente} from '../pacientes/pacientes.controller';
-//const{getPacientes,getPacientesDNI,createPacientes,deletePacientes}=require('../controllers/pacientes.controller.js');
-/* especifica que se importan las funciones getPacientes, getPacientesDNI, createPacientes 
-y deletePacientes desde el archivo pacientes.controllers.js ubicado en la carpeta controllers. 
-Estas funciones se utilizarán como controladores para manejar las solicitudes HTTP relacionadas
-con los pacientes. */
-
-import { Rol } from '../interfaces/Rol.enum';
+import {getPacientes,createPacientes,deletePacientes,actualizarPaciente} from '../pacientes/pacientes.controller.js';
+import { Rol } from '../interfaces/Rol.enum.js';
 import { validarJWT } from '../../middlewares/validarJWT.middleware.js';
 import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 

@@ -1,7 +1,7 @@
 import express  from 'express';
 const router = express.Router();
 import { registrarIngreso } from './recepcion.controller.js';
-import { validarSchema} from "../../middlewares/validarDatos.middleware.js";
+import { validarSchema} from '../../middlewares/validarDatos.middleware.js';
 import { CrearIngresoSchema } from './dtos/Recepcion.schema.js';
 import { validarJWT} from '../../middlewares/validarJWT.middleware.js';
 import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
