@@ -1,5 +1,5 @@
 import { Schema, model, Document,Types} from 'mongoose';
-import type { IRecepcionista } from '../recepcionistas/types/Recepcionista.interface';
+import type { IRecepcionista } from '../recepcionistas/types/Recepcionista.interface.js';
 
 const recepcionistaSchema = new Schema<IRecepcionista>({
    usuario: {

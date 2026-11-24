@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import Agenda from "../medicos/agenda.medicos";
-import { respuestaEstandar } from "../../utils/respuestaEstandar";
-import type { CrearAgendaMedicoDTO, EditarAgendaDTO } from "./dtos/AgendaMedico.schema";
+import Agenda from "../medicos/agenda.medicos.js";
+import { respuestaEstandar } from "../../utils/respuestaEstandar.js";
+import type { CrearAgendaMedicoDTO, EditarAgendaDTO } from "./dtos/AgendaMedico.schema.js";
 import { Types } from 'mongoose';
 
 

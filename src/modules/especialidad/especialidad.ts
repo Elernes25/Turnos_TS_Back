@@ -1,5 +1,5 @@
 import { Schema, model, Document} from 'mongoose';
-import type { IEspecialidad } from '../../modules/especialidad/types/Especialidad.interface';
+import type { IEspecialidad } from '../../modules/especialidad/types/Especialidad.interface.js';
 
 const especialidadSchema = new Schema<IEspecialidad>({
 

@@ -1,8 +1,7 @@
-
-import type { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
-import type { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
 import { Types, Document } from "mongoose";
-import type { IObraSocial } from "../../obraSocial/types/ObraSocial.interface";
+import type { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono.js";
+import type { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion.js";
+import type { IObraSocial } from "../../obraSocial/types/ObraSocial.interface.js";
 
 export interface IPaciente extends Document {
     id?: Types.ObjectId; //el id es opcional porque lo genera MongoDB automáticamente

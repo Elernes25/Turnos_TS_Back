@@ -1,10 +1,10 @@
 import {Router} from 'express';
 import { validarSchema} from "../../middlewares/validarDatos.middleware.js";
-import { CrearTurnoSchema, } from './dtos/turno.Schema';
-import {getTurnos,createTurnos,deleteTurnos,marcarAtendido,marcarCancelado} from '../turnos/turnos.controller';
+import { CrearTurnoSchema, } from './dtos/turno.Schema.js';
+import {getTurnos,createTurnos,deleteTurnos,marcarAtendido,marcarCancelado} from '../turnos/turnos.controller.js';
 import { validarJWT} from '../../middlewares/validarJWT.middleware.js';
 import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
-import { Rol } from '../interfaces/Rol.enum';
+import { Rol } from '../interfaces/Rol.enum.js';
 
 /* especifica que se importan las funciones getTurnos, createTurnos , deleteTurnos,marcarAtendido 
 desde el archivo turnos.controllers.ts. 

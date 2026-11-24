@@ -1,5 +1,5 @@
-import type { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
-import type { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
+import type { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono.js";
+import type { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion.js";
 import { Types,Document } from "mongoose";
 
 export interface IMedico extends Document {

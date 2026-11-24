@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { DiaSemana } from '../types/Agenda.interface';
+import { DiaSemana } from '../types/Agenda.interface.js';
 
 export const objectId = z.string().regex(/^[0-9a-fA-F]{24}$/, 'medico ID inválido');
 

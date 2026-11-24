@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import Especialidad from '../especialidad/especialidad';
-import {respuestaEstandar} from '../../utils/respuestaEstandar';
-import type { CrearEspecialidadDTO } from './dtos/Especialidad.schema';
+import Especialidad from '../especialidad/especialidad.js';
+import {respuestaEstandar} from '../../utils/respuestaEstandar.js';
+import type { CrearEspecialidadDTO } from './dtos/Especialidad.schema.js';
 
 /* GET */
 const getEspecialidades = async (req: Request, res: Response) => {

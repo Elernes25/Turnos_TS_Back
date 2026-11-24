@@ -1,11 +1,11 @@
 import type { Request, Response } from 'express';
 import { isValidObjectId, type QueryFilter } from 'mongoose';
-import ConsultaClinica from './ConsultasClinicas';
-import Paciente from '../pacientes/paciente';
-import Medico from '../medicos/medico';
-import { respuestaEstandar } from '../../utils/respuestaEstandar';
-import type { IConsultaClinica } from './types/ConsultasClinicas.interfase';
-import type { ActualizarObservacionesDTO, CrearConsultaDTO } from './dtos/ConsultaClinicaSchema';
+import ConsultaClinica from './ConsultasClinicas.js';
+import Paciente from '../pacientes/paciente.js';
+import Medico from '../medicos/medico.js';
+import { respuestaEstandar } from '../../utils/respuestaEstandar.js';
+import type { IConsultaClinica } from './types/ConsultasClinicas.interfase.js';
+import type { ActualizarObservacionesDTO, CrearConsultaDTO } from './dtos/ConsultaClinicaSchema.js';
 
 type ConsultaIdParams = { id: string };
 type PacienteIdParams = { pacienteId: string };

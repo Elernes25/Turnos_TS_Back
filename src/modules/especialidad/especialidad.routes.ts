@@ -3,10 +3,10 @@
 // const router = Router();
 
 import express from 'express';
-import { validarSchema } from '../../middlewares/validarDatos.middleware';
-import {CrearEspecialidadSchema} from '../especialidad/dtos/Especialidad.schema';
-import { validarJWT } from '../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../middlewares/verificarRol.middleware';
+import { validarSchema } from '../../middlewares/validarDatos.middleware.js';
+import {CrearEspecialidadSchema} from '../especialidad/dtos/Especialidad.schema.js';
+import { validarJWT } from '../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 
 const router = express.Router();
 

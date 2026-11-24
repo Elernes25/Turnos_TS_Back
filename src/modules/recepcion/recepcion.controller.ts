@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import type { Request, Response } from "express";
 
-import Paciente from "../pacientes/paciente";
-import Turno from '../turnos/turno';
+import Paciente from "../pacientes/paciente.js";
+import Turno from '../turnos/turno.js';
 
-import { EstadoTurno } from "../interfaces/TurnoEstado.enum";
-import type { RegistrarIngresoDTO } from "../recepcion/dtos/Recepcion.schema";
-import {respuestaEstandar} from '../../utils/respuestaEstandar';
+import { EstadoTurno } from "../interfaces/TurnoEstado.enum.js";
+import type { RegistrarIngresoDTO } from "../recepcion/dtos/Recepcion.schema.js";
+import {respuestaEstandar} from '../../utils/respuestaEstandar.js';
 
 const registrarIngreso = async ( req: Request<unknown, unknown, RegistrarIngresoDTO>,res: Response) => {
     const session = await mongoose.startSession();

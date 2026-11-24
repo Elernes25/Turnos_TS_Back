@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import ObraSocial from "./obraSocial";
-import Paciente from "../pacientes/paciente";
-import type { CrearObraSocialDTO, EditarObraSocialDTO } from "./dtos/ObraSocial.schema";
-import { respuestaEstandar } from "../../utils/respuestaEstandar";
+import ObraSocial from "./obraSocial.js";
+import Paciente from "../pacientes/paciente.js";
+import type { CrearObraSocialDTO, EditarObraSocialDTO } from "./dtos/ObraSocial.schema.js";
+import { respuestaEstandar } from "../../utils/respuestaEstandar.js";
 
 const getObrasSociales = async (_req: Request, res: Response) => {
     try {

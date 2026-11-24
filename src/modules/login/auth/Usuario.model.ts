@@ -1,5 +1,5 @@
 import { Schema, model, Document } from "mongoose";  
-import { Rol } from "../../interfaces/Rol.enum";
+import { Rol } from "../../interfaces/Rol.enum.js";
 
 
 export interface  IUsuario extends Document {

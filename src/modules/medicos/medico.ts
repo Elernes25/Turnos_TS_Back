@@ -1,5 +1,5 @@
 import { Schema, model, Document} from 'mongoose';
-import type { IMedico } from '../../modules/medicos/types/Medico.interface';
+import type { IMedico } from '../../modules/medicos/types/Medico.interface.js';
 
 const medicoSchema = new Schema<IMedico>({
     usuario: {

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import {EstadoTurno} from "../../interfaces/TurnoEstado.enum"
+import {EstadoTurno} from "../../interfaces/TurnoEstado.enum.js"
 //import { queryObjects } from "v8";
 
 /* forma de validar en zod que sea  un string del tipo ObjectID

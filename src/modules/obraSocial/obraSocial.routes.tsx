@@ -2,13 +2,9 @@ import express from "express";
 import { validarJWT } from "../../middlewares/validarJWT.middleware.js";
 import { validarSchema } from "../../middlewares/validarDatos.middleware.js";
 import { verificarRol } from "../../middlewares/verificarRol.middleware.js";
-import { Rol } from "../interfaces/Rol.enum";
-import {
-    CrearObraSocialSchema,
-    EditarObraSocialSchema,
-    ObraSocialIdSchema,
-} from "./dtos/ObraSocial.schema";
-import { createObraSocial, deleteObraSocial, editarObraSocial, getObraSocial, getObrasSociales} from "./obraSocial.controller";
+import { Rol } from "../interfaces/Rol.enum.js";
+import { CrearObraSocialSchema, EditarObraSocialSchema, ObraSocialIdSchema} from "./dtos/ObraSocial.schema.js";
+import { createObraSocial, deleteObraSocial, editarObraSocial, getObraSocial, getObrasSociales} from "./obraSocial.controller.js";
 
 const router = express.Router();
 const rolesObraSocial = [Rol.ADMIN, Rol.RECEPCIONISTA, Rol.SUPERVISOR];

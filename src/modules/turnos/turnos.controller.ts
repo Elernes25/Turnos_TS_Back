@@ -1,10 +1,11 @@
-import type {Request, Response} from 'express';
-import {EstadoTurno} from '../interfaces/TurnoEstado.enum';
-import Turno from '../turnos/turno';
-import {respuestaEstandar} from '../../utils/respuestaEstandar';
-import type { CrearTurnoDTO, QueryUrgencia, ReprogramarTurnoDTO } from '../turnos/dtos/turno.Schema';
-import type { ITurno } from '../turnos/types/Turno.interface';
 import mongoose, { type QueryFilter, isValidObjectId } from 'mongoose';
+import type {Request, Response} from 'express';
+import {EstadoTurno} from '../interfaces/TurnoEstado.enum.js';
+import Turno from '../turnos/turno.js';
+import {respuestaEstandar} from '../../utils/respuestaEstandar.js';
+import type { CrearTurnoDTO, QueryUrgencia, ReprogramarTurnoDTO } from '../turnos/dtos/turno.Schema.js';
+import type { ITurno } from '../turnos/types/Turno.interface.js';
+
 
 /*En Express, el tipo genérico Request<ParamsDictionary, ResBody, ReqBody, ReqQuery>  
       ParamsDictionary → corresponde a req.params  

@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import { Rol } from '../../interfaces/Rol.enum';
+import { Rol } from '../../interfaces/Rol.enum.js';
 
 export const CrearUsuarioSchema =z.object ({
     body : z.object ({

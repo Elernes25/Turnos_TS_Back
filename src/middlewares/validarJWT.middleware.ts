@@ -1,7 +1,7 @@
 import type { Response, Request,NextFunction } from "express";
 import jwt from 'jsonwebtoken';
-import { respuestaEstandar } from "../utils/respuestaEstandar";
-import type { ITokenPayload } from "../modules/interfaces/TokenPayload";
+import { respuestaEstandar } from "../utils/respuestaEstandar.js";
+import type { ITokenPayload } from "../modules/interfaces/TokenPayload.js";
 
 
 //agregar una nueva propiedad al Request de Express para que pueda recibir req.usuario

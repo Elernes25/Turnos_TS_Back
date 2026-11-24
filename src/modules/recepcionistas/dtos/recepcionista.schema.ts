@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
-import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
+import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion.js";
+import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono.js";
 
 const recepcionistaBody = z.object({
     nombre: z.string({ error: "El nombre es obligatorio" }).min(1, "El nombre es obligatorio"),

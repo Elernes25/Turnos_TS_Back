@@ -1,6 +1,6 @@
 import {z} from 'zod';
-import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
-import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
+import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion.js";
+import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono.js";
 //import { ObraSocial } from "../../interfaces/ObraSocial.enum";
 //import {Types} from "mongoose";
 //import { coerce } from 'zod';

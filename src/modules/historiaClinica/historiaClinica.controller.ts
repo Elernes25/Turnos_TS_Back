@@ -1,11 +1,11 @@
 import { Types } from 'mongoose';
 import type { Request, Response } from 'express';
-import HistoriaClinica from './HistoriaClinica';
-import Paciente from '../pacientes/paciente';
-import Medico from '../medicos/medico';
+import HistoriaClinica from './HistoriaClinica.js';
+import Paciente from '../pacientes/paciente.js';
+import Medico from '../medicos/medico.js';
 
-import type { CrearHistoriaClinicaDTO, ActualizarHistoriaClinicaDTO } from './dtos/HistoriaClinica.schema';
-import { respuestaEstandar } from '../../utils/respuestaEstandar';
+import type { CrearHistoriaClinicaDTO, ActualizarHistoriaClinicaDTO } from './dtos/HistoriaClinica.schema.js';
+import { respuestaEstandar } from '../../utils/respuestaEstandar.js';
 
 /*POST */
 const createHistoriaClinica = async ( req: Request<unknown, unknown, CrearHistoriaClinicaDTO>,res: Response) => {

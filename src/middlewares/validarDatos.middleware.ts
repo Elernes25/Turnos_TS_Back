@@ -1,7 +1,7 @@
 /*para cumplir con el esquema zod que se le manda */
 import type { Request,Response,NextFunction } from "express";
 import { ZodObject,ZodError } from "zod";
-import { respuestaEstandar } from "../utils/respuestaEstandar";
+import { respuestaEstandar } from "../utils/respuestaEstandar.js";
 
 /*recibe un objeto Zod como parámetro y devuelve una función nueva (el middleware).
 Es un patrón llamado currying (o "función que devuelve función"),

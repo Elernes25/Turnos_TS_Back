@@ -1,6 +1,6 @@
 /*como tiene que ser la estructura del model turno */
 
-import { EstadoTurno } from "../../interfaces/TurnoEstado.enum"
+import { EstadoTurno } from "../../interfaces/TurnoEstado.enum.js"
 import { Types,Document } from "mongoose";
 
 export interface ITurno extends Document {

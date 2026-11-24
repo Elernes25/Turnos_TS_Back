@@ -1,11 +1,11 @@
 import express from 'express';
 const router = express.Router();
-import { validarSchema } from '../../middlewares/validarDatos.middleware';
-import { createHistoriaClinica, getHistoriasClinicas, actualizarHistoriaClinica } from './historiaClinica.controller';
-import { CrearHistoriaClinicaSchema, ActualizarHistoriaClinicaSchema } from './dtos/HistoriaClinica.schema';
-import { Rol } from '../interfaces/Rol.enum';
-import { validarJWT } from '../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../middlewares/verificarRol.middleware';   
+import { validarSchema } from '../../middlewares/validarDatos.middleware.js';
+import { createHistoriaClinica, getHistoriasClinicas, actualizarHistoriaClinica } from './historiaClinica.controller.js';
+import { CrearHistoriaClinicaSchema, ActualizarHistoriaClinicaSchema } from './dtos/HistoriaClinica.schema.js';
+import { Rol } from '../interfaces/Rol.enum.js';
+import { validarJWT } from '../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../middlewares/verificarRol.middleware.js';   
 
 /*ENDPOINTS historiaClinica */
 router.get('/', validarJWT, verificarRol([Rol.ADMIN,Rol.MEDICO]), getHistoriasClinicas); //informacion sensible, solo el medico puede ver la historia clinica de sus pacientes

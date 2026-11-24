@@ -1,5 +1,5 @@
 import { Schema, model, Document } from "mongoose";
-import type { IObraSocial } from "./types/ObraSocial.interface";
+import type { IObraSocial } from "./types/ObraSocial.interface.js";
 
 const obraSocialSchema = new Schema<IObraSocial>(
     {

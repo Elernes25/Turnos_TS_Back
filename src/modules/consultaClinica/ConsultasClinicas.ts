@@ -1,5 +1,5 @@
 import { Schema, model, Document} from 'mongoose';
-import { type IConsultaClinica } from './types/ConsultasClinicas.interfase';
+import { type IConsultaClinica } from './types/ConsultasClinicas.interfase.js';
 
 const consultaClinicaSchema = new Schema <IConsultaClinica> ({
         pacienteId: {

@@ -1,12 +1,13 @@
-import Medico from '../medicos/medico';
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import Usuario from '../login/auth/Usuario.model';
-import { Rol } from '../interfaces/Rol.enum';
-import {respuestaEstandar} from '../../utils/respuestaEstandar';
 import type { Request, Response } from 'express';
-import type { CrearMedicoDTO,EditarMedicoDTO } from './dtos/Medico.schema';
-import Agenda from '../medicos/agenda.medicos';
+import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
+import Medico from '../medicos/medico.js';
+import Agenda from '../medicos/agenda.medicos.js';
+import Usuario from '../login/auth/Usuario.model.js';
+import { Rol } from '../interfaces/Rol.enum.js';
+import {respuestaEstandar} from '../../utils/respuestaEstandar.js';
+import type { CrearMedicoDTO,EditarMedicoDTO } from './dtos/Medico.schema.js';
+
 
 // GET: listar medicos
 const getMedicos = async (req: Request<unknown, unknown, unknown, { dni?: string} >, res: Response) => {

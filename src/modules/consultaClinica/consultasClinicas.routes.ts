@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { validarSchema } from '../../middlewares/validarDatos.middleware';
-import { validarJWT } from '../../middlewares/validarJWT.middleware';
-import { verificarRol } from '../../middlewares/verificarRol.middleware';
-import { Rol } from '../interfaces/Rol.enum';
+import { validarSchema } from '../../middlewares/validarDatos.middleware.js';
+import { validarJWT } from '../../middlewares/validarJWT.middleware.js';
+import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
+import { Rol } from '../interfaces/Rol.enum.js';
 import { actualizarObservaciones, crearConsulta, obtenerConsultas, obtenerConsultasPorMedico, obtenerConsultasPorPaciente
-} from './consultasClinicas.controller';
-import { ActualizarObservacionesSchema, CrearConsultaSchema} from './dtos/ConsultaClinicaSchema';
+} from './consultasClinicas.controller.js';
+import { ActualizarObservacionesSchema, CrearConsultaSchema} from './dtos/ConsultaClinicaSchema.js';
 
 const router = Router();
 

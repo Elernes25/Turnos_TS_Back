@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import type { Request, Response } from 'express';
-import Usuario from '../login/auth/Usuario.model';
-import { Rol } from '../interfaces/Rol.enum';
-import { respuestaEstandar } from '../../utils/respuestaEstandar';
-import type { CrearRecepcionistaDTO, EditarRecepcionistaDTO } from './dtos/recepcionista.schema';
-import Recepcionista from './recepcionista';
+import Usuario from '../login/auth/Usuario.model.js';
+import { Rol } from '../interfaces/Rol.enum.js';
+import { respuestaEstandar } from '../../utils/respuestaEstandar.js';
+import type { CrearRecepcionistaDTO, EditarRecepcionistaDTO } from './dtos/recepcionista.schema.js';
+import Recepcionista from './recepcionista.js';
 
 const getRecepcionistas = async (_req: Request, res: Response) => {
   try {

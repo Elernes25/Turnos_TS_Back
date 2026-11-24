@@ -1,6 +1,6 @@
 import {z} from 'zod';
-import { EstadoTurno } from "../../interfaces/TurnoEstado.enum";
-import {CrearPacienteSchema} from "../../pacientes/dtos/Paciente.schema";
+import { EstadoTurno } from "../../interfaces/TurnoEstado.enum.js";
+import {CrearPacienteSchema} from "../../pacientes/dtos/Paciente.schema.js";
 
 
 export const CrearIngresoSchema = z.object ({

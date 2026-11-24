@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { validarSchema} from "../../middlewares/validarDatos.middleware.js";
-import { CrearPacienteSchema } from './dtos/Paciente.schema';
+import { CrearPacienteSchema } from './dtos/Paciente.schema.js';
 
 import {getPacientes,createPacientes,deletePacientes,actualizarPaciente} from '../pacientes/pacientes.controller';
 //const{getPacientes,getPacientesDNI,createPacientes,deletePacientes}=require('../controllers/pacientes.controller.js');

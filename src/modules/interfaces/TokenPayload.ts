@@ -1,4 +1,4 @@
-import type{Rol} from './Rol.enum';
+import type{Rol} from './Rol.enum.js';
 
 export interface ITokenPayload {
     id: string;

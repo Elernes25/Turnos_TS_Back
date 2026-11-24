@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express';
-import type { CrearPacienteDTO, IQueryPacientes,ActualizarPacienteDTO} from './dtos/Paciente.schema';  
-import {respuestaEstandar} from '../../utils/respuestaEstandar';
-import Paciente from '../pacientes/paciente';
-import ObraSocial from '../obraSocial/obraSocial';
+import type { CrearPacienteDTO, IQueryPacientes,ActualizarPacienteDTO} from './dtos/Paciente.schema.js';  
+import {respuestaEstandar} from '../../utils/respuestaEstandar.js';
+import Paciente from '../pacientes/paciente.js';
+import ObraSocial from '../obraSocial/obraSocial.js';
 
 // GET: listar pacientes
 //const getPacientes = async (req: Request<unknown, unknown, unknown, { obraSocialNombre?: string; dni?: string } >, res: Response) => {

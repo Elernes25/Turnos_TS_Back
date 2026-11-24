@@ -1,9 +1,9 @@
 import type {Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import Usuario from './Usuario.model';
-import {respuestaEstandar} from '../../../utils/respuestaEstandar';
+import Usuario from './Usuario.model.js';
+import {respuestaEstandar} from '../../../utils/respuestaEstandar.js';
 import jwt from 'jsonwebtoken';
-import type { LoginUsuarioDTO, CrearUsuarioDTO } from '../dtos/Usuario.schema';
+import type { LoginUsuarioDTO, CrearUsuarioDTO } from '../dtos/Usuario.schema.js';
 
 import type {ITokenPayload} from '../../interfaces/TokenPayload';
 

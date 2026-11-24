@@ -1,6 +1,6 @@
 import type { Response, Request,NextFunction } from "express";  //todos los middlewares reciben estos tres parametros//
-import { respuestaEstandar } from "../utils/respuestaEstandar";
-import { Rol } from "../modules/interfaces/Rol.enum";
+import { respuestaEstandar } from "../utils/respuestaEstandar.js";
+import { Rol } from "../modules/interfaces/Rol.enum.js";
 
 // export const verificarRol = (...{rolesPermitidos}: String[]) => { 
 // en el routes seria: verificarRol(Rol.ADMIN, Rol.RECEPCIONISTA) 

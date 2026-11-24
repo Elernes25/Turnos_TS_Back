@@ -1,6 +1,6 @@
 import { Schema, model, Document} from 'mongoose';
-import type { IAgenda } from './types/Agenda.interface';
-import { DiaSemana } from './types/Agenda.interface';
+import type { IAgenda } from './types/Agenda.interface.js';
+import { DiaSemana } from './types/Agenda.interface.js';
 
 const agendaMedicoSchema = new Schema<IAgenda>({
   medicoId: {

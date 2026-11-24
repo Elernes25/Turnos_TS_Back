@@ -1,5 +1,5 @@
 import {z} from "zod";
-import { TipoTelefono } from './Tipotelefono.enum';
+import { TipoTelefono } from './Tipotelefono.enum.js';
 
 export const SubinterfaceTelefono = z.object({
   tipo: z.enum(TipoTelefono, { error: "Tipo de teléfono inválido" }),

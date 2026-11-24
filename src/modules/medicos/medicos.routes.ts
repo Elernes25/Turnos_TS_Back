@@ -1,9 +1,9 @@
 import express from 'express';
 const router = express.Router();
-import { getMedicos,createMedico,deleteMedico, editarMedico, getConAgenda, getMedicoPorId } from '../medicos/medicos.controller';
+import { getMedicos,createMedico,deleteMedico, editarMedico, getConAgenda, getMedicoPorId } from '../medicos/medicos.controller.js';
 import { validarSchema } from '../../middlewares/validarDatos.middleware.js';
-import { CrearMedicoSchema, EditarMedicoSchema } from '../medicos/dtos/Medico.schema';
-import { Rol } from '../interfaces/Rol.enum';
+import { CrearMedicoSchema, EditarMedicoSchema } from '../medicos/dtos/Medico.schema.js';
+import { Rol } from '../interfaces/Rol.enum.js';
 import { validarJWT } from '../../middlewares/validarJWT.middleware.js';
 import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 

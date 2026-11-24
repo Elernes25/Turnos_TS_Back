@@ -1,5 +1,5 @@
 import { Schema, model, Document} from 'mongoose';
-import { type IHistoriaClinica, Sexo, GrupoSanguineo } from './types/HistoriaClinica.interface';
+import { type IHistoriaClinica, Sexo, GrupoSanguineo } from './types/HistoriaClinica.interface.js';
 //import { required } from 'zod/mini';
 
 const historiaClinicaSchema = new Schema<IHistoriaClinica>({

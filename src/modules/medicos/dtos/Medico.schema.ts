@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion";
-import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono";
+import { SubinterfaceDireccion } from "../../interfaces/SubinterfaceDireccion.js";
+import { SubinterfaceTelefono } from "../../interfaces/SubinterfaceTelefono.js";
 
 const objectId = z.string().regex(/^[0-9a-fA-F]{24}$/, "ID inválido");
 const credencialesUsuario = z.object({
