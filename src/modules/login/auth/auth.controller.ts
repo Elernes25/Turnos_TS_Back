@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import Usuario from './Usuario.model.js';
 import {respuestaEstandar} from '../../../utils/respuestaEstandar.js';
 import type { LoginUsuarioDTO, CrearUsuarioDTO } from '../dtos/Usuario.schema.js';
+import { registrarAuditoria } from '../../../middlewares/auditoriaAcciones/Auditoria.acciones.js';
 //import type {ITokenPayload} from '../../interfaces/TokenPayload';
 
 
@@ -98,7 +99,6 @@ export const getUsuarios = async (req: Request<unknown, unknown, unknown, { dni?
     return respuestaEstandar( res, 200, true,"Usuarios obtenidos correctamente", usuarios);
   } catch (error:any) {
     return respuestaEstandar(res, 500, false, "Error al obtener los usuarios", error.message);
-  
     }
 };
 
@@ -107,12 +107,15 @@ export const eliminarUsuario = async (req: Request<{ id: string }>, res: Respons
         const usuario = await Usuario.findByIdAndUpdate(
             req.params.id,
             { activo: false },
-            { new: true, select: "_id activo" }
+            { returnDocument: "after",
+                select: "_id activo" }
         );
 
         if (!usuario) {
             return respuestaEstandar(res, 404, false, "Usuario no encontrado");
         }
+    
+        await registrarAuditoria(req.usuario!.id, "ELIMINAR_USUARIO",`Usuario ${usuario.id}`);
 
         return respuestaEstandar(res, 200, true, "Usuario desactivado correctamente");
     } catch (error: any) {
