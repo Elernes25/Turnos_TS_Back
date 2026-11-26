@@ -10,10 +10,25 @@ const authorizedRoles = new Set<string>([Rol.ADMIN, Rol.MEDICO, Rol.RECEPCIONIST
 const clients = new Set<WebSocket>();
 const webSocketServer = new WebSocketServer({ noServer: true, maxPayload: 8192 });
 
+const normalizeOrigin = (value: string): string | undefined => {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return undefined;
+    return url.origin;
+  } catch {
+    return undefined;
+  }
+};
+
 const getAllowedOrigins = (): Set<string> => {
   const configuredOrigins = process.env.WS_ALLOWED_ORIGINS;
   if (configuredOrigins !== undefined) {
-    return new Set(configuredOrigins.split(',').map(origin => origin.trim()).filter(Boolean));
+    return new Set(
+      configuredOrigins
+        .split(',')
+        .map(origin => normalizeOrigin(origin.trim()))
+        .filter((origin): origin is string => origin !== undefined)
+    );
   }
 
   const entorno = process.env.ENTORNO?.toLowerCase();
@@ -51,7 +66,7 @@ export const attachTurnosWebSocket = (server: Server): void => {
     }
 
     const origin = request.headers.origin;
-    if (!origin || !allowedOrigins.has(origin)) {
+    if (!origin || !allowedOrigins.has(normalizeOrigin(origin) ?? '')) {
       console.warn(`[WS turnos] Upgrade rechazado; origen no permitido: ${origin ?? '(sin Origin)'}`);
       rejectUpgrade(socket, 403, 'Forbidden');
       return;
