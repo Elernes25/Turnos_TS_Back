@@ -165,11 +165,13 @@ export const attachTurnosWebSocket = (server: Server): void => {
       }
     });
 
-    webSocket.on('close', () => {
+    webSocket.on('close', (code) => {
       clearTimeout(authenticationTimer);
       if (expiryTimer) clearTimeout(expiryTimer);
       clients.delete(webSocket);
-      console.log(`[WS turnos] Cliente desconectado (autenticado: ${authenticated}).`);
+      console.log(
+        `[WS turnos] Cliente desconectado (código: ${code}, autenticado: ${authenticated}, activos: ${clients.size}).`
+      );
     });
 
     webSocket.on('error', (error) => {
