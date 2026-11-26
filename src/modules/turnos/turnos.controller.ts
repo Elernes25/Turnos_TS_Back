@@ -5,6 +5,7 @@ import Turno from '../turnos/turno.js';
 import {respuestaEstandar} from '../../utils/respuestaEstandar.js';
 import type { CrearTurnoDTO, QueryUrgencia, ReprogramarTurnoDTO } from '../turnos/dtos/turno.Schema.js';
 import type { ITurno } from '../turnos/types/Turno.interface.js';
+import { emitirTurnoAtendido } from './turnos.websocket.js';
 
 
 /*En Express, el tipo genérico Request<ParamsDictionary, ResBody, ReqBody, ReqQuery>  
@@ -136,7 +137,26 @@ const marcarAtendido = async (req: Request<{id: string}>, res: Response)=>{
     const turnoActualizado = await Turno.findByIdAndUpdate (
       id,
       { estado: EstadoTurno.ATENDIDO },
-      { new: true }
+      { returnDocument: 'after' }
+    );
+
+    if (!turnoActualizado) return respuestaEstandar(res, 404,false,'turno no encontrado ',id);
+      emitirTurnoAtendido(turnoActualizado);
+      return respuestaEstandar(res, 200,true,'turno Actualizado', turnoActualizado);
+
+  } catch (error:any) {
+    return respuestaEstandar(res, 500,false,'ID con formato no valido',error.message);
+  }
+};
+/**********llamado en atencion..... */
+const marcarEnAtencion = async (req: Request<{id: string}>, res: Response)=>{
+  try{
+    const {id} =req.params;
+    console.log("turno ID", id);
+    const turnoActualizado = await Turno.findByIdAndUpdate (
+      id,
+      { estado: EstadoTurno.ENATENCION },
+      { returnDocument: 'after' }
     );
 
     if (!turnoActualizado) return respuestaEstandar(res, 404,false,'turno no encontrado ',id);
@@ -146,6 +166,8 @@ const marcarAtendido = async (req: Request<{id: string}>, res: Response)=>{
     return respuestaEstandar(res, 500,false,'ID con formato no valido',error.message);
   }
 };
+
+
 //****CANCELADOS no atendidos */
 const marcarCancelado = async (req: Request<{id: string}>, res: Response)=>{
   try{
@@ -222,4 +244,4 @@ const reprogramarTurno = async (
   }
 }; */
 
-export  { getTurnos, createTurnos, deleteTurnos, marcarAtendido, marcarCancelado };
+export  { getTurnos, createTurnos, deleteTurnos, marcarAtendido, marcarCancelado, marcarEnAtencion };

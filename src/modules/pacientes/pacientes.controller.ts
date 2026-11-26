@@ -9,7 +9,7 @@ import ObraSocial from '../obraSocial/obraSocial.js';
 const getPacientes = async (req: Request<unknown, unknown, unknown, IQueryPacientes >, res: Response) => {
   try {
       // ?obraSocial=OSDE@dni=23074839
-      const {nombreObraSocial, dni}=req.query;
+      const {nombreObraSocial, dni, id}=req.query;
       // Record<K, T> es un tipo genérico que construye un objeto donde:
       // K = tipo de las claves (keys).
       // T = tipo de los valores (values).
@@ -24,6 +24,7 @@ const getPacientes = async (req: Request<unknown, unknown, unknown, IQueryPacien
         filtro["obraSocial.obraSocialID"] = obraSocial._id.toString();
       }
       if (dni) { filtro.dni= dni };
+      if (id) {filtro.id= id};
 
       console.log("filtro armado", filtro);
       const pacientes = await Paciente.find(filtro).populate("obraSocial.obraSocialID", "nombreObraSocial");

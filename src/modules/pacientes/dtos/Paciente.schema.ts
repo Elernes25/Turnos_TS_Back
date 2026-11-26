@@ -29,7 +29,7 @@ export const CrearPacienteSchema = z.object ({
 
 export const QueryPacientesSchema =z.object({
   query: z.object({
-    //obraSocialID: z.string().regex(OBJECT_ID_REGEX, { error: "Obra social inválida" }).optional(),
+    id: z.string({ error: "ID paciente no valido" }).regex(/^[0-9a-fA-F]{24}$/, { error: "ID paciente no valido" }),
     nombreObraSocial: z.string().optional(),
     dni: z.string().optional(),
   })  

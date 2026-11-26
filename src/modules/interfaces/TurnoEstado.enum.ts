@@ -1,6 +1,6 @@
 export enum EstadoTurno {
     PENDIENTE = 'pendiente',
     ATENDIDO = 'atendido',
-    CANCELADO = 'cancelado'
-    
+    CANCELADO = 'cancelado',
+    ENATENCION ='en atencion'
 }

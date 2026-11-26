@@ -1,10 +1,11 @@
 import {Router} from 'express';
 import { validarSchema} from "../../middlewares/validarDatos.middleware.js";
 import { CrearTurnoSchema, } from './dtos/turno.Schema.js';
-import {getTurnos,createTurnos,deleteTurnos,marcarAtendido,marcarCancelado} from '../turnos/turnos.controller.js';
+import {getTurnos,createTurnos,deleteTurnos,marcarAtendido,marcarCancelado,marcarEnAtencion} from '../turnos/turnos.controller.js';
 import { validarJWT} from '../../middlewares/validarJWT.middleware.js';
 import { verificarRol } from '../../middlewares/verificarRol.middleware.js';
 import { Rol } from '../interfaces/Rol.enum.js';
+
 
 /* especifica que se importan las funciones getTurnos, createTurnos , deleteTurnos,marcarAtendido 
 desde el archivo turnos.controllers.ts. 
@@ -17,6 +18,7 @@ router.get('/', validarJWT,  getTurnos);
 router.post('/', validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]),validarSchema(CrearTurnoSchema), createTurnos);
 router.delete('/:id', validarJWT,verificarRol([Rol.ADMIN]),deleteTurnos); 
 router.patch('/:id',validarJWT,verificarRol([Rol.ADMIN, Rol.MEDICO, Rol.RECEPCIONISTA]), marcarAtendido);
+router.patch('/enatencion/:id',validarJWT,verificarRol([Rol.ADMIN, Rol.MEDICO, Rol.RECEPCIONISTA]), marcarEnAtencion);
 router.patch('/cancelar/:id',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]), marcarCancelado);
 //router.post('/:id/reprogramar',validarJWT,verificarRol([Rol.ADMIN, Rol.RECEPCIONISTA]),validarSchema(ReprogramarTurnoSchema),reprogramarTurno);
 

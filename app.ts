@@ -22,7 +22,9 @@ import 'dotenv/config';
 
 import cors from 'cors';
 import express from 'express'; /*importa el módulo express para crear el servidor web*/
+import { createServer } from 'node:http';
 import {connectDB} from './src/config/database.js'; /*importa la función connectDB para conectar a la base de datos*/
+import { attachTurnosWebSocket } from './src/modules/turnos/turnos.websocket.js';
 
 const app: Application = express();
 
@@ -87,7 +89,10 @@ app.use('/api/v1/reiniciar-password', reiniciarPasswordRoutes);
 app.use(rutaNoEncontrada); /*manejo de errores para rutas no encontradas*/
 
 const PORT = process.env.PORT || 3000; /*si no hay puerto definido en el archivo .env, se usa el puerto 3000*/
-app.listen(PORT, () => {
+const server = createServer(app);
+attachTurnosWebSocket(server);
+
+server.listen(PORT, () => {
     console.log(`========================================================`);
     console.log(`================Servidor Municipal Escuchando===========`);
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
