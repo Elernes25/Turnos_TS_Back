@@ -49,6 +49,7 @@ import obraSocialRoutes from './src/modules/obraSocial/obraSocial.routes.js';
 import authRoutes from './src/modules/login/auth/auth.routes.js'
 import recepcionistasRoutes from './src/modules/recepcionistas/recepcionistas.routes.js';
 import reiniciarPasswordRoutes from './src/modules/login/auth/reiniciarPassword.routes.js';
+import auditoriaRoutes from './src/modules/auditoria/auditoria.routes.js';
 
 
 app.use(express.json());
@@ -84,6 +85,7 @@ app.use('/api/v1/obraSocial', obraSocialRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/recepcionistas', recepcionistasRoutes);
 app.use('/api/v1/reiniciar-password', reiniciarPasswordRoutes);
+app.use('/api/v1/auditoria', auditoriaRoutes);
 
 
 app.use(rutaNoEncontrada); /*manejo de errores para rutas no encontradas*/

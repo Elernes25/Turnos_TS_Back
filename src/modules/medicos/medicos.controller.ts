@@ -127,6 +127,7 @@ const deleteMedico = async (req: Request<{ id: string }>, res: Response) => {
     }
     //elimina agendas si tiene agenda
     await Agenda.deleteOne({ medicoId: id });
+    
     return respuestaEstandar(res, 200, true, "Medico eliminado exitosamente", medico);
   } catch (error:any) {
       return respuestaEstandar(res, 400, false, "ID con formato invalido", error.message);
