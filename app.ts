@@ -50,6 +50,7 @@ import authRoutes from './src/modules/login/auth/auth.routes.js'
 import recepcionistasRoutes from './src/modules/recepcionistas/recepcionistas.routes.js';
 import reiniciarPasswordRoutes from './src/modules/login/auth/reiniciarPassword.routes.js';
 import auditoriaRoutes from './src/modules/auditoria/auditoria.routes.js';
+import holidayRoutes from './src/modules/holydays/holiday.routes.js';
 
 
 app.use(express.json());
@@ -86,6 +87,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/recepcionistas', recepcionistasRoutes);
 app.use('/api/v1/reiniciar-password', reiniciarPasswordRoutes);
 app.use('/api/v1/auditoria', auditoriaRoutes);
+app.use('/api/v1/feriados', holidayRoutes);
 
 
 app.use(rutaNoEncontrada); /*manejo de errores para rutas no encontradas*/
